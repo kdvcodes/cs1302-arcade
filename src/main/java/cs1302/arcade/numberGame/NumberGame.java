@@ -5,5 +5,5 @@ package cs1302.arcade.numberGame;
  *
  */
 public class NumberGame {
-
+	
 }
