@@ -3,7 +3,6 @@ package cs1302.arcade;
 import java.util.Random;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;

@@ -1,7 +1,9 @@
 package cs1302.arcade;
 
+import cs1302.arcade.numberGame.*;
+import cs1302.arcade.tetris.*;
+
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -74,6 +76,16 @@ public class ArcadeApp extends Application {
 		
 		// Setting the items placements
 		vbox.getChildren().addAll(arcadeMenuBarLayer, arcadeWelcomeTextLayer, arcadeChooseGameTextLayer, arcadeGameButtonLayer);
+		
+		// Setting numGameButton function
+		numGameButton.setOnAction(e -> {
+			new NumberGame();
+		});
+		
+		// Setting tetrisGameButton function
+		tetrisGameButton.setOnAction(e -> {
+			new Tetris();
+		});
 
 		// Initialize and setting the scene
 		Scene arcadeMainScene = new Scene(arcadeMainFrame);
