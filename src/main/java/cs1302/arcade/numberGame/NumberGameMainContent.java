@@ -14,7 +14,7 @@ public class NumberGameMainContent extends Canvas{
 	
 	int width, height, boxWidth, boxHeight;
 	final int gameSize = 4;
-	GraphicsContext graphicContext;
+	GraphicsContext graphicsContext;
 	NumberGame numberGame;
 	
 	public NumberGameMainContent(NumberGame numberGame, int h, int w) {
@@ -26,16 +26,16 @@ public class NumberGameMainContent extends Canvas{
 		boxWidth = this.width/gameSize;
 		boxHeight = this.height/gameSize;
 		
-		graphicContext = this.getGraphicsContext2D();
+		graphicsContext = this.getGraphicsContext2D();
 		
 		// Draw horizontal lines
 		for (int i = 1; i < gameSize; i++) {
-			graphicContext.strokeLine(0, boxHeight * i, this.width, boxHeight * i);
+			graphicsContext.strokeLine(0, boxHeight * i, this.width, boxHeight * i);
 		} // for
 		
 		// Draw vertical lines
 		for (int i = 1; i < gameSize; i++) {
-			graphicContext.strokeLine(boxWidth * i, 0, boxWidth * i, this.height);
+			graphicsContext.strokeLine(boxWidth * i, 0, boxWidth * i, this.height);
 		}
 		
 		// Testing number printout on grid
@@ -59,6 +59,6 @@ public class NumberGameMainContent extends Canvas{
 	public void setNumber(int x, int y, int numToAssign) {
 		int[] coordinate = getBoxCenterCoordinate(x, y);
 		
-		graphicContext.strokeText("" + numToAssign, coordinate[0], coordinate[1]);
+		graphicsContext.strokeText("" + numToAssign, coordinate[0], coordinate[1]);
 	}
 }
