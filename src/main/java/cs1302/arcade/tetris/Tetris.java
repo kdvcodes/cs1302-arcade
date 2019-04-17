@@ -22,15 +22,14 @@ public class Tetris extends Stage implements Runnable {
 		super();
 		VBox vbox = new VBox();
 		HBox tetrisMainFrame = new HBox(vbox);
-		tetrisMainFrame.getChildren().add(vbox);
 		
 		Scene tetrisScene = new Scene(tetrisMainFrame);
 		this.setScene(tetrisScene);
-		this.setHeight(900);
+		this.setHeight(600);
 		this.setWidth(450);
 		this.show();
 	} // Tetris constructor
-	
+
 	@Override
 	public void run() {
 		game = new Board();
