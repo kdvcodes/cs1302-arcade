@@ -1,4 +1,5 @@
 package cs1302.arcade.tetris;
+
 enum Shape {
 	T, J, Z, O, S, L, I
 }

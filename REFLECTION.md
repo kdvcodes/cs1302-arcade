@@ -5,14 +5,16 @@ for this project. Please keep this document organized using Markdown. If you
 click on this file in your team's GitHub repository website, then you will see
 that the Markdown is transformed into nice looking HTML.
 
-Here is a sample entry (delete this line; also: feel free to copy/paste/modify):
+## TUES 2019-04-16 @ 11:55 PM EST
 
-## SUN 2019-04-05 @ 11:55 PM EST
+1. **DONE:** Downloaded the skeleton code, set up GitHub page. The game menu
+	is functioning and will launch Stage objects for each game. 2048 is rendering
+	and Tetris's underlying logic has been started.
 
-1. **DONE:** Downloaded the skeleton code.
+2. **TODO:** Finish implementing game logic for both games.
 
-2. **TODO:** Finish reading the project description.
+3. **PROB:** Confusion about the differences between drawing the game and
+	implementing the game logic, specifically how to split up the classes
+	accordingly.
 
-3. **PROB:** Had a hard time scheduling physicial meetings with each other at
-   first, but now that we've settled on a regular day/time things are looking
-   great!
+  
