@@ -12,11 +12,23 @@ public class Tetris implements Runnable {
 	Tetrimino currentPiece;
 	Random generator;
 	int level;
+	
+	private final int rows = 22;
+	private final int columns = 10;
+	
+	public Tetris(int level) {
+		game = new Board(rows, columns);
+		generator = new Random();
+		this.level = level;
+	}
 
 	@Override
 	public void run() {
-		game = new Board();
-		generator = new Random();
+		for (int i = 0; i < rows; i++) {
+			if (game.lineFull(i)) {
+				game.clearLine(i);
+			}
+		}
 	}
 
 }
