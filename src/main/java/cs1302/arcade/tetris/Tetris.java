@@ -6,7 +6,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -36,10 +38,7 @@ public class Tetris extends Stage {
 	
 	public Tetris() {
 		super();
-		VBox vbox = new VBox();
-		HBox tetrisMainFrame = new HBox(vbox);
-		
-		Scene tetrisScene = new Scene(tetrisMainFrame);
+		Scene tetrisScene = new Scene(new Group(new ImageView("file:/resources/tetris/background.png")));
 		this.setScene(tetrisScene);
 		this.setHeight(600);
 		this.setWidth(450);
