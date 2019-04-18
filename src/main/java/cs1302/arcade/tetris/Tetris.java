@@ -18,7 +18,6 @@ public class Tetris extends Stage implements Runnable {
 	Random generator;
 	int level;
 	
-<<<<<<< HEAD
 	private final int rows = 22;
 	private final int columns = 10;
 	
@@ -27,7 +26,7 @@ public class Tetris extends Stage implements Runnable {
 		generator = new Random();
 		this.level = level;
 	}
-=======
+	
 	public Tetris() {
 		super();
 		VBox vbox = new VBox();
@@ -39,21 +38,14 @@ public class Tetris extends Stage implements Runnable {
 		this.setWidth(450);
 		this.show();
 	} // Tetris constructor
->>>>>>> branch 'master' of https://github.com/kdvcodes/cs1302-arcade.git
 
 	@Override
 	public void run() {
-<<<<<<< HEAD
 		for (int i = 0; i < rows; i++) {
 			if (game.lineFull(i)) {
 				game.clearLine(i);
 			}
 		}
-	}
-=======
-		game = new Board();
-		generator = new Random();
 	} // run
->>>>>>> branch 'master' of https://github.com/kdvcodes/cs1302-arcade.git
 
 }
