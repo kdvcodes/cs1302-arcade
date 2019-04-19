@@ -106,6 +106,7 @@ public class Tetrimino {
 	}
 	
 	public void rotate(int direction) {
+		int rotation = this.rotation;
 		switch (shape) {
 		case T:
 		case J:
@@ -119,7 +120,7 @@ public class Tetrimino {
 			}
 			break;
 		}
-		update(false);
+		update(false, x, y, rotation);
 	}
 		
 	public boolean drop() {

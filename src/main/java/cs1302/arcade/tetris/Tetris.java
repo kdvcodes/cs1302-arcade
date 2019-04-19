@@ -70,7 +70,15 @@ public class Tetris extends Stage {
 			currentPiece.left();
 			break;
 		case DOWN:
-			currentPiece.drop();
+			if (!currentPiece.drop()) {
+				currentPiece = new Tetrimino(Shape.T, board);
+			}
+			break;
+		case Z:
+			currentPiece.rotate(1);
+			break;
+		case X:
+			currentPiece.rotate(-1);
 			break;
 		}
 	}
