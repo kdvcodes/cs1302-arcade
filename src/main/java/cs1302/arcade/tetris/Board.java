@@ -19,7 +19,6 @@ public class Board extends Group {
 				}
 			}
 		}
-		newTetrimino(Shape.T);
 	}
 	
 	public void newTetrimino(Shape shape) {
@@ -41,7 +40,7 @@ public class Board extends Group {
 	
 	public boolean lineFull(int row) {
 		for (int i = 0; i < playField[row].length; i++) {
-			if (!getTile(row, i).isOccupied()) {
+			if (!getTile(row, i).isOccupied(null)) {
 				return false;
 			}
 		}
@@ -54,7 +53,7 @@ public class Board extends Group {
 		}
 		for (int i = row - 1; i >= 0; i--) {
 			for (int j = 0; j < playField[i].length; i++) {
-				if (getTile(i, j).isOccupied()) {
+				if (getTile(i, j).isOccupied(null)) {
 					dropTile(i, j);
 				}
 			}

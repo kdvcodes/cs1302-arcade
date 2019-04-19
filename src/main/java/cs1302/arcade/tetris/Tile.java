@@ -6,8 +6,8 @@ import javafx.scene.image.ImageView;
 public class Tile extends ImageView {
 	
 	private Tetrimino currentPiece;
-	
-	final Image tetris3 = new Image("/tetris/tile3.png");
+
+	final Image tile3 = new Image("/tetris/tile3.png");
 	
 	public Tile(int row, int column) {
 		setX(194 + column * 16);
@@ -28,7 +28,7 @@ public class Tile extends ImageView {
 		case S:
 		case T:
 		case Z:
-			setImage(tetris3);
+			setImage(tile3);
 		}
 	}
 	
@@ -37,8 +37,8 @@ public class Tile extends ImageView {
 		setImage(null);
 	}
 	
-	public boolean isOccupied() {
-		if (currentPiece == null) {
+	public boolean isOccupied(Tetrimino t) {
+		if (currentPiece == null || currentPiece == t) {
 			return false;
 		}
 		return true;

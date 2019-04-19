@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -44,6 +45,8 @@ public class Tetris extends Stage {
 		game.getChildren().add(board);
 		generator = new Random();
 		Scene tetrisScene = new Scene(game);
+		currentPiece = new Tetrimino(Shape.T, board);
+		tetrisScene.setOnKeyPressed(this::move);
 		this.setScene(tetrisScene);
 		this.sizeToScene();
 		this.show();
@@ -57,5 +60,19 @@ public class Tetris extends Stage {
 			}
 		}
 	} // run
+	
+	private void move(KeyEvent ke) {
+		switch (ke.getCode()) {
+		case RIGHT:
+			currentPiece.right();
+			break;
+		case LEFT:
+			currentPiece.left();
+			break;
+		case DOWN:
+			currentPiece.drop();
+			break;
+		}
+	}
 
 }

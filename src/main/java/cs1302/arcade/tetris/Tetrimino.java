@@ -60,13 +60,13 @@ public class Tetrimino {
 	
 	private boolean update(boolean newPiece, int x, int y, int rotation) {
 		if (canMove(x, y, rotation)) {
+			if (!newPiece) {
+				empty();
+			}
 			this.x = x;
 			this.y = y;
 			this.rotation = rotation;
 			coordinates = newCoordinates(x, y, rotation);
-			if (!newPiece) {
-				empty();
-			}
 			fill();
 			return true;
 		}
@@ -94,7 +94,7 @@ public class Tetrimino {
 		try {
 			Tile[] c = newCoordinates(x, y, rotation);
 			for (int i = 0; i < 4; i++) {
-				if (c[i].isOccupied()) {
+				if (c[i].isOccupied(this)) {
 					return false;
 				}
 			}
@@ -122,10 +122,19 @@ public class Tetrimino {
 		update(false);
 	}
 		
-	public void drop() {
-		if (!update(false, x, y - 1, rotation)) {
-			//lock();
+	public boolean drop() {
+		if (!update(false, x, y + 1, rotation)) {
+			return false;
 		}
+		return true;
+	}
+	
+	public void left() {
+		update(false, x - 1, y, rotation);
+	}
+	
+	public void right() {
+		update(false, x + 1, y, rotation);
 	}
 	
 	public Shape getShape() {
