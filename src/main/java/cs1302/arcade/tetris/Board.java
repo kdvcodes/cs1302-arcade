@@ -13,16 +13,17 @@ public class Board extends Group {
 		for (int i = 0; i < playField.length; i++) {
 			for (int j = 0; j < playField[i].length; j++) {
 				playField[i][j] = new Tile(i, j);
-				//top two rows are hidden, this statement enures that
+				//top two rows are hidden, this statement ensures that
 				if (i > 1) {
 					getChildren().add(playField[i][j]);
 				}
 			}
 		}
+		newTetrimino(Shape.T);
 	}
 	
 	public void newTetrimino(Shape shape) {
-		Tetrimino t = new Tetrimino(shape);
+		Tetrimino t = new Tetrimino(shape, this);
 	}
 	
 	public Tile getTile(int row, int column) {
