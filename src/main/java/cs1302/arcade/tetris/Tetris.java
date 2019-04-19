@@ -46,7 +46,7 @@ public class Tetris extends Stage {
 		game.getChildren().add(board);
 		generator = new Random();
 		Scene tetrisScene = new Scene(game);
-		currentPiece = new Tetrimino(Shape.T, board);
+		currentPiece = new Tetrimino(randomShape(), board);
 		tetrisScene.setOnKeyPressed(this::move);
 		this.setScene(tetrisScene);
 		this.sizeToScene();
@@ -63,7 +63,7 @@ public class Tetris extends Stage {
 				board.clearLine(i);
 			}
 		}
-		currentPiece = new Tetrimino(Shape.T, board);
+		currentPiece = new Tetrimino(randomShape(), board);
 		t.play();
 	}
 	
@@ -91,6 +91,26 @@ public class Tetris extends Stage {
 			currentPiece.rotate(-1);
 			break;
 		}
+	}
+	
+	private Shape randomShape() {
+		switch (generator.nextInt(7)) {
+		case 0:
+			return Shape.T;
+		case 1:
+			return Shape.J;
+		case 2:
+			return Shape.Z;
+		case 3:
+			return Shape.O;
+		case 4:
+			return Shape.S;
+		case 5:
+			return Shape.L;
+		case 6:
+			return Shape.I;
+		}
+		return null;
 	}
 
 }

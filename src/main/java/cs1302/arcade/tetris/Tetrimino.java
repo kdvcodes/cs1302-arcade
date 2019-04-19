@@ -54,6 +54,101 @@ public class Tetrimino {
 				break;
 			}
 			break;
+		case J:
+			switch (rotation) {
+			case 0:
+				c[1] = board.getTile(y, x - 1);
+				c[2] = board.getTile(y, x + 1);
+				c[3] = board.getTile(y - 1, x - 1);
+				break;
+			case 1:
+				c[1] = board.getTile(y - 1, x + 1);
+				c[2] = board.getTile(y + 1, x);
+				c[3] = board.getTile(y - 1, x);
+				break;
+			case 2:
+				c[1] = board.getTile(y, x - 1);
+				c[2] = board.getTile(y, x + 1);
+				c[3] = board.getTile(y + 1, x + 1);
+				break;
+			case 3:
+				c[1] = board.getTile(y + 1, x - 1);
+				c[2] = board.getTile(y + 1, x);
+				c[3] = board.getTile(y - 1, x);
+				break;
+			}
+			break;
+		case Z:
+			switch (rotation) {
+			case 1:
+				c[1] = board.getTile(y, x + 1);
+				c[2] = board.getTile(y + 1, x);
+				c[3] = board.getTile(y - 1, x);
+				break;
+			case 2:
+				c[1] = board.getTile(y, x - 1);
+				c[2] = board.getTile(y + 1, x + 1);
+				c[3] = board.getTile(y + 1, x);
+				break;
+			}
+			break;
+		case O:
+			c[1] = board.getTile(y, x - 1);
+			c[2] = board.getTile(y + 1, x - 1);
+			c[3] = board.getTile(y + 1, x);
+			break;
+		case S:
+			switch (rotation) {
+			case 1:
+				c[1] = board.getTile(y, x + 1);
+				c[2] = board.getTile(y + 1, x + 1);
+				c[3] = board.getTile(y - 1, x);
+				break;
+			case 2:
+				c[1] = board.getTile(y + 1, x - 1);
+				c[2] = board.getTile(y, x + 1);
+				c[3] = board.getTile(y + 1, x);
+				break;
+			}
+			break;
+		case L:
+			switch (rotation) {
+			case 0:
+				c[1] = board.getTile(y, x - 1);
+				c[2] = board.getTile(y, x + 1);
+				c[3] = board.getTile(y - 1, x + 1);
+				break;
+			case 1:
+				c[1] = board.getTile(y + 1, x + 1);
+				c[2] = board.getTile(y + 1, x);
+				c[3] = board.getTile(y - 1, x);
+				break;
+			case 2:
+				c[1] = board.getTile(y, x - 1);
+				c[2] = board.getTile(y, x + 1);
+				c[3] = board.getTile(y + 1, x - 1);
+				break;
+			case 3:
+				c[1] = board.getTile(y - 1, x - 1);
+				c[2] = board.getTile(y + 1, x);
+				c[3] = board.getTile(y - 1, x);
+				break;
+			}
+			break;
+		case I:
+			switch (rotation) {
+			case 1:
+				c[1] = board.getTile(y - 2, x);
+				c[2] = board.getTile(y - 1, x);
+				c[3] = board.getTile(y + 1, x);
+				break;
+			case 2:
+				c[1] = board.getTile(y, x - 2);
+				c[2] = board.getTile(y, x - 1);
+				c[3] = board.getTile(y, x + 1);
+				break;
+			}
+			break;
 		}
 		return c;
 	}
