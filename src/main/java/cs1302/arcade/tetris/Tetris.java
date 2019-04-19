@@ -27,6 +27,7 @@ public class Tetris extends Stage {
 	Tetrimino currentPiece;
 	Random generator;
 	int level;
+	Timeline t;
 	
 	private final int rows = 22;
 	private final int columns = 10;
@@ -50,16 +51,27 @@ public class Tetris extends Stage {
 		this.setScene(tetrisScene);
 		this.sizeToScene();
 		this.show();
-		Timeline t = new Timeline(new KeyFrame(Duration.millis(1000 / framerate), this::update));
+		t = new Timeline(new KeyFrame(Duration.millis(799), this::drop));
+		t.setCycleCount(Timeline.INDEFINITE);
+		t.play();
 	} // Tetris constructor
-
-	public void update(ActionEvent r) {
+	
+	private void lock() {
+		t.stop();
 		for (int i = 0; i < rows; i++) {
-			if (game.lineFull(i)) {
-				game.clearLine(i);
+			if (board.lineFull(i)) {
+				board.clearLine(i);
 			}
 		}
-	} // run
+		currentPiece = new Tetrimino(Shape.T, board);
+		t.play();
+	}
+	
+	private void drop(ActionEvent e) {
+		if (!currentPiece.drop()) {
+			lock();
+		}
+	}
 	
 	private void move(KeyEvent ke) {
 		switch (ke.getCode()) {
@@ -70,9 +82,7 @@ public class Tetris extends Stage {
 			currentPiece.left();
 			break;
 		case DOWN:
-			if (!currentPiece.drop()) {
-				currentPiece = new Tetrimino(Shape.T, board);
-			}
+			drop(null);
 			break;
 		case Z:
 			currentPiece.rotate(1);

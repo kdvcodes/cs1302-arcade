@@ -52,7 +52,7 @@ public class Board extends Group {
 			getTile(row, i).clearPiece();
 		}
 		for (int i = row - 1; i >= 0; i--) {
-			for (int j = 0; j < playField[i].length; i++) {
+			for (int j = 0; j < playField[i].length; j++) {
 				if (getTile(i, j).isOccupied(null)) {
 					dropTile(i, j);
 				}
