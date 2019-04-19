@@ -1,5 +1,6 @@
 package cs1302.arcade.tetris;
 
+import java.io.File;
 import java.util.Random;
 
 import javafx.animation.KeyFrame;
@@ -20,7 +21,8 @@ import javafx.util.Duration;
  */
 public class Tetris extends Stage {
 	
-	Board game;
+	Group game;
+	Board board;
 	Tetrimino currentPiece;
 	Random generator;
 	int level;
@@ -37,11 +39,13 @@ public class Tetris extends Stage {
 	}
 	
 	public Tetris() {
-		super();
-		Scene tetrisScene = new Scene(new Group(new ImageView("file:/resources/tetris/background.png")));
+		board = new Board(rows, columns);
+		game = new Group(new ImageView("/tetris/background.png"));
+		game.getChildren().add(board);
+		generator = new Random();
+		Scene tetrisScene = new Scene(game);
 		this.setScene(tetrisScene);
-		this.setHeight(600);
-		this.setWidth(450);
+		this.sizeToScene();
 		this.show();
 		Timeline t = new Timeline(new KeyFrame(Duration.millis(1000 / framerate), this::update));
 	} // Tetris constructor

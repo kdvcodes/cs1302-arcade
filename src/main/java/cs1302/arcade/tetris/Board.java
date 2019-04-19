@@ -2,7 +2,9 @@ package cs1302.arcade.tetris;
 
 import java.util.Random;
 
-public class Board {
+import javafx.scene.Group;
+
+public class Board extends Group {
 	
 	private Tile[][] playField;
 	
@@ -10,7 +12,11 @@ public class Board {
 		playField = new Tile[rows][columns];
 		for (int i = 0; i < playField.length; i++) {
 			for (int j = 0; j < playField[i].length; j++) {
-				playField[i][j] = new Tile();
+				playField[i][j] = new Tile(i, j);
+				//top two rows are hidden, this statement enures that
+				if (i > 1) {
+					getChildren().add(playField[i][j]);
+				}
 			}
 		}
 	}
