@@ -12,8 +12,6 @@ public class Tetrimino {
 	private Tile[] coordinates;
 	private int x;
 	private int y;
-	private boolean isActive;
-	
 	private final int initialX = 5;
 	private final int initialY = 2;
 	
@@ -21,7 +19,6 @@ public class Tetrimino {
 		this.board = board;
 		this.shape = shape;
 		coordinates = new Tile[4];
-		isActive = true;
 		rotation = 2;
 		update(true, initialX, initialY, 2);
 	}
@@ -81,9 +78,9 @@ public class Tetrimino {
 		case Z:
 			switch (rotation) {
 			case 1:
-				c[1] = board.getTile(y, x + 1);
-				c[2] = board.getTile(y + 1, x);
-				c[3] = board.getTile(y - 1, x);
+				c[1] = board.getTile(y - 1, x + 1);
+				c[2] = board.getTile(y, x + 1);
+				c[3] = board.getTile(y + 1, x);
 				break;
 			case 2:
 				c[1] = board.getTile(y, x - 1);
@@ -201,17 +198,27 @@ public class Tetrimino {
 	}
 	
 	public void rotate(int direction) {
-		int rotation = this.rotation;
+		if (shape == Shape.O) {
+			return;
+		}
+		int rotation = this.rotation + direction;
 		switch (shape) {
 		case T:
 		case J:
 		case L:
-			rotation += direction;
 			if (rotation == -1) {
 				rotation = 3;
 			}
 			if (rotation == 4) {
 				rotation = 0;
+			}
+			break;
+		default:
+			if (rotation == 0) {
+				rotation = 2;
+			}
+			if (rotation == 3) {
+				rotation = 1;
 			}
 			break;
 		}
