@@ -28,11 +28,10 @@ public class Tetris extends Stage {
 	Random generator;
 	int level;
 	Timeline t;
+	private int score;
 	
 	private final int rows = 22;
 	private final int columns = 10;
-	
-	private final int framerate = 60;
 	
 	public Tetris(int level) {
 		game = new Board(rows, columns);
@@ -45,26 +44,50 @@ public class Tetris extends Stage {
 		game = new Group(new ImageView("/tetris/background.png"));
 		game.getChildren().add(board);
 		generator = new Random();
+		level = 5;
+		score = 0;
 		Scene tetrisScene = new Scene(game);
 		currentPiece = new Tetrimino(randomShape(), board);
 		tetrisScene.setOnKeyPressed(this::move);
 		this.setScene(tetrisScene);
 		this.sizeToScene();
 		this.show();
-		t = new Timeline(new KeyFrame(Duration.millis(799), this::drop));
+		t = new Timeline(new KeyFrame(dropRate(), this::drop));
 		t.setCycleCount(Timeline.INDEFINITE);
 		t.play();
 	} // Tetris constructor
 	
 	private void lock() {
 		t.stop();
+		int cleared = 0;
 		for (int i = 0; i < rows; i++) {
 			if (board.lineFull(i)) {
 				board.clearLine(i);
+				cleared++;
 			}
 		}
+		updateScore(cleared);
 		currentPiece = new Tetrimino(randomShape(), board);
 		t.play();
+	}
+	
+	private void updateScore(int linesCleared) {
+		switch (linesCleared) {
+		case 0:
+			return;
+		case 1:
+			score += 40 * (level + 1);
+			break;
+		case 2:
+			score += 100 * (level + 1);
+			break;
+		case 3:
+			score += 300 * (level + 1);
+			break;
+		case 4:
+			score += 1200 * (level + 1);
+			break;
+		}
 	}
 	
 	private void drop(ActionEvent e) {
@@ -111,6 +134,57 @@ public class Tetris extends Stage {
 			return Shape.I;
 		}
 		return null;
+	}
+	
+	private Duration dropRate() {
+		switch (level) {
+		case 0:
+			return Duration.millis(799);
+		case 1:
+			return Duration.millis(715);
+		case 2:
+			return Duration.millis(632);
+		case 3:
+			return Duration.millis(549);
+		case 4:
+			return Duration.millis(466);
+		case 5:
+			return Duration.millis(383);
+		case 6:
+			return Duration.millis(300);
+		case 7:
+			return Duration.millis(216);
+		case 8:
+			return Duration.millis(133);
+		case 9:
+			return Duration.millis(100);
+		case 10:
+		case 11:
+		case 12:
+			return Duration.millis(83);
+		case 13:
+		case 14:
+		case 15:
+			return Duration.millis(67);
+		case 16:
+		case 17:
+		case 18:
+			return Duration.millis(50);
+		case 19:
+		case 20:
+		case 21:
+		case 22:
+		case 23:
+		case 24:
+		case 25:
+		case 26:
+		case 27:
+		case 28:
+			return Duration.millis(33);
+		default:
+			return Duration.millis(17);
+		}
+		
 	}
 
 }

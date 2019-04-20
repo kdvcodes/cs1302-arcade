@@ -10,7 +10,7 @@ public class Tile extends ImageView {
 	final Image tile3 = new Image("/tetris/tile3.png");
 	
 	public Tile(int row, int column) {
-		setX(194 + column * 16);
+		setX(192 + column * 16);
 		setY(50 + row * 16);
 	}
 	
