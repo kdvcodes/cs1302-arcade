@@ -23,7 +23,7 @@ import javafx.util.Duration;
 public class Tetris extends Stage {
 	
 	Group game;
-	Board board;
+	TetrisBoard board;
 	Tetrimino currentPiece;
 	Random generator;
 	int level;
@@ -34,13 +34,13 @@ public class Tetris extends Stage {
 	private final int columns = 10;
 	
 	public Tetris(int level) {
-		game = new Board(rows, columns);
+		game = new TetrisBoard(rows, columns);
 		generator = new Random();
 		this.level = level;
 	}
 	
 	public Tetris() {
-		board = new Board(rows, columns);
+		board = new TetrisBoard(rows, columns);
 		game = new Group(new ImageView("/tetris/background.png"));
 		game.getChildren().add(board);
 		generator = new Random();

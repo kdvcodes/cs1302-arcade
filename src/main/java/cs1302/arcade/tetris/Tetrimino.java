@@ -1,5 +1,7 @@
 package cs1302.arcade.tetris;
 
+import cs1302.arcade.Tile;
+
 enum Rotation {
 	UP, RIGHT, DOWN, LEFT
 }
@@ -8,23 +10,23 @@ public class Tetrimino {
 	
 	private Shape shape;
 	private int rotation;
-	private Board board;
-	private Tile[] coordinates;
+	private TetrisBoard board;
+	private TetrisTile[] coordinates;
 	private int x;
 	private int y;
 	private final int initialX = 5;
 	private final int initialY = 2;
 	
-	public Tetrimino(Shape shape, Board board) {
+	public Tetrimino(Shape shape, TetrisBoard board) {
 		this.board = board;
 		this.shape = shape;
-		coordinates = new Tile[4];
+		coordinates = new TetrisTile[4];
 		rotation = 2;
 		update(true, initialX, initialY, 2);
 	}
 	
-	private Tile[] newCoordinates(int x, int y, int rotation) {
-		Tile[] c = new Tile[4];
+	private TetrisTile[] newCoordinates(int x, int y, int rotation) {
+		Tile[] c = new TetrisTile[4];
 		c[0] = board.getTile(y, x);
 		switch (shape) {
 		case T:
@@ -147,7 +149,7 @@ public class Tetrimino {
 			}
 			break;
 		}
-		return c;
+		return (TetrisTile[]) c;
 	}
 	
 	private boolean update(boolean newPiece, int x, int y, int rotation) {
@@ -184,7 +186,7 @@ public class Tetrimino {
 	
 	private boolean canMove(int x, int y, int rotation) {
 		try {
-			Tile[] c = newCoordinates(x, y, rotation);
+			TetrisTile[] c = newCoordinates(x, y, rotation);
 			for (int i = 0; i < 4; i++) {
 				if (c[i].isOccupied(this)) {
 					return false;

@@ -1,18 +1,18 @@
 package cs1302.arcade.tetris;
 
+
 import java.util.Random;
 
+import cs1302.arcade.Board;
 import javafx.scene.Group;
 
-public class Board extends Group {
+public class TetrisBoard extends Board {
 	
-	private Tile[][] playField;
-	
-	public Board(int rows, int columns) {
-		playField = new Tile[rows][columns];
+	public TetrisBoard(int rows, int columns) {
+		playField = new TetrisTile[rows][columns];
 		for (int i = 0; i < playField.length; i++) {
 			for (int j = 0; j < playField[i].length; j++) {
-				playField[i][j] = new Tile(i, j);
+				playField[i][j] = new TetrisTile(i, j);
 				//top two rows are hidden, this statement ensures that
 				if (i > 1) {
 					getChildren().add(playField[i][j]);
@@ -21,30 +21,9 @@ public class Board extends Group {
 		}
 	}
 	
-	public void newTetrimino(Shape shape) {
-		Tetrimino t = new Tetrimino(shape, this);
-	}
-	
-	public Tile getTile(int row, int column) {
-		return playField[row][column];
-	}
-	
-	public void dropTetriminio(Tetrimino t) {
-		
-	}
-	
 	private void dropTile(int row, int column) {
 		getTile(row + 1, column).setPiece(getTile(row, column).getPiece());
 		getTile(row, column).clearPiece();
-	}
-	
-	public boolean lineFull(int row) {
-		for (int i = 0; i < playField[row].length; i++) {
-			if (!getTile(row, i).isOccupied(null)) {
-				return false;
-			}
-		}
-		return true;
 	}
 	
 	public void clearLine(int row) {
