@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 public class NumberGame extends Stage{
 	
 	NumberGameMenuBar numberGameMenuBar;
+	NumberGameInfoBar numberGameInfoBar;
 	NumberGameMainContent numberGameMainContent;
 	
 	public NumberGame() {
@@ -29,6 +30,7 @@ public class NumberGame extends Stage{
 		
 		// Scene items initializations
 		numberGameMenuBar = new NumberGameMenuBar(this);
+		numberGameInfoBar = new NumberGameInfoBar(this);
 		numberGameMainContent = new NumberGameMainContent(this, 400, 400);
 		
 		// Items customizations
@@ -39,7 +41,11 @@ public class NumberGame extends Stage{
 		
 		// Layer items assignments
 		numberGameMenuBarLayer.getChildren().addAll(numberGameMenuBar);
+		numberGameInfoLayer.getChildren().addAll(numberGameInfoBar);
 		numberGameMainContentLayer.getChildren().addAll(numberGameMainContent);
+		
+		// Set actions
+		numberGameMainContentLayer.setOnKeyPressed(numberGameMainContent.createKeyHandler());
 		
 		// Setting the items placements
 		vbox.getChildren().addAll(numberGameMenuBarLayer, numberGameInfoLayer, numberGameMainContentLayer);
@@ -49,5 +55,7 @@ public class NumberGame extends Stage{
 		this.setMaxHeight(600);
 		this.setMaxWidth(600);
 		this.show();
+		
+		numberGameMainContentLayer.requestFocus();
 	}
 }
