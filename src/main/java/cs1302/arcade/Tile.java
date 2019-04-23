@@ -14,6 +14,11 @@ public abstract class Tile<T> extends ImageView{
 	
 	protected T currentPiece;
 	
+	public Tile(int row, int column, int xStart, int yStart, int size) {
+		setX(xStart + column * size);
+		setY(yStart + row * size);
+	}
+
 	public T getPiece() {
 		return currentPiece;
 	}

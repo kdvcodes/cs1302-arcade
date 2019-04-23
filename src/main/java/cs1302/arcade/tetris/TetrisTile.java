@@ -6,11 +6,13 @@ import javafx.scene.image.ImageView;
 
 public class TetrisTile extends Tile<Tetrimino> {
 	
+	static final int xStart = 192;
+	static final int yStart = 50;
+	static final int size = 16;
 	final Image tile3 = new Image("/tetris/tile3.png");
 	
 	public TetrisTile(int row, int column) {
-		setX(192 + column * 16);
-		setY(50 + row * 16);
+		super(row, column, xStart, yStart, size);
 	}
 	
 	protected void update() {

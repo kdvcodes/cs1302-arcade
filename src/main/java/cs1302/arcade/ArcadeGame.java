@@ -14,8 +14,6 @@ public abstract class ArcadeGame extends Stage {
 	protected int score;
 	
 	public Image background;
-	int rows;
-	int columns;
 	
 	public void newGame() {
 		//ask dr barnes about this, see old piazza post
