@@ -1,5 +1,6 @@
 package cs1302.arcade.tetris;
 
+import cs1302.arcade.Board;
 import cs1302.arcade.Tile;
 
 enum Rotation {
@@ -17,8 +18,8 @@ public class Tetrimino {
 	private final int initialX = 5;
 	private final int initialY = 2;
 	
-	public Tetrimino(Shape shape, TetrisBoard board) {
-		this.board = board;
+	public Tetrimino(Shape shape, Board board) {
+		this.board = (TetrisBoard) board;
 		this.shape = shape;
 		coordinates = new TetrisTile[4];
 		rotation = 2;

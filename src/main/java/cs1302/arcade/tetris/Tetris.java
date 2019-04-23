@@ -3,12 +3,14 @@ package cs1302.arcade.tetris;
 import java.io.File;
 import java.util.Random;
 
+import cs1302.arcade.ArcadeGame;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -20,38 +22,31 @@ import javafx.util.Duration;
  * This is the Tetris game class
  *
  */
-public class Tetris extends Stage {
+public class Tetris extends ArcadeGame {
 	
-	Group game;
-	TetrisBoard board;
 	Tetrimino currentPiece;
 	Random generator;
 	int level;
 	Timeline t;
-	private int score;
 	
 	private final int rows = 22;
 	private final int columns = 10;
 	
+	/*
 	public Tetris(int level) {
 		game = new TetrisBoard(rows, columns);
 		generator = new Random();
 		this.level = level;
 	}
+	*/
 	
 	public Tetris() {
 		board = new TetrisBoard(rows, columns);
-		game = new Group(new ImageView("/tetris/background.png"));
-		game.getChildren().add(board);
+		background = new Image("/tetris/background.png");
+		newGame();
 		generator = new Random();
 		level = 5;
-		score = 0;
-		Scene tetrisScene = new Scene(game);
 		currentPiece = new Tetrimino(randomShape(), board);
-		tetrisScene.setOnKeyPressed(this::move);
-		this.setScene(tetrisScene);
-		this.sizeToScene();
-		this.show();
 		t = new Timeline(new KeyFrame(dropRate(), this::drop));
 		t.setCycleCount(Timeline.INDEFINITE);
 		t.play();
@@ -62,7 +57,7 @@ public class Tetris extends Stage {
 		int cleared = 0;
 		for (int i = 0; i < rows; i++) {
 			if (board.lineFull(i)) {
-				board.clearLine(i);
+				((TetrisBoard) board).clearLine(i);
 				cleared++;
 			}
 		}
@@ -96,7 +91,7 @@ public class Tetris extends Stage {
 		}
 	}
 	
-	private void move(KeyEvent ke) {
+	protected void move(KeyEvent ke) {
 		switch (ke.getCode()) {
 		case RIGHT:
 			currentPiece.right();

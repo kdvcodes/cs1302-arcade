@@ -44,8 +44,8 @@ public class NumberGameMainContent extends Canvas{
 			graphicsContext.strokeLine(boxWidth * i, 0, boxWidth * i, this.height);
 		}
 		
-		setDefaultNumbers();
-		setDefaultGrid();
+		//setDefaultNumbers();
+		//setDefaultGrid();
 	}
 	
 	

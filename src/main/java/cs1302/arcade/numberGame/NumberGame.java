@@ -1,6 +1,10 @@
 package cs1302.arcade.numberGame;
 
+import cs1302.arcade.ArcadeGame;
+import cs1302.arcade.tetris.TetrisBoard;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -10,15 +14,27 @@ import javafx.stage.Stage;
  * This is the NumberGame class for the game of 2448
  *
  */
-public class NumberGame extends Stage{
-	
+public class NumberGame extends ArcadeGame{
+
+	final int gameSize = 4;
 	NumberGameMenuBar numberGameMenuBar;
 	NumberGameInfoBar numberGameInfoBar;
 	NumberGameMainContent numberGameMainContent;
 	
 	public NumberGame() {
-		super();
+		board = new NumberGameBoard(gameSize, gameSize);
+		background = new Image("/2048/background.png");
+		newGame();
+	}
+
+	@Override
+	protected void move(KeyEvent ke) {
+		// TODO Auto-generated method stub
 		
+	}
+	
+	/*
+	public NumberGame() {
 		// Main frame items initializations
 		VBox vbox = new VBox();
 		HBox numberGameMainFrame = new HBox(vbox);
@@ -58,4 +74,5 @@ public class NumberGame extends Stage{
 		
 		numberGameMainContentLayer.requestFocus();
 	}
+	*/
 }
