@@ -19,13 +19,15 @@ public class NumberGameMainContent extends Canvas{
 	final int gameSize = 4;
 	GraphicsContext graphicsContext;
 	NumberGame numberGame;
-	int[][] numInBox = new int[gameSize][gameSize];
+	NumberGameBoard board;
 	
 	public NumberGameMainContent(NumberGame numberGame, int h, int w) {
 		super(h, w);
 		this.numberGame = numberGame;
 		this.height = h;
 		this.width = w;
+		
+		board = new NumberGameBoard(gameSize, gameSize);
 		
 		boxWidth = this.width/gameSize;
 		boxHeight = this.height/gameSize;
