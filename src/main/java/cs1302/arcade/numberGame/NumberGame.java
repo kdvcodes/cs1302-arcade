@@ -34,7 +34,7 @@ public class NumberGame extends ArcadeGame{
 	protected void move(KeyEvent ke) {
 		switch(ke.getCode()) {
 		case UP:
-			//something here
+			up();
 			break;
 		case DOWN:
 			//something here
@@ -63,7 +63,16 @@ public class NumberGame extends ArcadeGame{
 		return generator.nextDouble() < 0.9 ? 2 : 4;
 	}
 	
-	
+	private void up() {
+		for (int row = gameSize - 1; row > 0; row--) {
+			for (int col = 0; col < gameSize; col++) {
+				if(!(board.getTile(row - 1 , col).isOccupied(null))) {
+					board.getTile(row - 1, col).setPiece(board.getTile(row, col).getPiece());
+					board.getTile(row, col).clearPiece();
+				} // if
+			} // for
+		} // for
+	} // up
 	
 	/*
 	public NumberGame() {
