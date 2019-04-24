@@ -26,12 +26,26 @@ public class NumberGame extends ArcadeGame{
 		board = new NumberGameBoard(gameSize, gameSize);
 		background = new Image("/2048/background.png");
 		newGame();
-		randomTile().setPiece(4);
+		randomTile().setPiece(randomNumGenerator());
+		randomTile().setPiece(randomNumGenerator());
 	}
 
 	@Override
 	protected void move(KeyEvent ke) {
-		// TODO Auto-generated method stub
+		switch(ke.getCode()) {
+		case UP:
+			//something here
+			break;
+		case DOWN:
+			//something here
+			break;
+		case LEFT:
+			// something here
+			break;
+		case RIGHT:
+			//something here
+			break;
+		}
 		
 	}
 	
@@ -44,6 +58,12 @@ public class NumberGame extends ArcadeGame{
 		
 		return (NumberGameTile) t;
 	}
+	
+	private Integer randomNumGenerator() {
+		return generator.nextDouble() < 0.9 ? 2 : 4;
+	}
+	
+	
 	
 	/*
 	public NumberGame() {

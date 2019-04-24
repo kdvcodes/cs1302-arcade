@@ -35,11 +35,14 @@ public class NumberGameTile extends Tile<Integer>{
 		switch(currentPiece) {
 		case 2:
 			setImage(two);
+			break;
 		case 4:
 			setImage(four);
+			break;
 		case 8:
 			setImage(eight);
-		}
+			break;
+		} //switch
 	}
 	
 }
