@@ -14,7 +14,7 @@ public class NumberGameTile extends Tile{
 	
 	static final int xStart = 60;
 	static final int yStart = 330;
-	static final int size = 134;
+	static final int size = 114;
 	static final int offset = 20;
 	final Image two = new Image("/2048/2.png");
 	
