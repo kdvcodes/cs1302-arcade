@@ -15,10 +15,11 @@ public class NumberGameTile extends Tile{
 	static final int xStart = 60;
 	static final int yStart = 330;
 	static final int size = 134;
+	static final int offset = 20;
 	final Image two = new Image("/2048/2.png");
 	
 	public NumberGameTile(int row, int column) {
-		super(row, column, xStart, yStart, size);
+		super(row, column, xStart, yStart, size, offset);
 		update();
 	}
 
