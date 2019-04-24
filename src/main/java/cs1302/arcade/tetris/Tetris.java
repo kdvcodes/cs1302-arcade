@@ -25,7 +25,6 @@ import javafx.util.Duration;
 public class Tetris extends ArcadeGame {
 	
 	Tetrimino currentPiece;
-	Random generator;
 	int level;
 	Timeline t;
 	
@@ -44,7 +43,6 @@ public class Tetris extends ArcadeGame {
 		board = new TetrisBoard(rows, columns);
 		background = new Image("/tetris/background.png");
 		newGame();
-		generator = new Random();
 		level = 5;
 		currentPiece = new Tetrimino(randomShape(), board);
 		t = new Timeline(new KeyFrame(dropRate(), this::drop));

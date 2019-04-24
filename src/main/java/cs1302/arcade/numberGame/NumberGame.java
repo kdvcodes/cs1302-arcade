@@ -1,6 +1,7 @@
 package cs1302.arcade.numberGame;
 
 import cs1302.arcade.ArcadeGame;
+import cs1302.arcade.Tile;
 import cs1302.arcade.tetris.TetrisBoard;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -25,12 +26,23 @@ public class NumberGame extends ArcadeGame{
 		board = new NumberGameBoard(gameSize, gameSize);
 		background = new Image("/2048/background.png");
 		newGame();
+		randomTile().setPiece(4);
 	}
 
 	@Override
 	protected void move(KeyEvent ke) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private NumberGameTile randomTile() {
+		Tile t = board.getTile(generator.nextInt(gameSize), generator.nextInt(gameSize));
+		
+		if(t.isOccupied(null)) {
+			return randomTile();
+		} // if
+		
+		return (NumberGameTile) t;
 	}
 	
 	/*
