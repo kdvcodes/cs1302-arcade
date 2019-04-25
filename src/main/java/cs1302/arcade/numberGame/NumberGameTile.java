@@ -20,8 +20,8 @@ public class NumberGameTile extends Tile<Integer>{
 	final Image four = new Image("/2048/4.png");
 	final Image eight = new Image("/2048/8.png");
 	
-	public NumberGameTile(int row, int column) {
-		super(row, column, xStart, yStart, size, offset);
+	public NumberGameTile(int row, int column, NumberGame game) {
+		super(row, column, xStart, yStart, size, offset, game);
 		update();
 	}
 

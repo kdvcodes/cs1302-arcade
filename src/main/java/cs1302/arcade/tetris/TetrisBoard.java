@@ -8,11 +8,11 @@ import javafx.scene.Group;
 
 public class TetrisBoard extends Board {
 	
-	public TetrisBoard(int rows, int columns) {
+	public TetrisBoard(int rows, int columns, Tetris game) {
 		playField = new TetrisTile[rows][columns];
 		for (int i = 0; i < playField.length; i++) {
 			for (int j = 0; j < playField[i].length; j++) {
-				playField[i][j] = new TetrisTile(i, j);
+				playField[i][j] = new TetrisTile(i, j, game);
 				//top two rows are hidden, this statement ensures that
 				if (i > 1) {
 					getChildren().add(playField[i][j]);

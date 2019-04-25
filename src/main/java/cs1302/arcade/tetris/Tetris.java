@@ -40,10 +40,10 @@ public class Tetris extends ArcadeGame {
 	*/
 	
 	public Tetris() {
-		board = new TetrisBoard(rows, columns);
+		level = 1;
+		board = new TetrisBoard(rows, columns, this);
 		background = new Image("/tetris/background.png");
 		newGame();
-		level = 5;
 		currentPiece = new Tetrimino(randomShape(), board);
 		t = new Timeline(new KeyFrame(dropRate(), this::drop));
 		t.setCycleCount(Timeline.INDEFINITE);
@@ -62,6 +62,10 @@ public class Tetris extends ArcadeGame {
 		updateScore(cleared);
 		currentPiece = new Tetrimino(randomShape(), board);
 		t.play();
+	}
+	
+	public int getLevel() {
+		return level;
 	}
 	
 	private void updateScore(int linesCleared) {

@@ -15,8 +15,10 @@ public abstract class Tile<T> extends ImageView{
 	
 	protected T currentPiece;
 	protected WritableImage img;
+	protected ArcadeGame game;
 	
-	public Tile(int row, int column, int xStart, int yStart, int size, int offset) {
+	public Tile(int row, int column, int xStart, int yStart, int size, int offset, ArcadeGame game) {
+		this.game = game;
 		setX(xStart + column * (size + offset));
 		setY(yStart + row * (size + offset));
 		img = new WritableImage(size, size);

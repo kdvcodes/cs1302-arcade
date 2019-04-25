@@ -26,133 +26,6 @@ public class Tetrimino {
 		update(true, initialX, initialY, 2);
 	}
 	
-	private TetrisTile[] newCoordinates(int x, int y, int rotation) {
-		Tile[] c = new TetrisTile[4];
-		c[0] = board.getTile(y, x);
-		switch (shape) {
-		case T:
-			switch (rotation) {
-			case 0:
-				c[1] = board.getTile(y, x - 1);
-				c[2] = board.getTile(y, x + 1);
-				c[3] = board.getTile(y - 1, x);
-				break;
-			case 1:
-				c[1] = board.getTile(y, x + 1);
-				c[2] = board.getTile(y + 1, x);
-				c[3] = board.getTile(y - 1, x);
-				break;
-			case 2:
-				c[1] = board.getTile(y, x - 1);
-				c[2] = board.getTile(y, x + 1);
-				c[3] = board.getTile(y + 1, x);
-				break;
-			case 3:
-				c[1] = board.getTile(y, x - 1);
-				c[2] = board.getTile(y + 1, x);
-				c[3] = board.getTile(y - 1, x);
-				break;
-			}
-			break;
-		case J:
-			switch (rotation) {
-			case 0:
-				c[1] = board.getTile(y, x - 1);
-				c[2] = board.getTile(y, x + 1);
-				c[3] = board.getTile(y - 1, x - 1);
-				break;
-			case 1:
-				c[1] = board.getTile(y - 1, x + 1);
-				c[2] = board.getTile(y + 1, x);
-				c[3] = board.getTile(y - 1, x);
-				break;
-			case 2:
-				c[1] = board.getTile(y, x - 1);
-				c[2] = board.getTile(y, x + 1);
-				c[3] = board.getTile(y + 1, x + 1);
-				break;
-			case 3:
-				c[1] = board.getTile(y + 1, x - 1);
-				c[2] = board.getTile(y + 1, x);
-				c[3] = board.getTile(y - 1, x);
-				break;
-			}
-			break;
-		case Z:
-			switch (rotation) {
-			case 1:
-				c[1] = board.getTile(y - 1, x + 1);
-				c[2] = board.getTile(y, x + 1);
-				c[3] = board.getTile(y + 1, x);
-				break;
-			case 2:
-				c[1] = board.getTile(y, x - 1);
-				c[2] = board.getTile(y + 1, x + 1);
-				c[3] = board.getTile(y + 1, x);
-				break;
-			}
-			break;
-		case O:
-			c[1] = board.getTile(y, x - 1);
-			c[2] = board.getTile(y + 1, x - 1);
-			c[3] = board.getTile(y + 1, x);
-			break;
-		case S:
-			switch (rotation) {
-			case 1:
-				c[1] = board.getTile(y, x + 1);
-				c[2] = board.getTile(y + 1, x + 1);
-				c[3] = board.getTile(y - 1, x);
-				break;
-			case 2:
-				c[1] = board.getTile(y + 1, x - 1);
-				c[2] = board.getTile(y, x + 1);
-				c[3] = board.getTile(y + 1, x);
-				break;
-			}
-			break;
-		case L:
-			switch (rotation) {
-			case 0:
-				c[1] = board.getTile(y, x - 1);
-				c[2] = board.getTile(y, x + 1);
-				c[3] = board.getTile(y - 1, x + 1);
-				break;
-			case 1:
-				c[1] = board.getTile(y + 1, x + 1);
-				c[2] = board.getTile(y + 1, x);
-				c[3] = board.getTile(y - 1, x);
-				break;
-			case 2:
-				c[1] = board.getTile(y, x - 1);
-				c[2] = board.getTile(y, x + 1);
-				c[3] = board.getTile(y + 1, x - 1);
-				break;
-			case 3:
-				c[1] = board.getTile(y - 1, x - 1);
-				c[2] = board.getTile(y + 1, x);
-				c[3] = board.getTile(y - 1, x);
-				break;
-			}
-			break;
-		case I:
-			switch (rotation) {
-			case 1:
-				c[1] = board.getTile(y - 2, x);
-				c[2] = board.getTile(y - 1, x);
-				c[3] = board.getTile(y + 1, x);
-				break;
-			case 2:
-				c[1] = board.getTile(y, x - 2);
-				c[2] = board.getTile(y, x - 1);
-				c[3] = board.getTile(y, x + 1);
-				break;
-			}
-			break;
-		}
-		return (TetrisTile[]) c;
-	}
-	
 	private boolean update(boolean newPiece, int x, int y, int rotation) {
 		if (canMove(x, y, rotation)) {
 			if (!newPiece) {
@@ -161,7 +34,7 @@ public class Tetrimino {
 			this.x = x;
 			this.y = y;
 			this.rotation = rotation;
-			coordinates = newCoordinates(x, y, rotation);
+			coordinates = shape.newCoordinates(x, y, rotation, board);
 			fill();
 			return true;
 		}
@@ -187,7 +60,7 @@ public class Tetrimino {
 	
 	private boolean canMove(int x, int y, int rotation) {
 		try {
-			TetrisTile[] c = newCoordinates(x, y, rotation);
+			TetrisTile[] c = shape.newCoordinates(x, y, rotation, board);
 			for (int i = 0; i < 4; i++) {
 				if (c[i].isOccupied(this)) {
 					return false;
