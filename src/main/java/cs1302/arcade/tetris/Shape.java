@@ -197,7 +197,7 @@ public enum Shape {
 	}
 	
 	private int getColor1(int level) {
-		switch (level) {
+		switch (level % 10) {
 		case 0:
 			return 0xFF0959E0;
 		case 1:
@@ -223,7 +223,7 @@ public enum Shape {
 	}
 	
 	private int getColor2(int level) {
-		switch (level) {
+		switch (level % 10) {
 		case 0:
 			return 0xFF59B6FC;
 		case 1:

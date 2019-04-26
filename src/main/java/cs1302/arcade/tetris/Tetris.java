@@ -30,6 +30,7 @@ public class Tetris extends ArcadeGame {
 	
 	private final int rows = 22;
 	private final int columns = 10;
+	private int linesCleared;
 	
 	/*
 	public Tetris(int level) {
@@ -40,7 +41,7 @@ public class Tetris extends ArcadeGame {
 	*/
 	
 	public Tetris() {
-		level = 1;
+		level = 0;
 		board = new TetrisBoard(rows, columns, this);
 		background = new Image("/tetris/background.png");
 		newGame();
@@ -60,16 +61,29 @@ public class Tetris extends ArcadeGame {
 			}
 		}
 		updateScore(cleared);
+		if (linesCleared >= (level + 1) * 10) {
+			levelUp();
+		}
 		currentPiece = new Tetrimino(randomShape(), board);
+		t.getKeyFrames().replaceAll((k) -> new KeyFrame(dropRate(), this::drop));
 		t.play();
+	}
+	
+	private void levelUp() {
+		level++;
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				board.getTile(i, j).update();
+			}
+		}
 	}
 	
 	public int getLevel() {
 		return level;
 	}
 	
-	private void updateScore(int linesCleared) {
-		switch (linesCleared) {
+	private void updateScore(int cleared) {
+		switch (cleared) {
 		case 0:
 			return;
 		case 1:
@@ -85,6 +99,7 @@ public class Tetris extends ArcadeGame {
 			score += 1200 * (level + 1);
 			break;
 		}
+		linesCleared += cleared;
 	}
 	
 	private void drop(ActionEvent e) {

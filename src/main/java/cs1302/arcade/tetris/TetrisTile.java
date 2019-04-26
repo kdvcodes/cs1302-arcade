@@ -17,7 +17,7 @@ public class TetrisTile extends Tile<Tetrimino> {
 		super(row, column, xStart, yStart, size, offset, game);
 	}
 	
-	protected void update() {
+	public void update() {
 		if (currentPiece == null) {
 			setImage(null);
 			return;

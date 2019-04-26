@@ -46,5 +46,5 @@ public abstract class Tile<T> extends ImageView{
 		return true;
 	}
 	
-	protected abstract void update();
+	public abstract void update();
 }
