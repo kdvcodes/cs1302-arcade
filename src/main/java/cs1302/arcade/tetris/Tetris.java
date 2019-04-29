@@ -15,6 +15,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -27,6 +30,7 @@ public class Tetris extends ArcadeGame {
 	Tetrimino currentPiece;
 	int level;
 	Timeline t;
+	private Text scoreText;
 	
 	private final int rows = 22;
 	private final int columns = 10;
@@ -44,7 +48,10 @@ public class Tetris extends ArcadeGame {
 		level = 0;
 		board = new TetrisBoard(rows, columns, this);
 		background = new Image("/tetris/background.png");
-		newGame();
+		scoreText = new Text(380, 140, "0");
+		scoreText.setFont(Font.loadFont(getClass().getResourceAsStream("/tetris/ARCADECLASSIC.ttf"), 36));
+		scoreText.setFill(Color.WHITE);
+		newGame(board, scoreText);
 		currentPiece = new Tetrimino(randomShape(), board);
 		t = new Timeline(new KeyFrame(dropRate(), this::drop));
 		t.setCycleCount(Timeline.INDEFINITE);
@@ -100,6 +107,7 @@ public class Tetris extends ArcadeGame {
 			break;
 		}
 		linesCleared += cleared;
+		scoreText.setText(String.valueOf(score));
 	}
 	
 	private void drop(ActionEvent e) {
