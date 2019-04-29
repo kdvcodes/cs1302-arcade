@@ -23,9 +23,9 @@ public class NumberGame extends ArcadeGame{
 	NumberGameMainContent numberGameMainContent;
 	
 	public NumberGame() {
-		board = new NumberGameBoard(gameSize, gameSize);
+		board = new NumberGameBoard(gameSize, gameSize, this);
 		background = new Image("/2048/background.png");
-		newGame();
+		newGame(board);
 		randomTile().setPiece(randomNumGenerator());
 		randomTile().setPiece(randomNumGenerator());
 	}

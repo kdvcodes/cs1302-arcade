@@ -13,23 +13,23 @@ public class TetrisTile extends Tile<Tetrimino> {
 	static final int size = 16;
 	static final int offset = 0;
 	
-	public TetrisTile(int row, int column) {
-		super(row, column, xStart, yStart, size, offset);
+	public TetrisTile(int row, int column, Tetris game) {
+		super(row, column, xStart, yStart, size, offset, game);
 	}
 	
-	protected void update() {
+	public void update() {
 		if (currentPiece == null) {
 			setImage(null);
 			return;
 		}
-		PixelReader pr = currentPiece.getShape().image();
+		Shape s = currentPiece.getShape();
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
-				if (pr.getArgb(x, y) == 0xFFec1c24) {
-					img.getPixelWriter().setArgb(x, y, getColor());
+				if (s.image().getArgb(x, y) == 0xFFec1c24) {
+					img.getPixelWriter().setArgb(x, y, s.getColor(((Tetris) game).getLevel()));
 				}
 				else {
-					img.getPixelWriter().setArgb(x, y, pr.getArgb(x, y));
+					img.getPixelWriter().setArgb(x, y, s.image().getArgb(x, y));
 				}
 			}
 		}

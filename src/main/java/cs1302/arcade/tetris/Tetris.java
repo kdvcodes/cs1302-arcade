@@ -15,6 +15,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -27,9 +30,11 @@ public class Tetris extends ArcadeGame {
 	Tetrimino currentPiece;
 	int level;
 	Timeline t;
+	private Text scoreText;
 	
 	private final int rows = 22;
 	private final int columns = 10;
+	private int linesCleared;
 	
 	/*
 	public Tetris(int level) {
@@ -40,10 +45,13 @@ public class Tetris extends ArcadeGame {
 	*/
 	
 	public Tetris() {
-		board = new TetrisBoard(rows, columns);
+		level = 0;
+		board = new TetrisBoard(rows, columns, this);
 		background = new Image("/tetris/background.png");
-		newGame();
-		level = 5;
+		scoreText = new Text(380, 140, "0");
+		scoreText.setFont(Font.loadFont(getClass().getResourceAsStream("/tetris/ARCADECLASSIC.ttf"), 36));
+		scoreText.setFill(Color.WHITE);
+		newGame(board, scoreText);
 		currentPiece = new Tetrimino(randomShape(), board);
 		t = new Timeline(new KeyFrame(dropRate(), this::drop));
 		t.setCycleCount(Timeline.INDEFINITE);
@@ -60,12 +68,29 @@ public class Tetris extends ArcadeGame {
 			}
 		}
 		updateScore(cleared);
+		if (linesCleared >= (level + 1) * 10) {
+			levelUp();
+		}
 		currentPiece = new Tetrimino(randomShape(), board);
+		t.getKeyFrames().replaceAll((k) -> new KeyFrame(dropRate(), this::drop));
 		t.play();
 	}
 	
-	private void updateScore(int linesCleared) {
-		switch (linesCleared) {
+	private void levelUp() {
+		level++;
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				board.getTile(i, j).update();
+			}
+		}
+	}
+	
+	public int getLevel() {
+		return level;
+	}
+	
+	private void updateScore(int cleared) {
+		switch (cleared) {
 		case 0:
 			return;
 		case 1:
@@ -81,6 +106,8 @@ public class Tetris extends ArcadeGame {
 			score += 1200 * (level + 1);
 			break;
 		}
+		linesCleared += cleared;
+		scoreText.setText(String.valueOf(score));
 	}
 	
 	private void drop(ActionEvent e) {
