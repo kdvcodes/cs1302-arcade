@@ -74,6 +74,18 @@ public class NumberGame extends ArcadeGame{
 		} // for
 	} // up
 	
+	private void down() {
+		
+	} // down
+	
+	private void left() {
+		
+	} // left
+	
+	private void right() {
+		
+	} // right
+	
 	/*
 	public NumberGame() {
 		// Main frame items initializations
