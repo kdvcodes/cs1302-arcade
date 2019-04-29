@@ -1,7 +1,9 @@
 package cs1302.arcade.tetris;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import cs1302.arcade.ArcadeGame;
 import javafx.animation.KeyFrame;
@@ -60,16 +62,19 @@ public class Tetris extends ArcadeGame {
 	
 	private void lock() {
 		t.stop();
-		int cleared = 0;
+		int clearedRows[] = new int[0];
 		for (int i = 0; i < rows; i++) {
 			if (board.lineFull(i)) {
-				((TetrisBoard) board).clearLine(i);
-				cleared++;
+				clearedRows = Arrays.copyOf(clearedRows, clearedRows.length + 1);
+				clearedRows[clearedRows.length - 1] = i;
 			}
 		}
-		updateScore(cleared);
-		if (linesCleared >= (level + 1) * 10) {
-			levelUp();
+		if (clearedRows.length != 0) {
+			((TetrisBoard) board).clearLine(clearedRows);
+			updateScore(clearedRows.length);
+			if (linesCleared >= (level + 1) * 10) {
+				levelUp();
+			}
 		}
 		currentPiece = new Tetrimino(randomShape(), board);
 		t.getKeyFrames().replaceAll((k) -> new KeyFrame(dropRate(), this::drop));
