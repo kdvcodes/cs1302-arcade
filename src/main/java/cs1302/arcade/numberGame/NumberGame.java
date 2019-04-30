@@ -47,6 +47,8 @@ public class NumberGame extends ArcadeGame{
 			break;
 		case RIGHT:
 			right();
+			right();
+			right();
 			randomTile().setPiece(randomNumGenerator());
 			break;
 		}
@@ -68,65 +70,85 @@ public class NumberGame extends ArcadeGame{
 	}
 	
 	private void up() {
-		for (int row = gameSize - 1; row > 0; row--) {
+		for (int row = 1; row < gameSize; row++) {
 			for (int col = 0; col < gameSize; col++) {
-				if(!(board.getTile(row - 1 , col).isOccupied(null))) {
-					board.getTile(row - 1, col).setPiece(board.getTile(row, col).getPiece());
-					board.getTile(row, col).clearPiece();
-				} else {
-					if(board.getTile(row - 1, col).getPiece() == board.getTile(row, col).getPiece()) {
-						board.getTile(row - 1, col).setPiece(((int) board.getTile(row, col).getPiece()) * 2);
-						board.getTile(row, col).clearPiece();
-					} // if
-				} // if else
+				if (board.getTile(row, col).isOccupied(null)) {
+					for (int i = row; i > 0; i--) {
+						if(!(board.getTile(i - 1 , col).isOccupied(null))) {
+							board.getTile(i - 1, col).setPiece(board.getTile(i, col).getPiece());
+							board.getTile(i, col).clearPiece();
+						} else {
+							if(board.getTile(i - 1, col).getPiece() == board.getTile(i, col).getPiece()) {
+								board.getTile(i - 1, col).setPiece(((int) board.getTile(i, col).getPiece()) * 2);
+								board.getTile(i, col).clearPiece();
+								break;
+							} // if
+						} // if else
+					} // for
+				} // if
 			} // for
 		} // for
-	} // up
+	}
 	
 	private void down() {
-		for (int row = 0; row < gameSize - 1; row++) {
+		for (int row = gameSize - 2; row >= 0; row--) {
 			for (int col = 0; col < gameSize; col++) {
-				if(!(board.getTile(row + 1 , col).isOccupied(null))) {
-					board.getTile(row + 1, col).setPiece(board.getTile(row, col).getPiece());
-					board.getTile(row, col).clearPiece();
-				} else {
-					if(board.getTile(row + 1, col).getPiece() == board.getTile(row, col).getPiece()) {
-						board.getTile(row + 1, col).setPiece(((int) board.getTile(row, col).getPiece()) * 2);
-						board.getTile(row, col).clearPiece();
-					} // if
-				} // if else
+				if (board.getTile(row, col).isOccupied(null)) {
+					for (int i = row; i < gameSize - 1; i++) {
+						if(!(board.getTile(i + 1 , col).isOccupied(null))) {
+							board.getTile(i + 1, col).setPiece(board.getTile(i, col).getPiece());
+							board.getTile(i, col).clearPiece();
+						} else {
+							if(board.getTile(i + 1, col).getPiece() == board.getTile(i, col).getPiece()) {
+								board.getTile(i + 1, col).setPiece(((int) board.getTile(i, col).getPiece()) * 2);
+								board.getTile(i, col).clearPiece();
+								break;
+							} // if
+						} // if else
+					} // for
+				} // if
 			} // for
 		} // for
 	} // down
 	
 	private void left() {
-		for (int col = gameSize - 1; col > 0; col--) {
+		for (int col = 1; col < gameSize; col++) {
 			for (int row = 0; row < gameSize; row++) {
-				if(!(board.getTile(row , col - 1).isOccupied(null))) {
-					board.getTile(row, col - 1).setPiece(board.getTile(row, col).getPiece());
-					board.getTile(row, col).clearPiece();
-				} else {
-					if(board.getTile(row, col - 1).getPiece() == board.getTile(row, col).getPiece()) {
-						board.getTile(row, col - 1).setPiece(((int) board.getTile(row, col).getPiece()) * 2);
-						board.getTile(row, col).clearPiece();
-					} // if
-				}
+				if (board.getTile(row, col).isOccupied(null)) {
+					for (int i = col; i > 0; i--) {
+						if(!(board.getTile(row , i - 1).isOccupied(null))) {
+							board.getTile(row, i - 1).setPiece(board.getTile(row, i).getPiece());
+							board.getTile(row, i).clearPiece();
+						} else {
+							if(board.getTile(row, i - 1).getPiece() == board.getTile(row, i).getPiece()) {
+								board.getTile(row, i - 1).setPiece(((int) board.getTile(row, i).getPiece()) * 2);
+								board.getTile(row, i).clearPiece();
+								break;
+							} // if
+						} // if else
+					} // for
+				} // if
 			} // for
 		} // for
 	} // left
 	
 	private void right() {
-		for (int col = 0; col < gameSize - 1; col++) {
+		for (int col = gameSize - 2; col >= 0; col--) {
 			for (int row = 0; row < gameSize; row++) {
-				if(!(board.getTile(row , col + 1).isOccupied(null))) {
-					board.getTile(row, col + 1).setPiece(board.getTile(row, col).getPiece());
-					board.getTile(row, col).clearPiece();
-				} else {
-					if(board.getTile(row, col + 1).getPiece() == board.getTile(row, col).getPiece()) {
-						board.getTile(row, col + 1).setPiece(((int) board.getTile(row, col).getPiece()) * 2);
-						board.getTile(row, col).clearPiece();
-					} // if
-				}
+				if (board.getTile(row, col).isOccupied(null)) {
+					for (int i = col; i < gameSize - 1; i++) {
+						if(!(board.getTile(row, i + 1).isOccupied(null))) {
+							board.getTile(row, i + 1).setPiece(board.getTile(row, i).getPiece());
+							board.getTile(row, i).clearPiece();
+						} else {
+							if(board.getTile(row, i + 1).getPiece() == board.getTile(row, i).getPiece()) {
+								board.getTile(row, i + 1).setPiece(((int) board.getTile(row, i).getPiece()) * 2);
+								board.getTile(row, i).clearPiece();
+								break;
+							} // if
+						} // if else
+					} // for
+				} // if
 			} // for
 		} // for
 	} // right
