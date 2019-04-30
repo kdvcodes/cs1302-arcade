@@ -16,6 +16,7 @@ public class NumberGameTile extends Tile<Integer>{
 	static final int yStart = 330;
 	static final int size = 114;
 	static final int offset = 20;
+	private boolean hasCombined;
 	final Image two = new Image("/2048/2.jpg");
 	final Image four = new Image("/2048/4.jpg");
 	final Image eight = new Image("/2048/8.jpg");
@@ -30,6 +31,7 @@ public class NumberGameTile extends Tile<Integer>{
 	
 	public NumberGameTile(int row, int column, NumberGame game) {
 		super(row, column, xStart, yStart, size, offset, game);
+		hasCombined = false;
 		update();
 	}
 
@@ -75,6 +77,14 @@ public class NumberGameTile extends Tile<Integer>{
 			setImage(twentyFourtyEight);
 			break;
 		} //switch
+	}
+	
+	public boolean hasCombined() {
+		return hasCombined;
+	}
+	
+	public void combine(boolean b) {
+		hasCombined = b;
 	}
 	
 }

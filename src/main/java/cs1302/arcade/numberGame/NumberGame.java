@@ -137,12 +137,15 @@ public class NumberGame extends ArcadeGame{
 			for (int row = 0; row < gameSize; row++) {
 				if (board.getTile(row, col).isOccupied(null)) {
 					for (int i = col; i < gameSize - 1; i++) {
-						if(!(board.getTile(row, i + 1).isOccupied(null))) {
-							board.getTile(row, i + 1).setPiece(board.getTile(row, i).getPiece());
+						NumberGameTile newTile = (NumberGameTile) board.getTile(row, i + 1);
+						if(!(newTile.isOccupied(null))) {
+							newTile.setPiece((Integer) board.getTile(row, i).getPiece());
 							board.getTile(row, i).clearPiece();
 						} else {
-							if(board.getTile(row, i + 1).getPiece() == board.getTile(row, i).getPiece()) {
-								board.getTile(row, i + 1).setPiece(((int) board.getTile(row, i).getPiece()) * 2);
+							if(newTile.getPiece() == board.getTile(row, i).getPiece() &&
+									!newTile.hasCombined()) {
+								newTile.setPiece(((int) board.getTile(row, i).getPiece()) * 2);
+								newTile.combine(true);
 								board.getTile(row, i).clearPiece();
 								break;
 							} // if
@@ -151,7 +154,16 @@ public class NumberGame extends ArcadeGame{
 				} // if
 			} // for
 		} // for
+		clearCombo();
 	} // right
+	
+	private void clearCombo() {
+		for (int i = 0; i < gameSize; i++) {
+			for (int j = 0; j < gameSize; j++) {
+				((NumberGameTile) board.getTile(i, j)).combine(false);
+			}
+		}
+	}
 	
 	/*
 	public NumberGame() {
