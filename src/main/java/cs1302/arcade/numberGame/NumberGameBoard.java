@@ -4,7 +4,6 @@
 package cs1302.arcade.numberGame;
 
 import cs1302.arcade.Board;
-import cs1302.arcade.tetris.TetrisTile;
 
 /**
  * @author haile999

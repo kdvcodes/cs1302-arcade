@@ -35,25 +35,17 @@ public class NumberGame extends ArcadeGame{
 		switch(ke.getCode()) {
 		case UP:
 			up();
-			up();
-			up();
 			randomTile().setPiece(randomNumGenerator());
 			break;
 		case DOWN:
-			down();
-			down();
 			down();
 			randomTile().setPiece(randomNumGenerator());
 			break;
 		case LEFT:
 			left();
-			left();
-			left();
 			randomTile().setPiece(randomNumGenerator());
 			break;
 		case RIGHT:
-			right();
-			right();
 			right();
 			randomTile().setPiece(randomNumGenerator());
 			break;
@@ -81,7 +73,12 @@ public class NumberGame extends ArcadeGame{
 				if(!(board.getTile(row - 1 , col).isOccupied(null))) {
 					board.getTile(row - 1, col).setPiece(board.getTile(row, col).getPiece());
 					board.getTile(row, col).clearPiece();
-				} // if
+				} else {
+					if(board.getTile(row - 1, col).getPiece() == board.getTile(row, col).getPiece()) {
+						board.getTile(row - 1, col).setPiece(((int) board.getTile(row, col).getPiece()) * 2);
+						board.getTile(row, col).clearPiece();
+					} // if
+				} // if else
 			} // for
 		} // for
 	} // up
@@ -92,7 +89,12 @@ public class NumberGame extends ArcadeGame{
 				if(!(board.getTile(row + 1 , col).isOccupied(null))) {
 					board.getTile(row + 1, col).setPiece(board.getTile(row, col).getPiece());
 					board.getTile(row, col).clearPiece();
-				} // if
+				} else {
+					if(board.getTile(row + 1, col).getPiece() == board.getTile(row, col).getPiece()) {
+						board.getTile(row + 1, col).setPiece(((int) board.getTile(row, col).getPiece()) * 2);
+						board.getTile(row, col).clearPiece();
+					} // if
+				} // if else
 			} // for
 		} // for
 	} // down
@@ -103,7 +105,12 @@ public class NumberGame extends ArcadeGame{
 				if(!(board.getTile(row , col - 1).isOccupied(null))) {
 					board.getTile(row, col - 1).setPiece(board.getTile(row, col).getPiece());
 					board.getTile(row, col).clearPiece();
-				} // if
+				} else {
+					if(board.getTile(row, col - 1).getPiece() == board.getTile(row, col).getPiece()) {
+						board.getTile(row, col - 1).setPiece(((int) board.getTile(row, col).getPiece()) * 2);
+						board.getTile(row, col).clearPiece();
+					} // if
+				}
 			} // for
 		} // for
 	} // left
@@ -114,7 +121,12 @@ public class NumberGame extends ArcadeGame{
 				if(!(board.getTile(row , col + 1).isOccupied(null))) {
 					board.getTile(row, col + 1).setPiece(board.getTile(row, col).getPiece());
 					board.getTile(row, col).clearPiece();
-				} // if
+				} else {
+					if(board.getTile(row, col + 1).getPiece() == board.getTile(row, col).getPiece()) {
+						board.getTile(row, col + 1).setPiece(((int) board.getTile(row, col).getPiece()) * 2);
+						board.getTile(row, col).clearPiece();
+					} // if
+				}
 			} // for
 		} // for
 	} // right

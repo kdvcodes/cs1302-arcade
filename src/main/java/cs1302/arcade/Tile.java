@@ -3,7 +3,6 @@
  */
 package cs1302.arcade;
 
-import cs1302.arcade.tetris.Tetrimino;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 

@@ -1,6 +1,5 @@
 package cs1302.arcade;
 
-import cs1302.arcade.tetris.TetrisTile;
 import javafx.scene.Group;
 
 /**
