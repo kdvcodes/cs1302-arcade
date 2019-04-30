@@ -2,6 +2,7 @@ package cs1302.arcade.tetris;
 
 import cs1302.arcade.Board;
 import cs1302.arcade.Tile;
+import javafx.scene.media.AudioClip;
 
 enum Rotation {
 	UP, RIGHT, DOWN, LEFT
@@ -17,6 +18,8 @@ public class Tetrimino {
 	private int y;
 	private final int initialX = 5;
 	private final int initialY = 2;
+	private final AudioClip move = new AudioClip(getClass().getResource("/tetris/move.wav").toString());
+	private final AudioClip rotate = new AudioClip(getClass().getResource("/tetris/rotate.wav").toString());
 	
 	public Tetrimino(Shape shape, Board board) {
 		this.board = (TetrisBoard) board;
@@ -98,7 +101,9 @@ public class Tetrimino {
 			}
 			break;
 		}
-		update(false, x, y, rotation);
+		if (update(false, x, y, rotation)) {
+			rotate.play();
+		}
 	}
 		
 	public boolean drop() {
@@ -109,11 +114,15 @@ public class Tetrimino {
 	}
 	
 	public void left() {
-		update(false, x - 1, y, rotation);
+		if (update(false, x - 1, y, rotation)) {
+			move.play();
+		}
 	}
 	
 	public void right() {
-		update(false, x + 1, y, rotation);
+		if (update(false, x + 1, y, rotation)) {
+			move.play();
+		}
 	}
 	
 	public Shape getShape() {

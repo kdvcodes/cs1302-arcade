@@ -18,6 +18,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -39,7 +41,11 @@ public class Tetris extends ArcadeGame {
 	private final int columns = 10;
 	private int linesCleared;
 	private int[] clearedRows;
-	
+	private final AudioClip music = new AudioClip(getClass().getResource("/tetris/Music_1.wav").toString());
+	private final AudioClip lock = new AudioClip(getClass().getResource("/tetris/lock.wav").toString());
+	private final AudioClip clear = new AudioClip(getClass().getResource("/tetris/clear.wav").toString());
+	private final AudioClip tetris = new AudioClip(getClass().getResource("/tetris/tetris.wav").toString());
+	private final AudioClip levelUp = new AudioClip(getClass().getResource("/tetris/level.wav").toString());
 	/*
 	public Tetris(int level) {
 		game = new TetrisBoard(rows, columns);
@@ -60,6 +66,7 @@ public class Tetris extends ArcadeGame {
 		t = new Timeline(new KeyFrame(dropRate(), this::drop));
 		t.setCycleCount(Timeline.INDEFINITE);
 		t.play();
+		music.play();
 	} // Tetris constructor
 	
 	private void lock() {
@@ -72,9 +79,16 @@ public class Tetris extends ArcadeGame {
 			}
 		}
 		if (clearedRows.length != 0) {
+			if (clearedRows.length == 4) {
+				tetris.play();
+			}
+			else {
+				clear.play();
+			}
 			((TetrisBoard) board).clearLine(clearedRows);
 		}
 		else {
+			lock.play();
 			newPiece();
 		}
 	}
@@ -91,6 +105,7 @@ public class Tetris extends ArcadeGame {
 	
 	private void levelUp() {
 		level++;
+		levelUp.play();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				board.getTile(i, j).update();
