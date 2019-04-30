@@ -35,15 +35,27 @@ public class NumberGame extends ArcadeGame{
 		switch(ke.getCode()) {
 		case UP:
 			up();
+			up();
+			up();
+			randomTile().setPiece(randomNumGenerator());
 			break;
 		case DOWN:
-			//something here
+			down();
+			down();
+			down();
+			randomTile().setPiece(randomNumGenerator());
 			break;
 		case LEFT:
-			// something here
+			left();
+			left();
+			left();
+			randomTile().setPiece(randomNumGenerator());
 			break;
 		case RIGHT:
-			//something here
+			right();
+			right();
+			right();
+			randomTile().setPiece(randomNumGenerator());
 			break;
 		}
 		
@@ -75,15 +87,36 @@ public class NumberGame extends ArcadeGame{
 	} // up
 	
 	private void down() {
-		
+		for (int row = 0; row < gameSize - 1; row++) {
+			for (int col = 0; col < gameSize; col++) {
+				if(!(board.getTile(row + 1 , col).isOccupied(null))) {
+					board.getTile(row + 1, col).setPiece(board.getTile(row, col).getPiece());
+					board.getTile(row, col).clearPiece();
+				} // if
+			} // for
+		} // for
 	} // down
 	
 	private void left() {
-		
+		for (int col = gameSize - 1; col > 0; col--) {
+			for (int row = 0; row < gameSize; row++) {
+				if(!(board.getTile(row , col - 1).isOccupied(null))) {
+					board.getTile(row, col - 1).setPiece(board.getTile(row, col).getPiece());
+					board.getTile(row, col).clearPiece();
+				} // if
+			} // for
+		} // for
 	} // left
 	
 	private void right() {
-		
+		for (int col = 0; col < gameSize - 1; col++) {
+			for (int row = 0; row < gameSize; row++) {
+				if(!(board.getTile(row , col + 1).isOccupied(null))) {
+					board.getTile(row, col + 1).setPiece(board.getTile(row, col).getPiece());
+					board.getTile(row, col).clearPiece();
+				} // if
+			} // for
+		} // for
 	} // right
 	
 	/*

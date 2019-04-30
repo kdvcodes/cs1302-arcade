@@ -26,7 +26,7 @@ public class NumberGameTile extends Tile<Integer>{
 	}
 
 	@Override
-	protected void update() {
+	public void update() {
 		if(currentPiece == null) {
 			setImage(null);
 			return;
