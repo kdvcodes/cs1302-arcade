@@ -29,6 +29,14 @@ public class Tetrimino {
 		update(true, initialX, initialY, 2);
 	}
 	
+	public Tetrimino(Shape shape, Board board, int x, int y) {
+		this.board = (TetrisBoard) board;
+		this.shape = shape;
+		coordinates = new TetrisTile[4];
+		rotation = 2;
+		update(true, x, y, 2);
+	}
+	
 	private boolean update(boolean newPiece, int x, int y, int rotation) {
 		if (canMove(x, y, rotation)) {
 			if (!newPiece) {
@@ -43,7 +51,7 @@ public class Tetrimino {
 		}
 		else {
 			if (newPiece) {
-				//game over :(
+				board.gameOver();
 			}
 		}
 		return false;

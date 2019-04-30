@@ -196,7 +196,7 @@ public enum Shape {
 		return getColor1(level);
 	}
 	
-	private int getColor1(int level) {
+	public static int getColor1(int level) {
 		switch (level % 10) {
 		case 0:
 			return 0xFF0959E0;
@@ -222,7 +222,7 @@ public enum Shape {
 		return 0;
 	}
 	
-	private int getColor2(int level) {
+	public static int getColor2(int level) {
 		switch (level % 10) {
 		case 0:
 			return 0xFF59B6FC;
@@ -246,5 +246,28 @@ public enum Shape {
 			return 0xFFFBAB65;
 		}
 		return 0;
+	}
+	
+	public TetrisBoard nextBoard(Tetris t) {
+		switch (this) {
+		case I:
+			return new TetrisBoard(1, 4, t, 390, 200);
+		case O:
+			return new TetrisBoard(2, 2, t, 390, 200);
+		case L:
+		case Z:
+		case S:
+		case J:
+		case T:
+			return new TetrisBoard(2, 3, t, 390, 200);
+		}
+		return null;
+	}
+
+	public int getRotation() {
+		switch (this) {
+		case I:
+		}
+		return 2;
 	}
 }

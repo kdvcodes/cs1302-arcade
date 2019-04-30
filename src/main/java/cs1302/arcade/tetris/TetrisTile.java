@@ -12,8 +12,13 @@ public class TetrisTile extends Tile<Tetrimino> {
 	static final int yStart = 50;
 	static final int size = 16;
 	static final int offset = 0;
+	final PixelReader curtain = new Image("/tetris/curtain.png").getPixelReader();
 	
 	public TetrisTile(int row, int column, Tetris game) {
+		super(row, column, xStart, yStart, size, offset, game);
+	}
+
+	public TetrisTile(int row, int column, int xStart, int yStart, Tetris game) {
 		super(row, column, xStart, yStart, size, offset, game);
 	}
 	
@@ -35,8 +40,21 @@ public class TetrisTile extends Tile<Tetrimino> {
 		}
 		setImage(img);
 	}
-
-	private int getColor() {
-		return 0xFF633dfd;
+	
+	public void curtain() {
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				if (curtain.getArgb(x, y) == 0xFF3f48cc) {
+					img.getPixelWriter().setArgb(x, y, Shape.getColor2(((Tetris) game).getLevel()));
+				}
+				if (curtain.getArgb(x, y) == 0xFFec1c24) {
+					img.getPixelWriter().setArgb(x, y, Shape.getColor1(((Tetris) game).getLevel()));
+				}
+				else {
+					img.getPixelWriter().setArgb(x, y, curtain.getArgb(x, y));
+				}
+			}
+		}
+		setImage(img);
 	}
 }

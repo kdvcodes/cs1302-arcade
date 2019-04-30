@@ -1,29 +1,18 @@
 package cs1302.arcade.tetris;
 
-import java.io.File;
 import java.util.Arrays;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-
 import cs1302.arcade.ArcadeGame;
+import cs1302.arcade.Board;
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -36,6 +25,7 @@ public class Tetris extends ArcadeGame {
 	int level;
 	Timeline t;
 	private Text scoreText;
+	private Tetrimino next;
 	
 	private final int rows = 22;
 	private final int columns = 10;
@@ -46,6 +36,7 @@ public class Tetris extends ArcadeGame {
 	private final AudioClip clear = new AudioClip(getClass().getResource("/tetris/clear.wav").toString());
 	private final AudioClip tetris = new AudioClip(getClass().getResource("/tetris/tetris.wav").toString());
 	private final AudioClip levelUp = new AudioClip(getClass().getResource("/tetris/level.wav").toString());
+	private Board nextBoard;
 	/*
 	public Tetris(int level) {
 		game = new TetrisBoard(rows, columns);
@@ -61,7 +52,8 @@ public class Tetris extends ArcadeGame {
 		scoreText = new Text(380, 140, "0");
 		scoreText.setFont(Font.loadFont(getClass().getResourceAsStream("/tetris/ARCADECLASSIC.ttf"), 36));
 		scoreText.setFill(Color.WHITE);
-		newGame(board, scoreText);
+		next();
+		newGame(board, scoreText, nextBoard);
 		currentPiece = new Tetrimino(randomShape(), board);
 		t = new Timeline(new KeyFrame(dropRate(), this::drop));
 		t.setCycleCount(Timeline.INDEFINITE);
@@ -69,6 +61,25 @@ public class Tetris extends ArcadeGame {
 		music.play();
 	} // Tetris constructor
 	
+	private void next() {
+		Shape s = randomShape();
+		nextBoard = s.nextBoard(this);
+		if (s == Shape.I) {
+			next = new Tetrimino(s, nextBoard, 2, 0);
+			return;
+		}
+		next = new Tetrimino(s, nextBoard, 1, 0);
+	}
+	
+	private int getSpot(Shape s) {
+		switch (s) {
+		case I:
+			return 2;
+		default:
+			return 1;
+		}
+	}
+
 	private void lock() {
 		t.stop();
 		clearedRows = new int[0];
@@ -98,7 +109,10 @@ public class Tetris extends ArcadeGame {
 		if (linesCleared >= (level + 1) * 10) {
 			levelUp();
 		}
-		currentPiece = new Tetrimino(randomShape(), board);
+		currentPiece = new Tetrimino(next.getShape(), board);
+		game.getChildren().remove(nextBoard);
+		next();
+		game.getChildren().add(nextBoard);
 		t.getKeyFrames().replaceAll((k) -> new KeyFrame(dropRate(), this::drop));
 		t.play();
 	}
@@ -233,6 +247,12 @@ public class Tetris extends ArcadeGame {
 			return Duration.millis(17);
 		}
 		
+	}
+	
+	public void gameOver() {
+		t.stop();
+		music.stop();
+		getScene().setOnKeyPressed(null);
 	}
 
 }

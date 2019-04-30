@@ -13,14 +13,17 @@ import javafx.util.Duration;
 public class TetrisBoard extends Board {
 	
 	int[] clearedRows;
-	Timeline t;
+	Timeline clearAnim;
+	Timeline curtain;
 	int tileSweep;
 	
 	public TetrisBoard(int rows, int columns, Tetris game) {
 		playField = new TetrisTile[rows][columns];
-		t = new Timeline(new KeyFrame(Duration.millis(67), this::clear1));
-		t.setCycleCount(6);
-		t.setOnFinished(this::clear2);
+		clearAnim = new Timeline(new KeyFrame(Duration.millis(67), this::clear1));
+		clearAnim.setCycleCount(6);
+		clearAnim.setOnFinished(this::clear2);
+		curtain = new Timeline(new KeyFrame(Duration.millis(67), this::drawCurtain));
+		curtain.setCycleCount(playField.length * 2);
 		this.game = game;
 		for (int i = 0; i < playField.length; i++) {
 			for (int j = 0; j < playField[i].length; j++) {
@@ -33,6 +36,17 @@ public class TetrisBoard extends Board {
 		}
 	}
 	
+	public TetrisBoard(int rows, int columns, Tetris game, int xStart, int yStart) {
+		playField = new TetrisTile[rows][columns];
+		this.game = game;
+		for (int i = 0; i < playField.length; i++) {
+			for (int j = 0; j < playField[i].length; j++) {
+				playField[i][j] = new TetrisTile(i, j, xStart, yStart, game);
+				getChildren().add(playField[i][j]);
+			}
+		}
+	}
+	
 	private void dropTile(int row, int column) {
 		getTile(row + 1, column).setPiece(getTile(row, column).getPiece());
 		getTile(row, column).clearPiece();
@@ -41,7 +55,7 @@ public class TetrisBoard extends Board {
 	public void clearLine(int row[]) {
 		clearedRows = row;
 		tileSweep = playField[0].length / 2;
-		t.playFromStart();
+		clearAnim.playFromStart();
 	}
 	
 	private void clear1(ActionEvent e) {
@@ -65,6 +79,19 @@ public class TetrisBoard extends Board {
 			}
 		}
 		((Tetris) game).newPiece();
+	}
+
+	public void gameOver() {
+		((Tetris) game).gameOver();
+		tileSweep = 0;
+		curtain.play();
+	}
+	
+	private void drawCurtain(ActionEvent e) {
+		for (int i = 0; i < playField[tileSweep].length; i++) {
+			((TetrisTile) getTile(tileSweep, i)).curtain();
+		}
+		tileSweep++;
 	}
 
 }

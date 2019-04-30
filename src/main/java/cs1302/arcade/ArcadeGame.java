@@ -15,14 +15,13 @@ public abstract class ArcadeGame extends Stage {
 	protected Group game;
 	protected Board board;
 	protected int score;
-	protected Random generator;
+	protected final Random generator = new Random();
 	
 	public Image background;
 	
 	public void newGame(Node... n) {
 		//ask dr barnes about this, see old piazza post
 		//board = new TetrisBoard(rows, columns);
-		generator = new Random();
 		score = 0;
 		game = new Group(new ImageView(background));
 		game.getChildren().addAll(n);
