@@ -12,15 +12,16 @@ import javafx.util.Duration;
 
 public class TetrisBoard extends Board {
 	
-	int[] row;
+	int[] clearedRows;
 	Timeline t;
 	int tileSweep;
 	
 	public TetrisBoard(int rows, int columns, Tetris game) {
 		playField = new TetrisTile[rows][columns];
-		t = new Timeline(new KeyFrame(Duration.millis(500), this::clear1));
-		t.setCycleCount(5);
+		t = new Timeline(new KeyFrame(Duration.millis(67), this::clear1));
+		t.setCycleCount(6);
 		t.setOnFinished(this::clear2);
+		this.game = game;
 		for (int i = 0; i < playField.length; i++) {
 			for (int j = 0; j < playField[i].length; j++) {
 				playField[i][j] = new TetrisTile(i, j, game);
@@ -38,29 +39,32 @@ public class TetrisBoard extends Board {
 	}
 	
 	public void clearLine(int row[]) {
-		this.row = row;
+		clearedRows = row;
 		tileSweep = playField[0].length / 2;
 		t.playFromStart();
 	}
 	
 	private void clear1(ActionEvent e) {
-		for (int j = 0; j < row.length; j++) {
-			getTile(row[j], tileSweep).clearPiece();
-			getTile(row[j], tileSweep).update();
-			getTile(row[j], tileSweep * (-1) + 9).clearPiece();
-			getTile(row[j], tileSweep * (-1) + 9).update();
+		for (int j = 0; j < clearedRows.length; j++) {
+			getTile(clearedRows[j], tileSweep).clearPiece();
+			getTile(clearedRows[j], tileSweep * (-1) + 9).clearPiece();
 		}
-		tileSweep++;
+		if (tileSweep < playField[0].length - 1) {
+			tileSweep++;
+		}
 	}
 	
 	private void clear2(ActionEvent e) {
-		for (int i = row[row.length - 1]; i >= 0; i--) {
-			for (int j = 0; j < playField[i].length; j++) {
-				if (getTile(i, j).isOccupied(null)) {
-					dropTile(i, j);
+		for (int i = 0; i < clearedRows.length; i++) {
+			for (int j = 0; j < playField[clearedRows[i]].length; j++) {
+				for (int k = clearedRows[i] - 1; k >= 0; k--) {
+					if (getTile(k, j).isOccupied(null)) {
+						dropTile(k, j);
+					}
 				}
 			}
 		}
+		((Tetris) game).newPiece();
 	}
 
 }

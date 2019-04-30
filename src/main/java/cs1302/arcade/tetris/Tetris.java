@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import cs1302.arcade.ArcadeGame;
+import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -37,6 +38,7 @@ public class Tetris extends ArcadeGame {
 	private final int rows = 22;
 	private final int columns = 10;
 	private int linesCleared;
+	private int[] clearedRows;
 	
 	/*
 	public Tetris(int level) {
@@ -62,7 +64,7 @@ public class Tetris extends ArcadeGame {
 	
 	private void lock() {
 		t.stop();
-		int clearedRows[] = new int[0];
+		clearedRows = new int[0];
 		for (int i = 0; i < rows; i++) {
 			if (board.lineFull(i)) {
 				clearedRows = Arrays.copyOf(clearedRows, clearedRows.length + 1);
@@ -71,10 +73,16 @@ public class Tetris extends ArcadeGame {
 		}
 		if (clearedRows.length != 0) {
 			((TetrisBoard) board).clearLine(clearedRows);
-			updateScore(clearedRows.length);
-			if (linesCleared >= (level + 1) * 10) {
-				levelUp();
-			}
+		}
+		else {
+			newPiece();
+		}
+	}
+	
+	public void newPiece() {
+		updateScore();
+		if (linesCleared >= (level + 1) * 10) {
+			levelUp();
 		}
 		currentPiece = new Tetrimino(randomShape(), board);
 		t.getKeyFrames().replaceAll((k) -> new KeyFrame(dropRate(), this::drop));
@@ -94,8 +102,8 @@ public class Tetris extends ArcadeGame {
 		return level;
 	}
 	
-	private void updateScore(int cleared) {
-		switch (cleared) {
+	private void updateScore() {
+		switch (clearedRows.length) {
 		case 0:
 			return;
 		case 1:
@@ -111,12 +119,12 @@ public class Tetris extends ArcadeGame {
 			score += 1200 * (level + 1);
 			break;
 		}
-		linesCleared += cleared;
+		linesCleared += clearedRows.length;
 		scoreText.setText(String.valueOf(score));
 	}
 	
 	private void drop(ActionEvent e) {
-		if (!currentPiece.drop()) {
+		if (!currentPiece.drop() && t.getStatus() == Status.RUNNING) {
 			lock();
 		}
 	}

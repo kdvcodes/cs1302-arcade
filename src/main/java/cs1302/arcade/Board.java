@@ -10,6 +10,7 @@ import javafx.scene.Group;
 public class Board extends Group {
 	
 	protected Tile[][] playField;
+	protected ArcadeGame game;
 	
 	public Tile getTile(int row, int column) {
 		return playField[row][column];
