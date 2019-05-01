@@ -27,4 +27,12 @@ that the Markdown is transformed into nice looking HTML.
 3. **PROB:** Making parent classes that remained functional in their respective
 	games. Learned plenty about inheritance.
 
-  
+## TUES 2019-04-30 @ 11:55 PM EST
+
+1. **DONE:** 2048 is playable, lots of extra features in Tetris, including score
+tracking, next piece showing, and animations.
+
+2. **TODO:** Document code and make game finish conditions.
+
+3. **PROB:** Lots of difficulty in getting 2048 to move correctly and to only
+combine certain tiles. Also implementing animations was very time-consuming.

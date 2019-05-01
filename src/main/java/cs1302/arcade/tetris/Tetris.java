@@ -50,8 +50,9 @@ public class Tetris extends ArcadeGame {
 		board = new TetrisBoard(rows, columns, this);
 		background = new Image("/tetris/background.png");
 		scoreText = new Text(380, 140, "0");
-		scoreText.setFont(Font.loadFont(getClass().getResourceAsStream("/tetris/ARCADECLASSIC.ttf"), 36));
+		scoreText.setFont(Font.loadFont(getClass().getResourceAsStream("/tetris/NES.ttf"), 26));
 		scoreText.setFill(Color.WHITE);
+		scoreText.setSmooth(false);
 		next();
 		newGame(board, scoreText, nextBoard);
 		currentPiece = new Tetrimino(randomShape(), board);
