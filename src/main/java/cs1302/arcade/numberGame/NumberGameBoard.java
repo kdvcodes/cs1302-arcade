@@ -29,18 +29,9 @@ public class NumberGameBoard extends Board {
 					for (int i = row; i > 0; i--) {
 						NumberGameTile newTile = (NumberGameTile) getTile(i - 1, col);
 						NumberGameTile oldTile = (NumberGameTile) getTile(i, col);
-						if(!(newTile.isOccupied(null))) {
-							newTile.setPiece((Integer) oldTile.getPiece());
-							oldTile.clearPiece();
-						} else {
-							if(newTile.getPiece() == oldTile.getPiece() &&
-									!((NumberGameTile) oldTile).hasCombined()) {
-								newTile.setPiece(((int) oldTile.getPiece()) * 2);
-								newTile.combine(true);
-								oldTile.clearPiece();
-								break;
-							} // if
-						} // if else
+						if (move(newTile, oldTile)) {
+							break;
+						}
 					} // for
 				} // if
 			} // for
@@ -55,18 +46,9 @@ public class NumberGameBoard extends Board {
 					for (int i = row; i < playField.length - 1; i++) {
 						NumberGameTile newTile = (NumberGameTile) getTile(i + 1, col);
 						NumberGameTile oldTile = (NumberGameTile) getTile(i, col);
-						if(!(newTile.isOccupied(null))) {
-							newTile.setPiece((Integer) oldTile.getPiece());
-							oldTile.clearPiece();
-						} else {
-							if(newTile.getPiece() == oldTile.getPiece() &&
-									!((NumberGameTile) oldTile).hasCombined()) {
-								newTile.setPiece(((int) oldTile.getPiece()) * 2);
-								newTile.combine(true);
-								oldTile.clearPiece();
-								break;
-							} // if
-						} // if else
+						if (move(newTile, oldTile)) {
+							break;
+						}
 					} // for
 				} // if
 			} // for
@@ -81,18 +63,9 @@ public class NumberGameBoard extends Board {
 					for (int i = col; i > 0; i--) {
 						NumberGameTile newTile = (NumberGameTile) getTile(row, i - 1);
 						NumberGameTile oldTile = (NumberGameTile) getTile(row, i);
-						if(!(newTile.isOccupied(null))) {
-							newTile.setPiece((Integer) oldTile.getPiece());
-							oldTile.clearPiece();
-						} else {
-							if(newTile.getPiece() == oldTile.getPiece() &&
-									!((NumberGameTile) oldTile).hasCombined()) {
-								newTile.setPiece(((int) oldTile.getPiece()) * 2);
-								newTile.combine(true);
-								oldTile.clearPiece();
-								break;
-							} // if
-						} // if else
+						if (move(newTile, oldTile)) {
+							break;
+						}
 					} // for
 				} // if
 			} // for
@@ -107,24 +80,31 @@ public class NumberGameBoard extends Board {
 					for (int i = col; i < playField.length - 1; i++) {
 						NumberGameTile newTile = (NumberGameTile) getTile(row, i + 1);
 						NumberGameTile oldTile = (NumberGameTile) getTile(row, i);
-						if(!(newTile.isOccupied(null))) {
-							newTile.setPiece((Integer) oldTile.getPiece());
-							oldTile.clearPiece();
-						} else {
-							if(newTile.getPiece() == oldTile.getPiece() &&
-									!((NumberGameTile) oldTile).hasCombined()) {
-								newTile.setPiece(((int) oldTile.getPiece()) * 2);
-								newTile.combine(true);
-								oldTile.clearPiece();
-								break;
-							} // if
-						} // if else
+						if (move(newTile, oldTile)) {
+							break;
+						}
 					} // for
 				} // if
 			} // for
 		} // for
 		clearCombo();
 	} // right
+	
+	private boolean move(NumberGameTile newTile, NumberGameTile oldTile) {
+		if(!(newTile.isOccupied(null))) {
+			newTile.setPiece(oldTile.getPiece());
+			oldTile.clearPiece();
+		} else {
+			if(newTile.getPiece().equals(oldTile.getPiece())  &&
+					!newTile.hasCombined()) {
+				newTile.setPiece(oldTile.getPiece() * 2);
+				newTile.combine(true);
+				oldTile.clearPiece();
+			} // if
+			return true;
+		} // if else
+		return false;
+	}
 	
 	private void clearCombo() {
 		for (int i = 0; i < playField.length; i++) {

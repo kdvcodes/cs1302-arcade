@@ -104,7 +104,6 @@ public class Tetris extends ArcadeGame {
 		game.getChildren().remove(nextBoard);
 		next();
 		game.getChildren().add(nextBoard);
-		t.getKeyFrames().replaceAll((k) -> new KeyFrame(dropRate(), this::drop));
 		t.play();
 	}
 	
@@ -116,6 +115,7 @@ public class Tetris extends ArcadeGame {
 				board.getTile(i, j).update();
 			}
 		}
+		t.getKeyFrames().replaceAll((k) -> new KeyFrame(dropRate(), this::drop));
 	}
 	
 	public int getLevel() {

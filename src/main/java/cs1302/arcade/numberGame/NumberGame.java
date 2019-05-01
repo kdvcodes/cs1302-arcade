@@ -6,10 +6,14 @@ import cs1302.arcade.tetris.TetrisBoard;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * This is the NumberGame class for the game of 2448
@@ -21,13 +25,15 @@ public class NumberGame extends ArcadeGame{
 	NumberGameMenuBar numberGameMenuBar;
 	NumberGameInfoBar numberGameInfoBar;
 	NumberGameMainContent numberGameMainContent;
+	final Timeline expand = new Timeline(new KeyFrame(Duration.millis(1000/60)));
 	
 	public NumberGame() {
 		board = new NumberGameBoard(gameSize, gameSize, this);
 		background = new Image("/2048/background.png");
 		newGame(board);
-		randomTile().setPiece(randomNumGenerator());
-		randomTile().setPiece(randomNumGenerator());
+		expand.setCycleCount(1);
+		newPiece();
+		newPiece();
 	}
 
 	@Override
@@ -35,22 +41,33 @@ public class NumberGame extends ArcadeGame{
 		switch(ke.getCode()) {
 		case UP:
 			((NumberGameBoard) board).up();
-			randomTile().setPiece(randomNumGenerator());
+			newPiece();
 			break;
 		case DOWN:
 			((NumberGameBoard) board).down();
-			randomTile().setPiece(randomNumGenerator());
+			newPiece();
 			break;
 		case LEFT:
 			((NumberGameBoard) board).left();
-			randomTile().setPiece(randomNumGenerator());
+			newPiece();
 			break;
 		case RIGHT:
 			((NumberGameBoard) board).right();
-			randomTile().setPiece(randomNumGenerator());
+			newPiece();
 			break;
 		}
 		
+	}
+	
+	private void newPiece() {
+		NumberGameTile t = randomTile();
+		t.setPiece(randomNumGenerator());
+		t.setFitHeight(0);
+		t.setFitWidth(0);
+		expand.getKeyFrames().removeAll();
+		expand.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(t.fitHeightProperty(), t.size)));
+		expand.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(t.fitWidthProperty(), t.size)));
+		expand.play();
 	}
 	
 	private NumberGameTile randomTile() {
