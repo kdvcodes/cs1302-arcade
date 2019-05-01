@@ -70,15 +70,6 @@ public class Tetris extends ArcadeGame {
 		}
 		next = new Tetrimino(s, nextBoard, 1, 0);
 	}
-	
-	private int getSpot(Shape s) {
-		switch (s) {
-		case I:
-			return 2;
-		default:
-			return 1;
-		}
-	}
 
 	private void lock() {
 		t.stop();
