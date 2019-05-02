@@ -17,7 +17,6 @@ public abstract class ArcadeGame extends Stage {
 	protected int score;
 	protected int highScore;
 	protected final Random generator = new Random();
-	protected String css;
 	
 	public Image background;
 	

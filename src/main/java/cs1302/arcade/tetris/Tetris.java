@@ -62,7 +62,6 @@ public class Tetris extends ArcadeGame {
 		next();
 		highScore = 10000;
 		newGame(board, nextBoard);
-		getScene().getStylesheets().add(getClass().getResource("/tetris/tetris.css").toExternalForm());
 		scoreText = new Text(385, 110, "Score\n000000");
 		game.getChildren().addAll(scoreText);
 		currentPiece = new Tetrimino(randomShape(), board);
