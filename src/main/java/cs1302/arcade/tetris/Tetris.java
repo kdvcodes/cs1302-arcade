@@ -74,6 +74,7 @@ public class Tetris extends ArcadeGame {
 
 	private void lock() {
 		t.stop();
+		getScene().setOnKeyPressed(null);
 		clearedRows = new int[0];
 		for (int i = 0; i < rows; i++) {
 			if (board.lineFull(i)) {
@@ -105,6 +106,7 @@ public class Tetris extends ArcadeGame {
 		game.getChildren().remove(nextBoard);
 		next();
 		game.getChildren().add(nextBoard);
+		getScene().setOnKeyPressed(this::move);
 		t.play();
 	}
 	
@@ -145,7 +147,7 @@ public class Tetris extends ArcadeGame {
 	}
 	
 	private void drop(ActionEvent e) {
-		if (!currentPiece.drop() && t.getStatus() == Status.RUNNING) {
+		if (!currentPiece.drop()) {
 			lock();
 		}
 	}
