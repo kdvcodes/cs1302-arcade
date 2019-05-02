@@ -1,15 +1,18 @@
 package cs1302.arcade.tetris;
 
 import java.util.Arrays;
+
 import cs1302.arcade.ArcadeGame;
 import cs1302.arcade.Board;
-import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -31,12 +34,14 @@ public class Tetris extends ArcadeGame {
 	private final int columns = 10;
 	private int linesCleared;
 	private int[] clearedRows;
-	private final AudioClip music = new AudioClip(getClass().getResource("/tetris/Music_1.wav").toString());
+	private final MediaPlayer music = new MediaPlayer(new Media(getClass().getResource("/tetris/Music_1.wav").toString()));
 	private final AudioClip lock = new AudioClip(getClass().getResource("/tetris/lock.wav").toString());
 	private final AudioClip clear = new AudioClip(getClass().getResource("/tetris/clear.wav").toString());
 	private final AudioClip tetris = new AudioClip(getClass().getResource("/tetris/tetris.wav").toString());
 	private final AudioClip levelUp = new AudioClip(getClass().getResource("/tetris/level.wav").toString());
+	private final AudioClip select = new AudioClip(getClass().getResource("/tetris/select.wav").toString());
 	private Board nextBoard;
+	private boolean paused;
 	/*
 	public Tetris(int level) {
 		game = new TetrisBoard(rows, columns);
@@ -47,6 +52,7 @@ public class Tetris extends ArcadeGame {
 	
 	public Tetris() {
 		level = 0;
+		paused = false;
 		board = new TetrisBoard(rows, columns, this);
 		background = new Image("/tetris/background.png");
 		scoreText = new Text(380, 140, "0");
@@ -153,22 +159,36 @@ public class Tetris extends ArcadeGame {
 	}
 	
 	protected void move(KeyEvent ke) {
-		switch (ke.getCode()) {
-		case RIGHT:
-			currentPiece.right();
-			break;
-		case LEFT:
-			currentPiece.left();
-			break;
-		case DOWN:
-			drop(null);
-			break;
-		case Z:
-			currentPiece.rotate(1);
-			break;
-		case X:
-			currentPiece.rotate(-1);
-			break;
+		if (paused && ke.getCode() == KeyCode.ESCAPE) {
+			paused = false;
+			select.play();
+			music.play();
+			t.play();
+		}
+		else if (!paused) {
+			switch (ke.getCode()) {
+			case RIGHT:
+				currentPiece.right();
+				break;
+			case LEFT:
+				currentPiece.left();
+				break;
+			case DOWN:
+				drop(null);
+				break;
+			case Z:
+				currentPiece.rotate(1);
+				break;
+			case X:
+				currentPiece.rotate(-1);
+				break;
+			case ESCAPE:
+				paused = true;
+				select.play();
+				music.pause();
+				t.pause();
+				break;
+			}
 		}
 	}
 	
