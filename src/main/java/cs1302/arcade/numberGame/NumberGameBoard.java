@@ -13,6 +13,7 @@ public class NumberGameBoard extends Board {
 	
 	public NumberGameBoard(int rows, int columns, NumberGame game) {
 		playField = new NumberGameTile[rows][columns];
+		this.game = game;
 		for (int i = 0; i < playField.length; i++) {
 			for (int j = 0; j < playField[i].length; j++) {
 				playField[i][j] = new NumberGameTile(i, j, game);
@@ -99,6 +100,7 @@ public class NumberGameBoard extends Board {
 					!newTile.hasCombined()) {
 				newTile.setPiece(oldTile.getPiece() * 2);
 				newTile.combine(true);
+				game.updateScore(newTile.getPiece().intValue());
 				oldTile.clearPiece();
 			} // if
 			return true;

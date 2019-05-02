@@ -65,8 +65,8 @@ public class NumberGame extends ArcadeGame{
 		t.setFitHeight(0);
 		t.setFitWidth(0);
 		expand.getKeyFrames().removeAll();
-		expand.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(t.fitHeightProperty(), t.size)));
-		expand.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(t.fitWidthProperty(), t.size)));
+		expand.getKeyFrames().add(new KeyFrame(Duration.millis(200), new KeyValue(t.fitHeightProperty(), t.size)));
+		expand.getKeyFrames().add(new KeyFrame(Duration.millis(200), new KeyValue(t.fitWidthProperty(), t.size)));
 		expand.play();
 	}
 	
@@ -83,6 +83,11 @@ public class NumberGame extends ArcadeGame{
 	private Integer randomNumGenerator() {
 		return generator.nextDouble() < 0.9 ? 2 : 4;
 	}
+	
+	public void updateScore(int i) {
+		score += i;
+		System.out.println(score);
+	} // updatScore
 	
 	/*
 	public NumberGame() {
