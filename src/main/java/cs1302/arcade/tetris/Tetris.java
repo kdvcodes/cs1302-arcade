@@ -14,6 +14,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -28,6 +29,7 @@ public class Tetris extends ArcadeGame {
 	int level;
 	Timeline t;
 	private Text scoreText;
+	private Text highScoreText;
 	private Tetrimino next;
 	
 	private final int rows = 22;
@@ -40,7 +42,8 @@ public class Tetris extends ArcadeGame {
 	private final AudioClip tetris = new AudioClip(getClass().getResource("/tetris/tetris.wav").toString());
 	private final AudioClip levelUp = new AudioClip(getClass().getResource("/tetris/level.wav").toString());
 	private final AudioClip select = new AudioClip(getClass().getResource("/tetris/select.wav").toString());
-	private Board nextBoard;
+	private final Font NES = Font.loadFont(getClass().getResource("/tetris/NES.ttf").toExternalForm(), 16);
+	private TetrisBoard nextBoard;
 	private boolean paused;
 	/*
 	public Tetris(int level) {
@@ -55,12 +58,13 @@ public class Tetris extends ArcadeGame {
 		paused = false;
 		board = new TetrisBoard(rows, columns, this);
 		background = new Image("/tetris/background.png");
-		scoreText = new Text(380, 140, "0");
-		scoreText.setFont(Font.loadFont(getClass().getResourceAsStream("/tetris/NES.ttf"), 26));
-		scoreText.setFill(Color.WHITE);
-		scoreText.setSmooth(false);
+		css = getClass().getResource("/tetris/tetris.css").toString();
 		next();
-		newGame(board, scoreText, nextBoard);
+		highScore = 10000;
+		newGame(board, nextBoard);
+		getScene().getStylesheets().add(getClass().getResource("/tetris/tetris.css").toExternalForm());
+		scoreText = new Text(385, 110, "Score\n000000");
+		game.getChildren().addAll(scoreText);
 		currentPiece = new Tetrimino(randomShape(), board);
 		t = new Timeline(new KeyFrame(dropRate(), this::drop));
 		t.setCycleCount(Timeline.INDEFINITE);
@@ -149,7 +153,7 @@ public class Tetris extends ArcadeGame {
 			break;
 		}
 		linesCleared += clearedRows.length;
-		scoreText.setText(String.valueOf(score));
+		scoreText.setText(String.format("Score\n%06d", score));
 	}
 	
 	private void drop(ActionEvent e) {
