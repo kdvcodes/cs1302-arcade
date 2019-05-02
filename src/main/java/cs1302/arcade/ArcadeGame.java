@@ -34,5 +34,6 @@ public abstract class ArcadeGame extends Stage {
 	} // Tetris constructor
 	
 	protected abstract void move(KeyEvent ke);
+	public abstract void updateScore(int i);
 
 }
