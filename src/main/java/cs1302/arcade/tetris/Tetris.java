@@ -58,7 +58,6 @@ public class Tetris extends ArcadeGame {
 		paused = false;
 		board = new TetrisBoard(rows, columns, this);
 		background = new Image("/tetris/background.png");
-		css = getClass().getResource("/tetris/tetris.css").toString();
 		next();
 		highScore = 10000;
 		newGame(board, nextBoard);
@@ -107,7 +106,7 @@ public class Tetris extends ArcadeGame {
 	}
 	
 	public void newPiece() {
-		updateScore();
+		updateScore(clearedRows.length);
 		if (linesCleared >= (level + 1) * 10) {
 			levelUp();
 		}
@@ -134,8 +133,8 @@ public class Tetris extends ArcadeGame {
 		return level;
 	}
 	
-	private void updateScore() {
-		switch (clearedRows.length) {
+	public void updateScore(int i) {
+		switch (i) {
 		case 0:
 			return;
 		case 1:
