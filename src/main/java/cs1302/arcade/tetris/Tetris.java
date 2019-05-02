@@ -42,7 +42,7 @@ public class Tetris extends ArcadeGame {
 	private final AudioClip tetris = new AudioClip(getClass().getResource("/tetris/tetris.wav").toString());
 	private final AudioClip levelUp = new AudioClip(getClass().getResource("/tetris/level.wav").toString());
 	private final AudioClip select = new AudioClip(getClass().getResource("/tetris/select.wav").toString());
-	private final Font NES = Font.loadFont(getClass().getResource("/tetris/NES.ttf").toExternalForm(), 16);
+	private final Font NES = Font.loadFont(getClass().getResourceAsStream("/tetris/NES.ttf"), 16);
 	private TetrisBoard nextBoard;
 	private boolean paused;
 	/*
@@ -58,11 +58,15 @@ public class Tetris extends ArcadeGame {
 		paused = false;
 		board = new TetrisBoard(rows, columns, this);
 		background = new Image("/tetris/background.png");
+		//scoreText.setSmooth(false);
 		next();
 		highScore = 10000;
+		//scoreText.setFont(NES);
+		//scoreText.setFill(Color.WHITE);
 		newGame(board, nextBoard);
 		scoreText = new Text(385, 110, "Score\n000000");
-		game.getChildren().addAll(scoreText);
+		System.out.println(getScene().getStylesheets());
+		game.getChildren().add(scoreText);
 		currentPiece = new Tetrimino(randomShape(), board);
 		t = new Timeline(new KeyFrame(dropRate(), this::drop));
 		t.setCycleCount(Timeline.INDEFINITE);
