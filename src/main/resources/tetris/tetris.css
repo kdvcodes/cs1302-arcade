@@ -1,6 +1,6 @@
-.root {
-	-fx-background-color: blue;
-    -fx-font-size: 16px;
-    -fx-font-family: "Courier New";
-    -fx-text-fill: rgb(255, 145, 47);
+.root.popup {
+	-fx-background-color: BLU;
+    -fx-font-size: 16 pt ;
+    -fx-font-family: 'Courier New' ;
+    -fx-text-fill: rgb(255, 145, 47) ;
 }

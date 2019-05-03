@@ -30,6 +30,8 @@ public class Tetris extends ArcadeGame {
 	Timeline t;
 	private Text scoreText;
 	private Text highScoreText;
+	private Text levelText;
+	private Text linesClearedText;
 	private Tetrimino next;
 	
 	private final int rows = 22;
@@ -45,6 +47,7 @@ public class Tetris extends ArcadeGame {
 	private final Font NES = Font.loadFont(getClass().getResourceAsStream("/tetris/NES.ttf"), 16);
 	private TetrisBoard nextBoard;
 	private boolean paused;
+	private boolean active;
 	/*
 	public Tetris(int level) {
 		game = new TetrisBoard(rows, columns);
@@ -54,7 +57,9 @@ public class Tetris extends ArcadeGame {
 	*/
 	
 	public Tetris() {
+		active = true;
 		level = 0;
+		linesCleared = 0;
 		paused = false;
 		board = new TetrisBoard(rows, columns, this);
 		background = new Image("/tetris/background.png");
@@ -64,15 +69,32 @@ public class Tetris extends ArcadeGame {
 		//scoreText.setFont(NES);
 		//scoreText.setFill(Color.WHITE);
 		newGame(board, nextBoard);
-		scoreText = new Text(385, 110, "Score\n000000");
-		System.out.println(getScene().getStylesheets());
-		game.getChildren().add(scoreText);
+		textSetup();
 		currentPiece = new Tetrimino(randomShape(), board);
 		t = new Timeline(new KeyFrame(dropRate(), this::drop));
 		t.setCycleCount(Timeline.INDEFINITE);
 		t.play();
 		music.play();
 	} // Tetris constructor
+	
+	private void textSetup() {
+		scoreText = new Text(385, 110, String.format("Score\n%06d", score));
+		scoreText.setFont(NES);
+		scoreText.setFill(Color.WHITE);
+		highScoreText = new Text(385, 60, String.format("Top\n%06d", highScore));
+		highScoreText.setFont(NES);
+		highScoreText.setFill(Color.WHITE);
+		levelText = new Text(385, 318, String.format("Level\n  %02d", level));
+		levelText.setFont(NES);
+		levelText.setFill(Color.WHITE);
+		linesClearedText = new Text(208, 46, String.format("Lines-%03d", linesCleared));
+		linesClearedText.setFont(NES);
+		linesClearedText.setFill(Color.WHITE);
+		Text title = new Text(47, 62, "Tetris");
+		title.setFont(NES);
+		title.setFill(Color.WHITE);
+		game.getChildren().addAll(scoreText, highScoreText, levelText, linesClearedText, title);
+	}
 	
 	private void next() {
 		Shape s = randomShape();
@@ -118,13 +140,16 @@ public class Tetris extends ArcadeGame {
 		game.getChildren().remove(nextBoard);
 		next();
 		game.getChildren().add(nextBoard);
-		getScene().setOnKeyPressed(this::move);
-		t.play();
+		if (active) {
+			getScene().setOnKeyPressed(this::move);
+			t.play();
+		}
 	}
 	
 	private void levelUp() {
 		level++;
 		levelUp.play();
+		levelText.setText(String.format("Level\n  %02d", level));
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				board.getTile(i, j).update();
@@ -156,6 +181,10 @@ public class Tetris extends ArcadeGame {
 		}
 		linesCleared += clearedRows.length;
 		scoreText.setText(String.format("Score\n%06d", score));
+		linesClearedText.setText(String.format("Lines-%03d", linesCleared));
+		if (highScore < score) {
+			highScoreText.setText(String.format("Top\n%06d", highScore));
+		}
 	}
 	
 	private void drop(ActionEvent e) {
@@ -171,7 +200,7 @@ public class Tetris extends ArcadeGame {
 			music.play();
 			t.play();
 		}
-		else if (!paused) {
+		else if (!paused && active) {
 			switch (ke.getCode()) {
 			case RIGHT:
 				currentPiece.right();
@@ -270,6 +299,7 @@ public class Tetris extends ArcadeGame {
 	}
 	
 	public void gameOver() {
+		active = false;
 		t.stop();
 		music.stop();
 		getScene().setOnKeyPressed(null);

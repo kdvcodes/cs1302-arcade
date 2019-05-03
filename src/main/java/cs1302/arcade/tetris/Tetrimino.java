@@ -52,6 +52,7 @@ public class Tetrimino {
 		else {
 			if (newPiece) {
 				board.gameOver();
+				return true;
 			}
 		}
 		return false;
