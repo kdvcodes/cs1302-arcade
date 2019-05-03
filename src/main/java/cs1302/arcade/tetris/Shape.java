@@ -251,15 +251,15 @@ public enum Shape {
 	public TetrisBoard nextBoard(Tetris t) {
 		switch (this) {
 		case I:
-			return new TetrisBoard(1, 4, t, 390, 200);
+			return new TetrisBoard(1, 4, t, 392, 220);
 		case O:
-			return new TetrisBoard(2, 2, t, 390, 200);
+			return new TetrisBoard(2, 2, t, 392, 220);
 		case L:
 		case Z:
 		case S:
 		case J:
 		case T:
-			return new TetrisBoard(2, 3, t, 390, 200);
+			return new TetrisBoard(2, 3, t, 392, 220);
 		}
 		return null;
 	}

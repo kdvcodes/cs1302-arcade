@@ -34,6 +34,14 @@ public class Tetris extends ArcadeGame {
 	private Text linesClearedText;
 	private Tetrimino next;
 	
+	private int tStat;
+	private int jStat;
+	private int zStat;
+	private int oStat;
+	private int sStat;
+	private int lStat;
+	private int iStat;
+	
 	private final int rows = 22;
 	private final int columns = 10;
 	private int linesCleared;
@@ -48,6 +56,7 @@ public class Tetris extends ArcadeGame {
 	private TetrisBoard nextBoard;
 	private boolean paused;
 	private boolean active;
+	private TetrisLauncher tl;
 	/*
 	public Tetris(int level) {
 		game = new TetrisBoard(rows, columns);
@@ -56,20 +65,19 @@ public class Tetris extends ArcadeGame {
 	}
 	*/
 	
-	public Tetris() {
+	public Tetris(int level, TetrisLauncher tl) {
 		active = true;
-		level = 0;
+		this.level = level;
+		this.tl = tl;
 		linesCleared = 0;
 		paused = false;
 		board = new TetrisBoard(rows, columns, this);
 		background = new Image("/tetris/background.png");
-		//scoreText.setSmooth(false);
 		next();
 		highScore = 10000;
-		//scoreText.setFont(NES);
-		//scoreText.setFill(Color.WHITE);
 		newGame(board, nextBoard);
 		textSetup();
+		setTitle("Tetris");
 		currentPiece = new Tetrimino(randomShape(), board);
 		t = new Timeline(new KeyFrame(dropRate(), this::drop));
 		t.setCycleCount(Timeline.INDEFINITE);
@@ -93,7 +101,13 @@ public class Tetris extends ArcadeGame {
 		Text title = new Text(47, 62, "Tetris");
 		title.setFont(NES);
 		title.setFill(Color.WHITE);
-		game.getChildren().addAll(scoreText, highScoreText, levelText, linesClearedText, title);
+		Text next = new Text(384, 207, "Next");
+		next.setFont(NES);
+		next.setFill(Color.WHITE);
+		Text stats = new Text(47, 140, "Stats");
+		stats.setFont(NES);
+		stats.setFill(Color.WHITE);
+		game.getChildren().addAll(scoreText, highScoreText, levelText, linesClearedText, title, next, stats);
 	}
 	
 	private void next() {

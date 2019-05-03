@@ -84,7 +84,7 @@ public class ArcadeApp extends Application {
 		
 		// Setting tetrisGameButton function
 		tetrisGameButton.setOnAction(e -> {
-			new Tetris();
+			new TetrisLauncher();
 		});
 
 		// Initialize and setting the scene
