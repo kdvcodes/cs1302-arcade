@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import cs1302.arcade.ArcadeGame;
 import cs1302.arcade.Board;
+import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -201,10 +202,12 @@ public class Tetris extends ArcadeGame {
 		}
 	}
 	
-	private void drop(ActionEvent e) {
+	private boolean drop(ActionEvent e) {
 		if (!currentPiece.drop()) {
 			lock();
+			return true;
 		}
+		return false;
 	}
 	
 	protected void move(KeyEvent ke) {
@@ -224,6 +227,9 @@ public class Tetris extends ArcadeGame {
 				break;
 			case DOWN:
 				drop(null);
+				break;
+			case SPACE:
+				while (!drop(null));
 				break;
 			case Z:
 				currentPiece.rotate(1);

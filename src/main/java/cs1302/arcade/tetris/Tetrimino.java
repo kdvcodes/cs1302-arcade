@@ -2,6 +2,7 @@ package cs1302.arcade.tetris;
 
 import cs1302.arcade.Board;
 import cs1302.arcade.Tile;
+import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 
 enum Rotation {
@@ -14,17 +15,20 @@ public class Tetrimino {
 	private int rotation;
 	private TetrisBoard board;
 	private TetrisTile[] coordinates;
+	private TetrisTile[] ghost;
 	private int x;
 	private int y;
 	private final int initialX = 5;
 	private final int initialY = 2;
 	private final AudioClip move = new AudioClip(getClass().getResource("/tetris/move.wav").toString());
 	private final AudioClip rotate = new AudioClip(getClass().getResource("/tetris/rotate.wav").toString());
+	private final Image ghostTile = new Image("/tetris/tile0.png");
 	
 	public Tetrimino(Shape shape, Board board) {
 		this.board = (TetrisBoard) board;
 		this.shape = shape;
 		coordinates = new TetrisTile[4];
+		ghost = new TetrisTile[4];
 		rotation = 2;
 		update(true, initialX, initialY, 2);
 	}
@@ -45,6 +49,9 @@ public class Tetrimino {
 			this.x = x;
 			this.y = y;
 			this.rotation = rotation;
+			if (ghost != null) {
+				drawGhost();
+			}
 			coordinates = shape.newCoordinates(x, y, rotation, board);
 			fill();
 			return true;
@@ -58,9 +65,21 @@ public class Tetrimino {
 		return false;
 	}
 	
+	private void drawGhost() {
+		int i = y;
+		while (canMove(x, i + 1, rotation)) {
+			i++;
+		}
+		ghost = shape.newCoordinates(x, i, rotation, board);
+		for (int j = 0; j < 4; j++) {
+			ghost[j].setImage(ghostTile);
+		}
+	}
+	
 	private void empty() {
 		for (int i = 0; i < 4; i++) {
 			coordinates[i].clearPiece();
+			ghost[i].clearPiece();
 		}
 	}
 	
