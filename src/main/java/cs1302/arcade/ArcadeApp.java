@@ -89,6 +89,8 @@ public class ArcadeApp extends Application {
 
 		// Initialize and setting the scene
 		Scene arcadeMainScene = new Scene(arcadeMainFrame);
+//		arcadeMainScene.getStylesheets().add(getClass().getResource("/tetris/tetris.css").toExternalForm());
+//		System.out.println(arcadeMainScene.getStylesheets());
 		
 		// Setting the stage
 		stage.setScene(arcadeMainScene);

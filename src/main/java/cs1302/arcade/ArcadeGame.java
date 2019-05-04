@@ -28,6 +28,7 @@ public abstract class ArcadeGame extends Stage {
 		game.getChildren().addAll(n);
 		Scene scene = new Scene(game);
 		scene.setOnKeyPressed(this::move);
+		scene.getStylesheets().add(getClass().getResource("/tetris/tetris.css").toExternalForm());
 		this.setScene(scene);
 		this.sizeToScene();
 		this.show();
