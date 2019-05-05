@@ -20,7 +20,7 @@ import javafx.stage.Stage;
  */
 public class ArcadeApp extends Application {
 	
-	ArcadeMenuBar arcadeMenuBar;
+	ArcadeToolBar arcadeMenuBar;
 	HBox arcadeMainFrame;
 	
 	@Override
@@ -37,7 +37,7 @@ public class ArcadeApp extends Application {
 		HBox arcadeGameButtonLayer = new HBox();
 		
 		// Scene items initializations
-		arcadeMenuBar = new ArcadeMenuBar(this);
+		//arcadeMenuBar = new ArcadeMenuBar();
 		Region arcadeWelcomeTextLeftPadding = new Region();
 		Text arcadeWelcomeText = new Text("\n\nWelcome to Banana Stand's Arcade");
 		Region arcadeWelcomeTextRightPadding = new Region();
@@ -57,7 +57,7 @@ public class ArcadeApp extends Application {
 
 		// Setting item sizing and spacing
 		HBox.setHgrow(vbox, Priority.ALWAYS);
-		HBox.setHgrow(arcadeMenuBar, Priority.ALWAYS);
+		//HBox.setHgrow(arcadeMenuBar, Priority.ALWAYS);
 		HBox.setHgrow(arcadeWelcomeText, Priority.ALWAYS );
 		HBox.setHgrow(arcadeWelcomeTextLeftPadding, Priority.ALWAYS);
 		HBox.setHgrow(arcadeWelcomeTextRightPadding, Priority.ALWAYS);
@@ -68,14 +68,14 @@ public class ArcadeApp extends Application {
 		
 		
 		// Layer items assignments
-		arcadeMenuBarLayer.getChildren().add(arcadeMenuBar);
+		//arcadeMenuBarLayer.getChildren().add(arcadeMenuBar);
 		arcadeWelcomeTextLayer.getChildren().addAll(arcadeWelcomeTextLeftPadding, arcadeWelcomeText, arcadeWelcomeTextRightPadding);
 		arcadeChooseGameTextLayer.getChildren().addAll(arcadeChooseGameTextLeftPadding, arcadeChooseGameText, arcadeChooseGameTextRightPadding);
 		arcadeGameButtonLayer.getChildren().addAll(arcadeGameButtonContainerLeftPadding, arcadeGameButtonContainer, arcadeGameButtonContainerRightPadding);
 		arcadeGameButtonContainer.getChildren().addAll(numGameButton, tetrisGameButton);
 		
 		// Setting the items placements
-		vbox.getChildren().addAll(arcadeMenuBarLayer, arcadeWelcomeTextLayer, arcadeChooseGameTextLayer, arcadeGameButtonLayer);
+		vbox.getChildren().addAll(arcadeWelcomeTextLayer, arcadeChooseGameTextLayer, arcadeGameButtonLayer);
 		
 		// Setting numGameButton function
 		numGameButton.setOnAction(e -> {

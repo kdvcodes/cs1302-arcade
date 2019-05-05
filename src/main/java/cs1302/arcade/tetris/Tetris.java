@@ -28,6 +28,7 @@ import javafx.util.Duration;
  *
  */
 public class Tetris extends ArcadeGame {
+
 	
 	Tetrimino currentPiece;
 	int level;
@@ -89,7 +90,7 @@ public class Tetris extends ArcadeGame {
 		drawStats();
 		statView.setX(45);
 		statView.setY(170);
-		newGame(board, nextBoard, statView);
+		newGame(new TetrisToolBar(this), board, nextBoard, statView);
 		textSetup();
 		setTitle("Tetris");
 		currentPiece = new Tetrimino(randomShape(), board);
@@ -416,6 +417,13 @@ public class Tetris extends ArcadeGame {
 			return Duration.millis(17);
 		}
 		
+	}
+	
+	@Override
+	public void newGame() {
+		gameOver();
+		tl.show();
+		close();
 	}
 	
 	public void gameOver() {
