@@ -9,6 +9,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
@@ -43,6 +46,18 @@ public class Tetris extends ArcadeGame {
 	private int lStat;
 	private int iStat;
 	
+	private Text tText;
+	private Text jText;
+	private Text zText;
+	private Text oText;
+	private Text sText;
+	private Text lText;
+	private Text iText;
+
+	private final PixelReader statPic = new Image("/tetris/stats.png").getPixelReader();
+	private WritableImage stats;
+	private ImageView statView;
+	
 	private final int rows = 22;
 	private final int columns = 10;
 	private int linesCleared;
@@ -58,13 +73,6 @@ public class Tetris extends ArcadeGame {
 	private boolean paused;
 	private boolean active;
 	private TetrisLauncher tl;
-	/*
-	public Tetris(int level) {
-		game = new TetrisBoard(rows, columns);
-		generator = new Random();
-		this.level = level;
-	}
-	*/
 	
 	public Tetris(int level, TetrisLauncher tl) {
 		active = true;
@@ -74,9 +82,14 @@ public class Tetris extends ArcadeGame {
 		paused = false;
 		board = new TetrisBoard(rows, columns, this);
 		background = new Image("/tetris/background.png");
-		next();
-		highScore = 10000;
-		newGame(board, nextBoard);
+		stats = new WritableImage(statPic, 46, 208);
+		statView = new ImageView();
+		makeNext();
+		statSetup();
+		drawStats();
+		statView.setX(45);
+		statView.setY(170);
+		newGame(board, nextBoard, statView);
 		textSetup();
 		setTitle("Tetris");
 		currentPiece = new Tetrimino(randomShape(), board);
@@ -99,6 +112,30 @@ public class Tetris extends ArcadeGame {
 		linesClearedText = new Text(208, 46, String.format("Lines-%03d", linesCleared));
 		linesClearedText.setFont(NES);
 		linesClearedText.setFill(Color.WHITE);
+		int xStart = 93;
+		int yStart = 189;
+		int space = 32;
+		tText = new Text(xStart, yStart, String.format("%03d", tStat));
+		tText.setFont(NES);
+		tText.setFill(Color.rgb(0xd8, 0x28, 0x00));
+		jText = new Text(xStart, yStart + (space * 1), String.format("%03d", jStat));
+		jText.setFont(NES);
+		jText.setFill(Color.rgb(0xd8, 0x28, 0x00));
+		zText = new Text(xStart, yStart + (space * 2), String.format("%03d", zStat));
+		zText.setFont(NES);
+		zText.setFill(Color.rgb(0xd8, 0x28, 0x00));
+		oText = new Text(xStart, yStart + (space * 3), String.format("%03d", oStat));
+		oText.setFont(NES);
+		oText.setFill(Color.rgb(0xd8, 0x28, 0x00));
+		sText = new Text(xStart, yStart + (space * 4), String.format("%03d", sStat));
+		sText.setFont(NES);
+		sText.setFill(Color.rgb(0xd8, 0x28, 0x00));
+		lText = new Text(xStart, yStart + (space * 5), String.format("%03d", lStat));
+		lText.setFont(NES);
+		lText.setFill(Color.rgb(0xd8, 0x28, 0x00));
+		iText = new Text(xStart, yStart + (space * 6), String.format("%03d", iStat));
+		iText.setFont(NES);
+		iText.setFill(Color.rgb(0xd8, 0x28, 0x00));
 		Text title = new Text(47, 62, "Tetris");
 		title.setFont(NES);
 		title.setFill(Color.WHITE);
@@ -108,10 +145,38 @@ public class Tetris extends ArcadeGame {
 		Text stats = new Text(47, 140, "Stats");
 		stats.setFont(NES);
 		stats.setFill(Color.WHITE);
-		game.getChildren().addAll(scoreText, highScoreText, levelText, linesClearedText, title, next, stats);
+		game.getChildren().addAll(scoreText, highScoreText, levelText, linesClearedText, tText, jText, zText, oText, sText, lText, iText, title, next, stats);
 	}
 	
-	private void next() {
+	private void statSetup() {
+		highScore = 10000;
+		tStat = 0;
+		jStat = 0;
+		zStat = 0;
+		oStat = 0;
+		sStat = 0;
+		lStat = 0;
+		iStat = 0;
+	}
+	
+	private void drawStats() {
+		for (int x = 0; x < stats.getWidth(); x++) {
+			for (int y = 0; y < stats.getHeight(); y++) {
+				if (statPic.getArgb(x, y) == 0xFF2038ec) {
+					stats.getPixelWriter().setArgb(x, y, Shape.getColor1(level));
+				}
+				else if (statPic.getArgb(x, y) == 0xFF3cbcfc) {
+					stats.getPixelWriter().setArgb(x, y, Shape.getColor2(level));
+				}
+				else {
+					stats.getPixelWriter().setArgb(x, y, statPic.getArgb(x, y));
+				}
+			}
+		}
+		statView.setImage(stats);
+	}
+	
+	private void makeNext() {
 		Shape s = randomShape();
 		nextBoard = s.nextBoard(this);
 		if (s == Shape.I) {
@@ -151,9 +216,10 @@ public class Tetris extends ArcadeGame {
 		if (linesCleared >= (level + 1) * 10) {
 			levelUp();
 		}
+		increaseStats();
 		currentPiece = new Tetrimino(next.getShape(), board);
 		game.getChildren().remove(nextBoard);
-		next();
+		makeNext();
 		game.getChildren().add(nextBoard);
 		if (active) {
 			getScene().setOnKeyPressed(this::move);
@@ -161,10 +227,44 @@ public class Tetris extends ArcadeGame {
 		}
 	}
 	
+	private void increaseStats() {
+		switch (next.getShape()) {
+		case T:
+			tStat++;
+			tText.setText(String.format("%03d", tStat));
+			break;
+		case J:
+			jStat++;
+			jText.setText(String.format("%03d", jStat));
+			break;
+		case Z:
+			zStat++;
+			zText.setText(String.format("%03d", zStat));
+			break;
+		case O:
+			oStat++;
+			oText.setText(String.format("%03d", oStat));
+			break;
+		case S:
+			sStat++;
+			sText.setText(String.format("%03d", sStat));
+			break;
+		case L:
+			lStat++;
+			lText.setText(String.format("%03d", lStat));
+			break;
+		case I:
+			iStat++;
+			iText.setText(String.format("%03d", iStat));
+			break;
+		}
+	}
+
 	private void levelUp() {
 		level++;
 		levelUp.play();
 		levelText.setText(String.format("Level\n  %02d", level));
+		drawStats();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				board.getTile(i, j).update();
