@@ -18,13 +18,14 @@ public class TetrisBoard extends Board {
 	int tileSweep;
 	
 	public TetrisBoard(int rows, int columns, Tetris game) {
+		this.game = game;
 		playField = new TetrisTile[rows][columns];
 		clearAnim = new Timeline(new KeyFrame(Duration.millis(67), this::clear1));
 		clearAnim.setCycleCount(6);
 		clearAnim.setOnFinished(this::clear2);
 		curtain = new Timeline(new KeyFrame(Duration.millis(67), this::drawCurtain));
-		curtain.setCycleCount(playField.length * 2);
-		this.game = game;
+		curtain.setCycleCount(playField.length);
+		curtain.setOnFinished(game::submitScore);
 		for (int i = 0; i < playField.length; i++) {
 			for (int j = 0; j < playField[i].length; j++) {
 				playField[i][j] = new TetrisTile(i, j, game);

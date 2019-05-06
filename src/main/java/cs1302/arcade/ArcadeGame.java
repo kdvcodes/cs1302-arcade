@@ -1,6 +1,11 @@
 package cs1302.arcade;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -16,7 +21,7 @@ public abstract class ArcadeGame extends Stage {
 	protected Group game;
 	protected Board board;
 	protected int score;
-	protected int highScore;
+	protected Score[] highScores;
 	protected final Random generator = new Random();
 	
 	public Image background;
@@ -35,6 +40,19 @@ public abstract class ArcadeGame extends Stage {
 		this.sizeToScene();
 		this.show();
 	} // Tetris constructor
+	
+	public static Score[] generateScores(File scoreFile) {
+		Score[] highScores = new Score[0];
+		try {
+			Scanner scoreReader = new Scanner(scoreFile);
+			scoreReader.useDelimiter("/");
+			for (int i = 0; scoreReader.hasNext(); i++) {
+				highScores = Arrays.copyOf(highScores, highScores.length + 1);
+				highScores[highScores.length - 1] = new Score(scoreReader.next(), scoreReader.nextInt());
+			}
+		} catch (FileNotFoundException e) {System.out.println("File gone");}
+		return highScores;
+	}
 	
 	public abstract void newGame();
 	protected abstract void move(KeyEvent ke);

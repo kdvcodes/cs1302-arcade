@@ -1,13 +1,19 @@
 package cs1302.arcade.tetris;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import cs1302.arcade.ArcadeGame;
 import cs1302.arcade.Board;
+import cs1302.arcade.Score;
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
@@ -75,21 +81,22 @@ public class Tetris extends ArcadeGame {
 	private boolean active;
 	private TetrisLauncher tl;
 	
-	public Tetris(int level, TetrisLauncher tl) {
+	public Tetris(int level, Score[] highScores, TetrisLauncher tl) {
 		active = true;
 		this.level = level;
 		this.tl = tl;
+		this.highScores = highScores;
 		linesCleared = 0;
 		paused = false;
 		board = new TetrisBoard(rows, columns, this);
 		background = new Image("/tetris/background.png");
 		stats = new WritableImage(statPic, 46, 208);
 		statView = new ImageView();
+		statView.setX(45);
+		statView.setY(170);
 		makeNext();
 		statSetup();
 		drawStats();
-		statView.setX(45);
-		statView.setY(170);
 		newGame(new TetrisToolBar(this), board, nextBoard, statView);
 		textSetup();
 		setTitle("Tetris");
@@ -104,7 +111,7 @@ public class Tetris extends ArcadeGame {
 		scoreText = new Text(385, 110, String.format("Score\n%06d", score));
 		scoreText.setFont(NES);
 		scoreText.setFill(Color.WHITE);
-		highScoreText = new Text(385, 60, String.format("Top\n%06d", highScore));
+		highScoreText = new Text(385, 60, String.format("Top\n%06d", highScores[0].getScore()));
 		highScoreText.setFont(NES);
 		highScoreText.setFill(Color.WHITE);
 		levelText = new Text(385, 318, String.format("Level\n  %02d", level));
@@ -150,7 +157,6 @@ public class Tetris extends ArcadeGame {
 	}
 	
 	private void statSetup() {
-		highScore = 10000;
 		tStat = 0;
 		jStat = 0;
 		zStat = 0;
@@ -281,7 +287,7 @@ public class Tetris extends ArcadeGame {
 	public void updateScore(int i) {
 		switch (i) {
 		case 0:
-			return;
+			break;
 		case 1:
 			score += 40 * (level + 1);
 			break;
@@ -295,11 +301,11 @@ public class Tetris extends ArcadeGame {
 			score += 1200 * (level + 1);
 			break;
 		}
-		linesCleared += clearedRows.length;
+		linesCleared += i;
 		scoreText.setText(String.format("Score\n%06d", score));
 		linesClearedText.setText(String.format("Lines-%03d", linesCleared));
-		if (highScore < score) {
-			highScoreText.setText(String.format("Top\n%06d", highScore));
+		if (highScores[0].getScore() < score) {
+			highScoreText.setText(String.format("Top\n%06d", score));
 		}
 	}
 	
@@ -328,9 +334,12 @@ public class Tetris extends ArcadeGame {
 				break;
 			case DOWN:
 				drop(null);
+				score++;
 				break;
 			case SPACE:
-				while (!drop(null));
+				while (!drop(null)) {
+					score++;
+				};
 				break;
 			case Z:
 				currentPiece.rotate(1);
@@ -422,8 +431,7 @@ public class Tetris extends ArcadeGame {
 	@Override
 	public void newGame() {
 		gameOver();
-		tl.show();
-		close();
+		submitScore(null);
 	}
 	
 	public void gameOver() {
@@ -431,6 +439,27 @@ public class Tetris extends ArcadeGame {
 		t.stop();
 		music.stop();
 		getScene().setOnKeyPressed(null);
+	}
+	
+	public void submitScore(ActionEvent e) {
+		TextInputDialog d = new TextInputDialog();
+		d.setHeaderText("Enter your name:");
+		((Button) d.getDialogPane().lookupButton(ButtonType.OK)).setOnAction((w) -> {highScore(d.getEditor().getText());});
+		d.show();
+	}
+
+	private void highScore(String name) {
+		//JUST WRITE TO FILE HERE, DON"T NEED ARRAY ANYMORE
+		int i = 0;
+		while (highScores[i].getScore() > score) {
+			i++;
+		}
+		ArrayList newScores = new ArrayList(Arrays.asList(highScores));
+		newScores.add(i, new Score(name, score));
+		highScores = (Score[]) newScores.toArray();
+		tl.drawScores();
+		tl.show();
+		close();
 	}
 
 }

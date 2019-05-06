@@ -1,7 +1,10 @@
 package cs1302.arcade.tetris;
 
+import java.io.File;
+
 import cs1302.arcade.ArcadeGame;
 import cs1302.arcade.Board;
+import cs1302.arcade.Score;
 import cs1302.arcade.Tile;
 import cs1302.arcade.numberGame.NumberGameTile;
 import javafx.scene.Group;
@@ -21,6 +24,11 @@ public class TetrisLauncher extends Stage {
 	private LauncherBoard board;
 	private int selectedX;
 	private int selectedY;
+	private Score[] highScores;
+	private final File scoreFile = new File(getClass().getResource("/tetris/highScores.txt").getPath().replaceAll("%20", " "));
+	private Text names;
+	private Text scores;
+	private Text levels;
 	
 	private final int rows = 2;
 	private final int columns = 5;
@@ -32,6 +40,7 @@ public class TetrisLauncher extends Stage {
 	public TetrisLauncher() {
 		selectedX = 0;
 		selectedY = 0;
+		highScores = ArcadeGame.generateScores(scoreFile);
 		g = new Group(new ImageView(background));
 		board = new LauncherBoard();
 		g.getChildren().add(board);
@@ -50,13 +59,32 @@ public class TetrisLauncher extends Stage {
 		Text level = new Text(144, 127, "Level");
 		level.setFont(NES);
 		level.setFill(Color.WHITE);
-		g.getChildren().addAll(title, level);
+		Text info = new Text(160, 286, "Name  Score  LV");
+		info.setFont(NES);
+		info.setFill(Color.WHITE);
+		Text rank = new Text(115, 320, "1\n2\n3");
+		rank.setLineSpacing(15);
+		rank.setFont(NES);
+		rank.setFill(Color.WHITE);
+		drawScores();
+		g.getChildren().addAll(title, level, info, rank, names, scores);
+	}
+	
+	public void drawScores() {
+		names = new Text(150, 320, highScores[0].getName() + "\n" + highScores[1].getName() + "\n" + highScores[2].getName());
+		names.setLineSpacing(15);
+		names.setFont(NES);
+		names.setFill(Color.WHITE);
+		scores = new Text(255, 320, String.format("%06d\n%06d\n%06d", highScores[0].getScore(), highScores[1].getScore(), highScores[2].getScore()));
+		scores.setLineSpacing(15);
+		scores.setFont(NES);
+		scores.setFill(Color.WHITE);
 	}
 
 	private void move(KeyEvent ke) {
 		switch (ke.getCode()) {
 		case ENTER:
-			new Tetris(Integer.valueOf(((Text) board.getSelected().getPiece()).getText()), this);
+			new Tetris(Integer.valueOf(((Text) board.getSelected().getPiece()).getText()), highScores, this);
 			close();
 			break;
 		case RIGHT:
@@ -80,7 +108,6 @@ public class TetrisLauncher extends Stage {
 			}
 			break;
 		}
-			
 	}
 	
 	class LauncherBoard extends Board {
