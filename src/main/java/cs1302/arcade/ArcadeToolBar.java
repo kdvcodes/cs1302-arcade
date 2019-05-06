@@ -11,13 +11,10 @@ import javafx.scene.control.ToolBar;
 /**
  * This is the Menu Bar for ArcadeApp
  */
-public abstract class ArcadeToolBar extends ToolBar {
-	
-	protected ArcadeGame game;
+public class ArcadeToolBar extends ToolBar {
 	
 	public ArcadeToolBar(ArcadeGame game) {
 		// super();
-		this.game = game;
 		
 		// MenuBar items initializations
 		// Menu fileMenu = new Menu("File");
@@ -39,19 +36,14 @@ public abstract class ArcadeToolBar extends ToolBar {
 		// Add Menu items into MenuBar
 		getItems().addAll(newGame, options, help, exit);
 		
-		newGame.setOnAction(this::newGame);
-		options.setOnAction(this::options);
-		help.setOnAction(this::options);
+		newGame.setOnAction(game::newGame);
+		options.setOnAction(game::options);
+		help.setOnAction(game::help);
 		
 		exit.setOnAction(e -> {
 			Platform.exit();
 		});
+		
 	}
-	
-	protected abstract void newGame(ActionEvent e);
-	
-	protected abstract void options(ActionEvent e);
-	
-	protected abstract void help(ActionEvent e);
 	
 }

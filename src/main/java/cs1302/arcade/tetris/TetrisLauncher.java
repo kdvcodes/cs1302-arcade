@@ -47,9 +47,9 @@ public class TetrisLauncher extends Stage {
 		textSetup();
 		Scene scene = new Scene(g);
 		scene.setOnKeyPressed(this::move);
-		this.setScene(scene);
-		this.sizeToScene();
-		this.show();
+		setScene(scene);
+		sizeToScene();
+		show();
 	}
 	
 	private void textSetup() {
@@ -84,7 +84,7 @@ public class TetrisLauncher extends Stage {
 	private void move(KeyEvent ke) {
 		switch (ke.getCode()) {
 		case ENTER:
-			new Tetris(Integer.valueOf(((Text) board.getSelected().getPiece()).getText()), highScores, this);
+			new Tetris(Integer.valueOf(((Text) board.getSelected().getPiece()).getText()), highScores);
 			close();
 			break;
 		case RIGHT:

@@ -1,6 +1,9 @@
 package cs1302.arcade.numberGame;
 
+import java.io.File;
+
 import cs1302.arcade.ArcadeGame;
+import cs1302.arcade.ArcadeToolBar;
 import cs1302.arcade.Tile;
 import cs1302.arcade.tetris.TetrisBoard;
 import javafx.scene.Scene;
@@ -9,6 +12,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -22,18 +26,18 @@ import javafx.util.Duration;
 public class NumberGame extends ArcadeGame{
 
 	final int gameSize = 4;
-	NumberGameMenuBar numberGameMenuBar;
+	/* NumberGameMenuBar numberGameMenuBar;
 	NumberGameInfoBar numberGameInfoBar;
-	NumberGameMainContent numberGameMainContent;
+	NumberGameMainContent numberGameMainContent; */
 	final Timeline expand = new Timeline(new KeyFrame(Duration.millis(1000/60)));
 	
 	public NumberGame() {
+		scoreFile = new File(getClass().getResource("/2048/highScores.txt").getPath().replaceAll("%20", " "));
 		board = new NumberGameBoard(gameSize, gameSize, this);
 		background = new Image("/2048/background.png");
-		newGame(board);
+		start(new ArcadeToolBar(this), board);
 		expand.setCycleCount(1);
-		newPiece();
-		newPiece();
+		newGame(null);
 	}
 
 	@Override
@@ -88,6 +92,25 @@ public class NumberGame extends ArcadeGame{
 		score += i;
 		System.out.println(score);
 	} // updatScore
+
+	@Override
+	public void newGame(ActionEvent e) {
+		((NumberGameBoard) board).clear();
+		newPiece();
+		newPiece();
+	}
+
+	@Override
+	public void options(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void help(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	/*
 	public NumberGame() {

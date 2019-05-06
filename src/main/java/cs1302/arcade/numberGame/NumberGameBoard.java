@@ -108,6 +108,14 @@ public class NumberGameBoard extends Board {
 		return false;
 	}
 	
+	public void clear() {
+		for (int i = 0; i < playField.length; i++) {
+			for (int j = 0; j < playField.length; j++) {
+				getTile(i, j).clearPiece();
+			}
+		}
+	}
+	
 	private void clearCombo() {
 		for (int i = 0; i < playField.length; i++) {
 			for (int j = 0; j < playField.length; j++) {

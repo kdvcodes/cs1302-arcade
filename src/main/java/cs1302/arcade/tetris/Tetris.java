@@ -1,10 +1,12 @@
 package cs1302.arcade.tetris;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import cs1302.arcade.ArcadeGame;
+import cs1302.arcade.ArcadeToolBar;
 import cs1302.arcade.Board;
 import cs1302.arcade.Score;
 import javafx.animation.Animation.Status;
@@ -38,7 +40,7 @@ public class Tetris extends ArcadeGame {
 	
 	Tetrimino currentPiece;
 	int level;
-	Timeline t;
+	Timeline dropper;
 	private Text scoreText;
 	private Text highScoreText;
 	private Text levelText;
@@ -79,15 +81,14 @@ public class Tetris extends ArcadeGame {
 	private TetrisBoard nextBoard;
 	private boolean paused;
 	private boolean active;
-	private TetrisLauncher tl;
 	
-	public Tetris(int level, Score[] highScores, TetrisLauncher tl) {
+	public Tetris(int level, Score[] highScores) {
 		active = true;
 		this.level = level;
-		this.tl = tl;
 		this.highScores = highScores;
 		linesCleared = 0;
 		paused = false;
+		scoreFile = new File(getClass().getResource("/tetris/highScores.txt").getPath().replaceAll("%20", " "));
 		board = new TetrisBoard(rows, columns, this);
 		background = new Image("/tetris/background.png");
 		stats = new WritableImage(statPic, 46, 208);
@@ -97,13 +98,13 @@ public class Tetris extends ArcadeGame {
 		makeNext();
 		statSetup();
 		drawStats();
-		newGame(new TetrisToolBar(this), board, nextBoard, statView);
+		start(new ArcadeToolBar(this), board, nextBoard, statView);
 		textSetup();
 		setTitle("Tetris");
 		currentPiece = new Tetrimino(randomShape(), board);
-		t = new Timeline(new KeyFrame(dropRate(), this::drop));
-		t.setCycleCount(Timeline.INDEFINITE);
-		t.play();
+		dropper = new Timeline(new KeyFrame(dropRate(), this::drop));
+		dropper.setCycleCount(Timeline.INDEFINITE);
+		dropper.play();
 		music.play();
 	} // Tetris constructor
 	
@@ -194,7 +195,7 @@ public class Tetris extends ArcadeGame {
 	}
 
 	private void lock() {
-		t.stop();
+		dropper.stop();
 		getScene().setOnKeyPressed(null);
 		clearedRows = new int[0];
 		for (int i = 0; i < rows; i++) {
@@ -230,7 +231,7 @@ public class Tetris extends ArcadeGame {
 		game.getChildren().add(nextBoard);
 		if (active) {
 			getScene().setOnKeyPressed(this::move);
-			t.play();
+			dropper.play();
 		}
 	}
 	
@@ -277,7 +278,7 @@ public class Tetris extends ArcadeGame {
 				board.getTile(i, j).update();
 			}
 		}
-		t.getKeyFrames().replaceAll((k) -> new KeyFrame(dropRate(), this::drop));
+		dropper.getKeyFrames().replaceAll((k) -> new KeyFrame(dropRate(), this::drop));
 	}
 	
 	public int getLevel() {
@@ -322,7 +323,7 @@ public class Tetris extends ArcadeGame {
 			paused = false;
 			select.play();
 			music.play();
-			t.play();
+			dropper.play();
 		}
 		else if (!paused && active) {
 			switch (ke.getCode()) {
@@ -351,7 +352,7 @@ public class Tetris extends ArcadeGame {
 				paused = true;
 				select.play();
 				music.pause();
-				t.pause();
+				dropper.pause();
 				break;
 			}
 		}
@@ -429,37 +430,28 @@ public class Tetris extends ArcadeGame {
 	}
 	
 	@Override
-	public void newGame() {
+	public void newGame(ActionEvent e) {
 		gameOver();
 		submitScore(null);
+	}
+
+	@Override
+	public void options(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void help(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	public void gameOver() {
 		active = false;
-		t.stop();
+		dropper.stop();
 		music.stop();
 		getScene().setOnKeyPressed(null);
-	}
-	
-	public void submitScore(ActionEvent e) {
-		TextInputDialog d = new TextInputDialog();
-		d.setHeaderText("Enter your name:");
-		((Button) d.getDialogPane().lookupButton(ButtonType.OK)).setOnAction((w) -> {highScore(d.getEditor().getText());});
-		d.show();
-	}
-
-	private void highScore(String name) {
-		//JUST WRITE TO FILE HERE, DON"T NEED ARRAY ANYMORE
-		int i = 0;
-		while (highScores[i].getScore() > score) {
-			i++;
-		}
-		ArrayList newScores = new ArrayList(Arrays.asList(highScores));
-		newScores.add(i, new Score(name, score));
-		highScores = (Score[]) newScores.toArray();
-		tl.drawScores();
-		tl.show();
-		close();
 	}
 
 }
