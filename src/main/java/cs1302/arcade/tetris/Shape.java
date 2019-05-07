@@ -8,7 +8,7 @@ import javafx.scene.image.PixelReader;
  * This is the enum class for the different shapes of tetris
  */
 public enum Shape {
-	
+
 	/**
 	 * This is the T shape
 	 */
@@ -17,7 +17,8 @@ public enum Shape {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public TetrisTile[] newCoordinates(int x, int y, int rotation, TetrisBoard board) {
+		public TetrisTile[] newCoordinates(int x, int y, int rotation,
+				TetrisBoard board) {
 			Tile[] c = new TetrisTile[4];
 			c[0] = board.getTile(y, x);
 			switch (rotation) {
@@ -45,7 +46,7 @@ public enum Shape {
 			return (TetrisTile[]) c;
 		}
 	},
-	
+
 	/**
 	 * This is the J shape
 	 */
@@ -54,7 +55,8 @@ public enum Shape {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public TetrisTile[] newCoordinates(int x, int y, int rotation, TetrisBoard board) {
+		public TetrisTile[] newCoordinates(int x, int y, int rotation,
+				TetrisBoard board) {
 			Tile[] c = new TetrisTile[4];
 			c[0] = board.getTile(y, x);
 			switch (rotation) {
@@ -91,7 +93,8 @@ public enum Shape {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public TetrisTile[] newCoordinates(int x, int y, int rotation, TetrisBoard board) {
+		public TetrisTile[] newCoordinates(int x, int y, int rotation,
+				TetrisBoard board) {
 			Tile[] c = new TetrisTile[4];
 			c[0] = board.getTile(y, x);
 			switch (rotation) {
@@ -118,7 +121,8 @@ public enum Shape {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public TetrisTile[] newCoordinates(int x, int y, int rotation, TetrisBoard board) {
+		public TetrisTile[] newCoordinates(int x, int y, int rotation,
+				TetrisBoard board) {
 			Tile[] c = new TetrisTile[4];
 			c[0] = board.getTile(y, x);
 			c[1] = board.getTile(y, x - 1);
@@ -136,7 +140,8 @@ public enum Shape {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public TetrisTile[] newCoordinates(int x, int y, int rotation, TetrisBoard board) {
+		public TetrisTile[] newCoordinates(int x, int y, int rotation,
+				TetrisBoard board) {
 			Tile[] c = new TetrisTile[4];
 			c[0] = board.getTile(y, x);
 			switch (rotation) {
@@ -163,7 +168,8 @@ public enum Shape {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public TetrisTile[] newCoordinates(int x, int y, int rotation, TetrisBoard board) {
+		public TetrisTile[] newCoordinates(int x, int y, int rotation,
+				TetrisBoard board) {
 			Tile[] c = new TetrisTile[4];
 			c[0] = board.getTile(y, x);
 			switch (rotation) {
@@ -200,7 +206,8 @@ public enum Shape {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public TetrisTile[] newCoordinates(int x, int y, int rotation, TetrisBoard board) {
+		public TetrisTile[] newCoordinates(int x, int y, int rotation,
+				TetrisBoard board) {
 			Tile[] c = new TetrisTile[4];
 			c[0] = board.getTile(y, x);
 			switch (rotation) {
@@ -219,23 +226,24 @@ public enum Shape {
 		}
 	};
 
-	final static PixelReader tile1 = new Image("/tetris/tile1.png").getPixelReader();
-	final static PixelReader tile2 = new Image("/tetris/tile2.png").getPixelReader();
-	
-	
+	final static PixelReader tile1 = new Image("/tetris/tile1.png")
+			.getPixelReader();
+	final static PixelReader tile2 = new Image("/tetris/tile2.png")
+			.getPixelReader();
+
 	/**
-	 * Returns the coordinates occupied by this shape at the given
-	 * location and rotatino
+	 * Returns the coordinates occupied by this shape at the given location and
+	 * rotatino
 	 * 
-	 * @param x x val
-	 * @param y y val
+	 * @param x        x val
+	 * @param y        y val
 	 * @param rotation rotation val
-	 * @param board the board to return Tiles from
+	 * @param board    the board to return Tiles from
 	 * @return an array of Tiles occupied by this shape
 	 */
 	public abstract TetrisTile[] newCoordinates(int x, int y, int rotation,
 			TetrisBoard board);
-	
+
 	/**
 	 * Returns a certain tile image depending on shape
 	 * 
@@ -263,7 +271,7 @@ public enum Shape {
 		}
 		return getColor1(level);
 	}
-	
+
 	/**
 	 * Returns the first color used for a level
 	 * 
@@ -295,7 +303,7 @@ public enum Shape {
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * Returns the second color used for a level
 	 * 
@@ -327,7 +335,7 @@ public enum Shape {
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * Returns a next board with layout dependent on Shape
 	 * 

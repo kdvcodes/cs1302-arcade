@@ -7,8 +7,8 @@ import javafx.scene.image.Image;
  * This is the number game tile class
  *
  */
-public class NumberGameTile extends Tile<Integer>{
-	
+public class NumberGameTile extends Tile<Integer> {
+
 	static final int xStart = 60;
 	static final int yStart = 330;
 	static final int size = 114;
@@ -25,12 +25,13 @@ public class NumberGameTile extends Tile<Integer>{
 	final Image fiveTwelve = new Image("/2048/512.png");
 	final Image tenTwoFour = new Image("/2048/1024.png");
 	final Image twentyFourtyEight = new Image("/2048/2048.png");
-	
+
 	/**
 	 * this is the number game tile constructor for the game
-	 * @param row sets up the position for the tile
+	 * 
+	 * @param row    sets up the position for the tile
 	 * @param column sets up the position for the tile
-	 * @param game the game the tile is in
+	 * @param game   the game the tile is in
 	 */
 	public NumberGameTile(int row, int column, NumberGame game) {
 		super(row, column, xStart, yStart, size, offset, game);
@@ -43,12 +44,12 @@ public class NumberGameTile extends Tile<Integer>{
 	 */
 	@Override
 	public void update() {
-		if(currentPiece == null) {
+		if (currentPiece == null) {
 			setImage(null);
 			return;
 		}
-		
-		switch(currentPiece) {
+
+		switch (currentPiece) {
 		case 2:
 			setImage(two);
 			break;
@@ -82,23 +83,25 @@ public class NumberGameTile extends Tile<Integer>{
 		case 2048:
 			setImage(twentyFourtyEight);
 			break;
-		} //switch
+		} // switch
 	}
-	
+
 	/**
 	 * this method will check if the tile has combined or not
+	 * 
 	 * @return true if has combined, false otherwise
 	 */
 	public boolean hasCombined() {
 		return hasCombined;
 	}
-	
+
 	/**
 	 * this method will set the combination property for the tile
+	 * 
 	 * @param b the specified boolean value to be set
 	 */
 	public void combine(boolean b) {
 		hasCombined = b;
 	}
-	
+
 }

@@ -9,7 +9,7 @@ import javafx.scene.media.MediaException;
  * This is the tetrimino class
  */
 public class Tetrimino {
-	
+
 	private Shape shape;
 	private int rotation;
 	private TetrisBoard board;
@@ -23,12 +23,12 @@ public class Tetrimino {
 	private AudioClip rotate;
 	private final Image ghostTile = new Image("/tetris/tile0.png");
 	private boolean playSound;
-	
+
 	/**
 	 * Constructs a new Tetrimino
 	 * 
-	 * @param shape shape val
-	 * @param board board val
+	 * @param shape     shape val
+	 * @param board     board val
 	 * @param showGhost either show ghost or not
 	 */
 	public Tetrimino(Shape shape, Board board, boolean showGhost) {
@@ -42,14 +42,14 @@ public class Tetrimino {
 		rotation = 2;
 		update(true, initialX, initialY, 2);
 	}
-	
+
 	/**
 	 * Constructs a new Tetrimino (used for next boards)
 	 * 
 	 * @param shape shape val
 	 * @param board board val
-	 * @param x x val
-	 * @param y y val
+	 * @param x     x val
+	 * @param y     y val
 	 */
 	public Tetrimino(Shape shape, Board board, int x, int y) {
 		this.board = (TetrisBoard) board;
@@ -58,26 +58,28 @@ public class Tetrimino {
 		rotation = 2;
 		update(true, x, y, 2);
 	}
-	
+
 	/**
 	 * Attempts to initialize sound objects
 	 */
 	private void soundSetup() {
 		try {
-			move = new AudioClip(getClass().getResource("/tetris/move.wav").toString());
-			rotate = new AudioClip(getClass().getResource("/tetris/rotate.wav").toString());
+			move = new AudioClip(
+					getClass().getResource("/tetris/move.wav").toString());
+			rotate = new AudioClip(
+					getClass().getResource("/tetris/rotate.wav").toString());
 			playSound = true;
 		} catch (MediaException e) {
 			playSound = false;
 		}
 	}
-	
+
 	/**
 	 * Moves this tetrimino to a new location based on the parameters
 	 * 
 	 * @param newPiece is this Tetrimino a new piece?
-	 * @param x x val
-	 * @param y y val
+	 * @param x        x val
+	 * @param y        y val
 	 * @param rotation rotation val
 	 * @return true if this piece moved, false otherwise
 	 */
@@ -95,8 +97,7 @@ public class Tetrimino {
 			coordinates = shape.newCoordinates(x, y, rotation, board);
 			fill();
 			return true;
-		}
-		else {
+		} else {
 			if (newPiece) {
 				board.gameOver();
 				return true;
@@ -104,7 +105,7 @@ public class Tetrimino {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * draws the ghost Tetrimino
 	 */
@@ -118,7 +119,7 @@ public class Tetrimino {
 			ghost[j].setImage(ghostTile);
 		}
 	}
-	
+
 	/**
 	 * Clears the Tiles at the coordinates of this piece
 	 */
@@ -130,7 +131,7 @@ public class Tetrimino {
 			}
 		}
 	}
-	
+
 	/**
 	 * Fills the coordinates with this piece
 	 */
@@ -139,13 +140,13 @@ public class Tetrimino {
 			coordinates[i].setPiece(this);
 		}
 	}
-	
+
 	/**
 	 * Checks if this piece can move to the new location
 	 * 
-	 * @param x
-	 * @param y
-	 * @param rotation
+	 * @param x        x val
+	 * @param y        y val
+	 * @param rotation rotation val
 	 * @return true if this piece can move, false otherwise
 	 */
 	private boolean canMove(int x, int y, int rotation) {
@@ -157,12 +158,11 @@ public class Tetrimino {
 				}
 			}
 			return true;
-		}
-		catch (ArrayIndexOutOfBoundsException e) {
+		} catch (ArrayIndexOutOfBoundsException e) {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Rotates this piece to the new direction
 	 * 
@@ -197,7 +197,7 @@ public class Tetrimino {
 			rotate.play();
 		}
 	}
-		
+
 	/**
 	 * Drops the current piece
 	 * 
@@ -209,7 +209,7 @@ public class Tetrimino {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Moves this piece left
 	 */
@@ -218,7 +218,7 @@ public class Tetrimino {
 			move.play();
 		}
 	}
-	
+
 	/**
 	 * Moves this piece right
 	 */
@@ -227,7 +227,7 @@ public class Tetrimino {
 			move.play();
 		}
 	}
-	
+
 	/**
 	 * Returns the current shape
 	 * 
