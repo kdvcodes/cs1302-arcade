@@ -5,6 +5,8 @@ import java.io.File;
 import cs1302.arcade.ArcadeGame;
 import cs1302.arcade.ArcadeToolBar;
 import cs1302.arcade.Tile;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.animation.KeyFrame;
@@ -34,6 +36,9 @@ public class NumberGame extends ArcadeGame{
 	NumberGameMainContent numberGameMainContent; */
 	final Timeline expand = new Timeline(new KeyFrame(Duration.millis(1000/60)));
 	
+	/**
+	 * This is the number game constructor
+	 */
 	public NumberGame() {
 		scoreFile = new File(getClass().getResource("/2048/highScores.txt").getPath().replaceAll("%20", " "));
 		board = new NumberGameBoard(gameSize, gameSize, this);
@@ -50,6 +55,9 @@ public class NumberGame extends ArcadeGame{
 		newGame(null);
 	}
 
+	/**
+	 * this method is the move method that set actions on keyboard inputs
+	 */
 	@Override
 	protected void move(KeyEvent ke) {
 		switch(ke.getCode()) {
@@ -73,6 +81,9 @@ public class NumberGame extends ArcadeGame{
 		
 	}
 	
+	/**
+	 * This is the newPiece method that sets properties for a new piece being added throughout the game
+	 */
 	private void newPiece() {
 		NumberGameTile t = randomTile();
 		t.setPiece(randomNumGenerator());
@@ -84,6 +95,10 @@ public class NumberGame extends ArcadeGame{
 		expand.play();
 	}
 	
+	/**
+	 * This method generate a random tile between 2 and 4 to be added into the game
+	 * @return a newly made tile
+	 */
 	private NumberGameTile randomTile() {
 		Tile t = board.getTile(generator.nextInt(gameSize), generator.nextInt(gameSize));
 		
@@ -115,12 +130,25 @@ public class NumberGame extends ArcadeGame{
 
 	@Override
 	public void options(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		Alert optionAlert = new Alert(AlertType.INFORMATION);
+		optionAlert.setContentText("The game is too simple to have more options currently. Please give feedback if you have any cool ideas to be added to the game. Enjoy the game!");
+		optionAlert.show();
 	}
 
 	@Override
 	public void help(ActionEvent e) {
+		Alert helpAlert = new Alert(AlertType.INFORMATION);
+		helpAlert.setContentText("Use arrow keys to move tiles around. Enjoy the game!");
+		helpAlert.show();
+	}
+
+	@Override
+	public void exit(ActionEvent e) {
+		this.close();
+	}
+
+	@Override
+	protected void finished() {
 		// TODO Auto-generated method stub
 		
 	}
