@@ -39,9 +39,6 @@ public abstract class ArcadeGame extends Stage {
 		//ask dr barnes about this, see old piazza post
 		//board = new TetrisBoard(rows, columns);
 		score = 0;
-		try {
-			scoreWriter = new FileWriter(scoreFile, false);
-		} catch (IOException e) {}
 		game = new Group(new ImageView(background));
 		game.getChildren().addAll(n);
 		VBox vbox = new VBox(menu, game);
@@ -76,7 +73,8 @@ public abstract class ArcadeGame extends Stage {
 	protected void highScore(String name) {
 		int i = 0;
 		try {
-			for (; highScores[i].getScore() > score; i++) {
+			scoreWriter = new FileWriter(scoreFile, false);
+			for (; i < highScores.length && highScores[i].getScore() > score; i++) {
 				scoreWriter.write(highScores[i].getName() + "/");
 				scoreWriter.write(highScores[i].getScore() + "/");
 			}

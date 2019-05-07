@@ -13,8 +13,10 @@ import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +24,7 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -29,6 +32,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -437,8 +441,12 @@ public class Tetris extends ArcadeGame {
 
 	@Override
 	public void options(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		CheckBox ghost = new CheckBox("Enable ghost blocks");
+		CheckBox sound = new CheckBox("Enable sound");
+		VBox v = new VBox(ghost, sound);
+		Stage s = new Stage();
+		s.setScene(new Scene(v));
+		s.show();
 	}
 
 	@Override
