@@ -31,8 +31,7 @@ public class ArcadeApp extends Application {
 	HBox arcadeGameButtonLayer = new HBox();
 	HBox arcadeHighScoreButtonLayer = new HBox(10);
 	Region arcadeWelcomeTextLeftPadding = new Region();
-	Text arcadeWelcomeText = new Text(
-			"\n\nWelcome to Banana Stand's Arcade");
+	Text arcadeWelcomeText = new Text("\n\nWelcome to Banana Stand's Arcade");
 	Region arcadeWelcomeTextRightPadding = new Region();
 	Region arcadeChooseGameTextLeftPadding = new Region();
 	Text arcadeChooseGameText = new Text(
@@ -77,11 +76,11 @@ public class ArcadeApp extends Application {
 		HBox.setHgrow(arcadeGameButtonContainerLeftPadding, Priority.ALWAYS);
 		HBox.setHgrow(arcadeGameButtonContainerRightPadding, Priority.ALWAYS);
 		HBox.setHgrow(highScoreTableButtonContainerPadding, Priority.ALWAYS);
-		
+
 		start2(stage, vbox);
 
 	} // start method
-	
+
 	private void start2(Stage stage, VBox vbox) {
 
 		// Layer items assignments
@@ -107,7 +106,7 @@ public class ArcadeApp extends Application {
 		arcadeMainFrame = new HBox(vbox);
 		start3(stage);
 	}
-	
+
 	private void start3(Stage stage) {
 
 		// Setting numGameButton function
@@ -121,13 +120,15 @@ public class ArcadeApp extends Application {
 		});
 
 		highScore2048TableButton.setOnAction(e -> {
-			highScoreTable(new File(getClass().getResource("/2048/highScores.txt")
-				.getPath().replaceAll("%20", " "))).show();
+			highScoreTable(
+					new File(getClass().getResource("/2048/highScores.txt")
+							.getPath().replaceAll("%20", " "))).show();
 		});
 
 		highScoreTetrisTableButton.setOnAction(e -> {
-			highScoreTable(new File(getClass().getResource("/tetris/highScores.txt")
-					.getPath().replaceAll("%20", " "))).show();
+			highScoreTable(
+					new File(getClass().getResource("/tetris/highScores.txt")
+							.getPath().replaceAll("%20", " "))).show();
 		});
 
 		// Initialize and setting the scene
@@ -139,16 +140,17 @@ public class ArcadeApp extends Application {
 		stage.setWidth(600);
 		stage.show();
 	}
-	
+
 	private Stage highScoreTable(File scoreFile) {
 		Score[] scores = ArcadeGame.generateScores(scoreFile);
 		String[] s = new String[scores.length];
 		for (int i = 0; i < s.length; i++) {
-			s[i] = (i + 1) + ". " + scores[i].getScore() + " by " +
-					scores[i].getName();
+			s[i] = (i + 1) + ". " + scores[i].getScore() + " by "
+					+ scores[i].getName();
 		}
 		Stage stage = new Stage();
-		stage.setScene(new Scene(new VBox(new ListView(FXCollections.observableArrayList(s)))));
+		stage.setScene(new Scene(
+				new VBox(new ListView(FXCollections.observableArrayList(s)))));
 		stage.sizeToScene();
 		return stage;
 	}
