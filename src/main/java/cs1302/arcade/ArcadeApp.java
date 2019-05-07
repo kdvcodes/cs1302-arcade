@@ -81,6 +81,11 @@ public class ArcadeApp extends Application {
 
 	} // start method
 
+	/**
+	 * this start method is an extension of original start method
+	 * @param stage current stage
+	 * @param vbox vbox frame
+	 */
 	private void start2(Stage stage, VBox vbox) {
 
 		// Layer items assignments
@@ -107,6 +112,10 @@ public class ArcadeApp extends Application {
 		start3(stage);
 	}
 
+	/**
+	 * this is the extension of start2 method
+	 * @param stage current stage
+	 */
 	private void start3(Stage stage) {
 
 		// Setting numGameButton function
@@ -141,6 +150,11 @@ public class ArcadeApp extends Application {
 		stage.show();
 	}
 
+	/**
+	 * This method displays the high score tables
+	 * @param scoreFile the file being passed in
+	 * @return a new stage to show the table of high scores
+	 */
 	private Stage highScoreTable(File scoreFile) {
 		Score[] scores = ArcadeGame.generateScores(scoreFile);
 		String[] s = new String[scores.length];
