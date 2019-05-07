@@ -66,7 +66,8 @@ public abstract class ArcadeGame extends Stage {
 	public void submitScore(ActionEvent e) {
 		TextInputDialog d = new TextInputDialog();
 		d.setHeaderText("Enter your name:");
-		((Button) d.getDialogPane().lookupButton(ButtonType.OK)).setOnAction((w) -> {highScore(d.getEditor().getText());});
+		((Button) d.getDialogPane().lookupButton(ButtonType.OK))
+			.setOnAction((w) -> {highScore(d.getEditor().getText());});
 		d.show();
 	}
 
@@ -85,8 +86,7 @@ public abstract class ArcadeGame extends Stage {
 			}
 			scoreWriter.close();
 		} catch (IOException e) {}
-		new TetrisLauncher();
-		close();
+		finished();
 	}
 	
 	public abstract void newGame(ActionEvent e);
@@ -94,6 +94,10 @@ public abstract class ArcadeGame extends Stage {
 	public abstract void options(ActionEvent e);
 	
 	public abstract void help(ActionEvent e);
+	
+	public abstract void exit(ActionEvent e);
+	
+	protected abstract void finished();
 	
 	protected abstract void move(KeyEvent ke);
 	

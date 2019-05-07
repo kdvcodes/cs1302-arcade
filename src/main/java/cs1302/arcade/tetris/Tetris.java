@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,6 +34,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 /**
@@ -85,14 +87,22 @@ public class Tetris extends ArcadeGame {
 	private TetrisBoard nextBoard;
 	private boolean paused;
 	private boolean active;
+	private boolean showGhost;
+	private boolean playSound;
+	private Stage options;
+	private boolean finished;
 	
 	public Tetris(int level, Score[] highScores) {
-		active = true;
 		this.level = level;
 		this.highScores = highScores;
 		linesCleared = 0;
+		active = true;
+		finished = false;
 		paused = false;
-		scoreFile = new File(getClass().getResource("/tetris/highScores.txt").getPath().replaceAll("%20", " "));
+		showGhost = true;
+		playSound = true;
+		scoreFile = new File(getClass().getResource("/tetris/highScores.txt")
+				.getPath().replaceAll("%20", " "));
 		board = new TetrisBoard(rows, columns, this);
 		background = new Image("/tetris/background.png");
 		stats = new WritableImage(statPic, 46, 208);
@@ -104,61 +114,49 @@ public class Tetris extends ArcadeGame {
 		drawStats();
 		start(new ArcadeToolBar(this), board, nextBoard, statView);
 		textSetup();
+		optionsSetup();
 		setTitle("Tetris");
-		currentPiece = new Tetrimino(randomShape(), board);
+		currentPiece = new Tetrimino(randomShape(), board, showGhost);
 		dropper = new Timeline(new KeyFrame(dropRate(), this::drop));
 		dropper.setCycleCount(Timeline.INDEFINITE);
 		dropper.play();
 		music.play();
 	} // Tetris constructor
-	
+
 	private void textSetup() {
 		scoreText = new Text(385, 110, String.format("Score\n%06d", score));
-		scoreText.setFont(NES);
-		scoreText.setFill(Color.WHITE);
-		highScoreText = new Text(385, 60, String.format("Top\n%06d", highScores[0].getScore()));
-		highScoreText.setFont(NES);
-		highScoreText.setFill(Color.WHITE);
+		highScoreText = new Text(385, 60, String.format
+				("Top\n%06d", highScores[0].getScore()));
 		levelText = new Text(385, 318, String.format("Level\n  %02d", level));
-		levelText.setFont(NES);
-		levelText.setFill(Color.WHITE);
-		linesClearedText = new Text(208, 46, String.format("Lines-%03d", linesCleared));
-		linesClearedText.setFont(NES);
-		linesClearedText.setFill(Color.WHITE);
+		linesClearedText = new Text(208, 46, String.format
+				("Lines-%03d", linesCleared));
+		Text title = new Text(47, 62, "Tetris");
+		Text next = new Text(384, 207, "Next");
+		Text stats = new Text(47, 140, "Stats");
 		int xStart = 93;
 		int yStart = 189;
 		int space = 32;
 		tText = new Text(xStart, yStart, String.format("%03d", tStat));
-		tText.setFont(NES);
-		tText.setFill(Color.rgb(0xd8, 0x28, 0x00));
 		jText = new Text(xStart, yStart + (space * 1), String.format("%03d", jStat));
-		jText.setFont(NES);
-		jText.setFill(Color.rgb(0xd8, 0x28, 0x00));
 		zText = new Text(xStart, yStart + (space * 2), String.format("%03d", zStat));
-		zText.setFont(NES);
-		zText.setFill(Color.rgb(0xd8, 0x28, 0x00));
 		oText = new Text(xStart, yStart + (space * 3), String.format("%03d", oStat));
-		oText.setFont(NES);
-		oText.setFill(Color.rgb(0xd8, 0x28, 0x00));
 		sText = new Text(xStart, yStart + (space * 4), String.format("%03d", sStat));
-		sText.setFont(NES);
-		sText.setFill(Color.rgb(0xd8, 0x28, 0x00));
 		lText = new Text(xStart, yStart + (space * 5), String.format("%03d", lStat));
-		lText.setFont(NES);
-		lText.setFill(Color.rgb(0xd8, 0x28, 0x00));
 		iText = new Text(xStart, yStart + (space * 6), String.format("%03d", iStat));
-		iText.setFont(NES);
-		iText.setFill(Color.rgb(0xd8, 0x28, 0x00));
-		Text title = new Text(47, 62, "Tetris");
-		title.setFont(NES);
-		title.setFill(Color.WHITE);
-		Text next = new Text(384, 207, "Next");
-		next.setFont(NES);
-		next.setFill(Color.WHITE);
-		Text stats = new Text(47, 140, "Stats");
-		stats.setFont(NES);
-		stats.setFill(Color.WHITE);
-		game.getChildren().addAll(scoreText, highScoreText, levelText, linesClearedText, tText, jText, zText, oText, sText, lText, iText, title, next, stats);
+		formatText(NES, Color.WHITE, scoreText, highScoreText, levelText,
+				linesClearedText, title, next, stats);
+		formatText(NES, Color.rgb(0xd8, 0x28, 0x00), tText, jText, zText, oText,
+				sText, lText, iText);
+		game.getChildren().addAll(scoreText, highScoreText, levelText,
+				linesClearedText, tText, jText, zText, oText, sText, lText, iText,
+				title, next, stats);
+	}
+	
+	public static void formatText(Font f, Color c, Text... t) {
+		for (int i = 0; i < t.length; i++) {
+			t[i].setFont(f);
+			t[i].setFill(c);
+		}
 	}
 	
 	private void statSetup() {
@@ -169,6 +167,25 @@ public class Tetris extends ArcadeGame {
 		sStat = 0;
 		lStat = 0;
 		iStat = 0;
+	}
+	
+	private void optionsSetup() {
+		CheckBox ghost = new CheckBox("Enable ghost blocks");
+		CheckBox sound = new CheckBox("Enable sound");
+		ghost.setSelected(true);
+		sound.setSelected(true);
+		ghost.setOnAction((i) -> {if (ghost.isSelected()) showGhost = true;
+			else showGhost = false;});
+		sound.setOnAction((i) -> {if (sound.isSelected()) playSound = true;
+			else playSound = false;});
+		ListView lv = new ListView();
+		lv.getItems().addAll(ghost, sound);
+		lv.setPrefHeight(58);
+		VBox v = new VBox(lv);
+		options = new Stage();
+		options.setOnCloseRequest(this::unpause);
+		options.setScene(new Scene(v));
+		options.sizeToScene();
 	}
 	
 	private void drawStats() {
@@ -229,7 +246,7 @@ public class Tetris extends ArcadeGame {
 			levelUp();
 		}
 		increaseStats();
-		currentPiece = new Tetrimino(next.getShape(), board);
+		currentPiece = new Tetrimino(next.getShape(), board, showGhost);
 		game.getChildren().remove(nextBoard);
 		makeNext();
 		game.getChildren().add(nextBoard);
@@ -324,10 +341,7 @@ public class Tetris extends ArcadeGame {
 	
 	protected void move(KeyEvent ke) {
 		if (paused && ke.getCode() == KeyCode.ESCAPE) {
-			paused = false;
-			select.play();
-			music.play();
-			dropper.play();
+			unpause(null);
 		}
 		else if (!paused && active) {
 			switch (ke.getCode()) {
@@ -353,13 +367,24 @@ public class Tetris extends ArcadeGame {
 				currentPiece.rotate(-1);
 				break;
 			case ESCAPE:
-				paused = true;
-				select.play();
-				music.pause();
-				dropper.pause();
+				pause();
 				break;
 			}
 		}
+	}
+	
+	private void pause() {
+		paused = true;
+		select.play();
+		music.pause();
+		dropper.pause();
+	}
+	
+	private void unpause(WindowEvent w) {
+		paused = false;
+		select.play();
+		music.play();
+		dropper.play();
 	}
 	
 	private Shape randomShape() {
@@ -441,18 +466,27 @@ public class Tetris extends ArcadeGame {
 
 	@Override
 	public void options(ActionEvent e) {
-		CheckBox ghost = new CheckBox("Enable ghost blocks");
-		CheckBox sound = new CheckBox("Enable sound");
-		VBox v = new VBox(ghost, sound);
-		Stage s = new Stage();
-		s.setScene(new Scene(v));
-		s.show();
+		pause();
+		options.show();
 	}
 
 	@Override
 	public void help(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		pause();
+	}
+	
+	@Override
+	public void exit(ActionEvent e) {
+		gameOver();
+		finished = true;
+		submitScore(null);
+	}
+	
+	protected void finished() {
+		if (!finished) {
+			new TetrisLauncher();
+		}
+		close();
 	}
 	
 	public void gameOver() {

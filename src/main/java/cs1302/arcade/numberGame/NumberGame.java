@@ -5,18 +5,12 @@ import java.io.File;
 import cs1302.arcade.ArcadeGame;
 import cs1302.arcade.ArcadeToolBar;
 import cs1302.arcade.Tile;
-import cs1302.arcade.tetris.TetrisBoard;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**

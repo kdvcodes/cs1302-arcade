@@ -39,10 +39,7 @@ public class ArcadeToolBar extends ToolBar {
 		newGame.setOnAction(game::newGame);
 		options.setOnAction(game::options);
 		help.setOnAction(game::help);
-		
-		exit.setOnAction(e -> {
-			Platform.exit();
-		});
+		exit.setOnAction(game::exit);
 		
 	}
 	
