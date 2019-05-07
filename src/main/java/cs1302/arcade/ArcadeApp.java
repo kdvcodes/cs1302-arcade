@@ -19,13 +19,13 @@ import javafx.stage.Stage;
  * This is the ArcadeApp class
  */
 public class ArcadeApp extends Application {
-	
+
 	ArcadeToolBar arcadeMenuBar;
 	HBox arcadeMainFrame;
-	
-	
+
 	/**
 	 * This is the start method
+	 * 
 	 * @param stage the main stage for the application
 	 */
 	@Override
@@ -33,13 +33,22 @@ public class ArcadeApp extends Application {
 		// Main frame items initializations
 		VBox vbox = new VBox();
 		arcadeMainFrame = new HBox(vbox);
-		
+
+		// Layers and containers initializations
+		HBox arcadeWelcomeTextLayer = new HBox();
+		HBox arcadeChooseGameTextLayer = new HBox();
+		VBox arcadeGameButtonContainer = new VBox(30);
+		HBox arcadeGameButtonLayer = new HBox();
+		HBox arcadeHighScoreButtonLayer = new HBox(10);
+
 		// Scene items initializations
 		Region arcadeWelcomeTextLeftPadding = new Region();
-		Text arcadeWelcomeText = new Text("\n\nWelcome to Banana Stand's Arcade");
+		Text arcadeWelcomeText = new Text(
+				"\n\nWelcome to Banana Stand's Arcade");
 		Region arcadeWelcomeTextRightPadding = new Region();
 		Region arcadeChooseGameTextLeftPadding = new Region();
-		Text arcadeChooseGameText = new Text("\n\nPlease choose one of the game below. Enjoy!!!\n\n\n\n\n\n\n\n\n\n");
+		Text arcadeChooseGameText = new Text(
+				"\n\nPlease choose one of the game below. Enjoy!!!\n\n\n\n\n\n\n\n\n\n");
 		Region arcadeChooseGameTextRightPadding = new Region();
 		Button numGameButton = new Button("2048 Game");
 		Button tetrisGameButton = new Button("Tetris Game");
@@ -49,7 +58,7 @@ public class ArcadeApp extends Application {
 		Button highScore2048TableButton = new Button("2048 High Score");
 		Button highScoreTetrisTableButton = new Button("Tetris High Score");
 		Text paddingText = new Text("\n\n\n\n\n\n\n\n\n");
-		
+
 		// Items customizations
 		arcadeWelcomeText.setFont(Font.font("Verdana", 24));
 		arcadeWelcomeText.setFill(Color.RED);
@@ -58,7 +67,7 @@ public class ArcadeApp extends Application {
 
 		// Setting item sizing and spacing
 		HBox.setHgrow(vbox, Priority.ALWAYS);
-		HBox.setHgrow(arcadeWelcomeText, Priority.ALWAYS );
+		HBox.setHgrow(arcadeWelcomeText, Priority.ALWAYS);
 		HBox.setHgrow(arcadeWelcomeTextLeftPadding, Priority.ALWAYS);
 		HBox.setHgrow(arcadeWelcomeTextRightPadding, Priority.ALWAYS);
 		HBox.setHgrow(arcadeChooseGameTextLeftPadding, Priority.ALWAYS);
@@ -66,55 +75,55 @@ public class ArcadeApp extends Application {
 		HBox.setHgrow(arcadeGameButtonContainerLeftPadding, Priority.ALWAYS);
 		HBox.setHgrow(arcadeGameButtonContainerRightPadding, Priority.ALWAYS);
 		HBox.setHgrow(highScoreTableButtonContainerPadding, Priority.ALWAYS);
-		
-		
+
 		// Layer items assignments
-		arcadeWelcomeTextLayer.getChildren().addAll(arcadeWelcomeTextLeftPadding, arcadeWelcomeText, arcadeWelcomeTextRightPadding);
-		arcadeChooseGameTextLayer.getChildren().addAll(arcadeChooseGameTextLeftPadding, arcadeChooseGameText, arcadeChooseGameTextRightPadding);
-		arcadeGameButtonLayer.getChildren().addAll(arcadeGameButtonContainerLeftPadding, arcadeGameButtonContainer, arcadeGameButtonContainerRightPadding);
-		arcadeGameButtonContainer.getChildren().addAll(numGameButton, tetrisGameButton);
-		arcadeHighScoreButtonLayer.getChildren().addAll(highScoreTableButtonContainerPadding, highScore2048TableButton, highScoreTetrisTableButton);
-		
+		arcadeWelcomeTextLayer.getChildren().addAll(
+				arcadeWelcomeTextLeftPadding, arcadeWelcomeText,
+				arcadeWelcomeTextRightPadding);
+		arcadeChooseGameTextLayer.getChildren().addAll(
+				arcadeChooseGameTextLeftPadding, arcadeChooseGameText,
+				arcadeChooseGameTextRightPadding);
+		arcadeGameButtonLayer.getChildren().addAll(
+				arcadeGameButtonContainerLeftPadding, arcadeGameButtonContainer,
+				arcadeGameButtonContainerRightPadding);
+		arcadeGameButtonContainer.getChildren().addAll(numGameButton,
+				tetrisGameButton);
+		arcadeHighScoreButtonLayer.getChildren().addAll(
+				highScoreTableButtonContainerPadding, highScore2048TableButton,
+				highScoreTetrisTableButton);
+
 		// Setting the items placements
-		vbox.getChildren().addAll(arcadeWelcomeTextLayer, arcadeChooseGameTextLayer, arcadeGameButtonLayer, paddingText, arcadeHighScoreButtonLayer);
-		
+		vbox.getChildren().addAll(arcadeWelcomeTextLayer,
+				arcadeChooseGameTextLayer, arcadeGameButtonLayer, paddingText,
+				arcadeHighScoreButtonLayer);
+
 		// Setting numGameButton function
 		numGameButton.setOnAction(e -> {
 			new NumberGame();
 		});
-		
+
 		// Setting tetrisGameButton function
 		tetrisGameButton.setOnAction(e -> {
 			new TetrisLauncher();
 		});
-		
+
 		highScore2048TableButton.setOnAction(e -> {
-			
+
 		});
-		
+
 		highScoreTetrisTableButton.setOnAction(e -> {
-			
+
 		});
 
 		// Initialize and setting the scene
 		Scene arcadeMainScene = new Scene(arcadeMainFrame);
-		
+
 		// Setting the stage
 		stage.setScene(arcadeMainScene);
 		stage.setHeight(600);
 		stage.setWidth(600);
 		stage.show();
-		
+
 	} // start method
-	
-	private void LayerInitializer() {
-		// Layers and containers initializations
-		HBox arcadeWelcomeTextLayer = new HBox();
-		HBox arcadeChooseGameTextLayer = new HBox();
-		VBox arcadeGameButtonContainer = new VBox(30);
-		HBox arcadeGameButtonLayer = new HBox();
-		HBox arcadeHighScoreButtonLayer = new HBox(10);
-		//testing
-	}
 
 } // ArcadeApp class

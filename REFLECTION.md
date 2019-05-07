@@ -36,3 +36,12 @@ tracking, next piece showing, and animations.
 
 3. **PROB:** Lots of difficulty in getting 2048 to move correctly and to only
 combine certain tiles. Also implementing animations was very time-consuming.
+
+## THUR 2019-05-07 @ 3:30 PM EST
+
+1. **DONE:** Main games of 2048 and Tetris both functional and playable. 
+
+2. **TODO:** Make more updates to the games for enhancements after submission. 
+
+3. **PROB:** Lots of difficulty trying to get all the details of each game perfect, 
+but that's been nearly perfectly done. 
