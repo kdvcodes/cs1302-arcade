@@ -149,7 +149,6 @@ public class NumberGame extends ArcadeGame{
 
 	@Override
 	protected void finished() {
-		// TODO Auto-generated method stub
 		
 	}
 	
