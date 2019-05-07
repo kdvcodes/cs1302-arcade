@@ -16,8 +16,11 @@ import javafx.event.ActionEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.paint.Color;
 
 /**
  * This is the NumberGame class for the game of 2448
@@ -26,6 +29,8 @@ import javafx.util.Duration;
 public class NumberGame extends ArcadeGame{
 
 	final int gameSize = 4;
+	private Text scoreText;
+	private Text highScoreText;
 	/* NumberGameMenuBar numberGameMenuBar;
 	NumberGameInfoBar numberGameInfoBar;
 	NumberGameMainContent numberGameMainContent; */
@@ -35,7 +40,14 @@ public class NumberGame extends ArcadeGame{
 		scoreFile = new File(getClass().getResource("/2048/highScores.txt").getPath().replaceAll("%20", " "));
 		board = new NumberGameBoard(gameSize, gameSize, this);
 		background = new Image("/2048/background.png");
-		start(new ArcadeToolBar(this), board);
+		scoreText = new Text(370, 110, String.format("%05d", score));
+		scoreText.setFill(Color.WHITE);
+		scoreText.setFont(Font.font(32));
+		highScores = generateScores(scoreFile);
+		highScoreText = new Text(480, 110, String.format("%05d", highScores[0].getScore()));
+		highScoreText.setFill(Color.WHITE);
+		highScoreText.setFont(Font.font(32));
+		start(new ArcadeToolBar(this), board, scoreText, highScoreText);
 		expand.setCycleCount(1);
 		newGame(null);
 	}
@@ -90,7 +102,10 @@ public class NumberGame extends ArcadeGame{
 	
 	public void updateScore(int i) {
 		score += i;
-		System.out.println(score);
+		scoreText.setText(String.format("%05d", score));
+		if (highScores[0].getScore() < score) {
+			highScoreText.setText(String.format("%05d", score));
+		}
 	} // updatScore
 
 	@Override

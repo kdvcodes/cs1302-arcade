@@ -23,6 +23,10 @@ public class ArcadeApp extends Application {
 	ArcadeToolBar arcadeMenuBar;
 	HBox arcadeMainFrame;
 	
+	
+	/**
+	 * This is the start method
+	 */
 	@Override
 	public void start(Stage stage) {
 		// Main frame items initializations
@@ -35,6 +39,7 @@ public class ArcadeApp extends Application {
 		HBox arcadeChooseGameTextLayer = new HBox();
 		VBox arcadeGameButtonContainer = new VBox(30);
 		HBox arcadeGameButtonLayer = new HBox();
+		HBox arcadeGameHighScoreButtonLayer = new HBox();
 		
 		// Scene items initializations
 		//arcadeMenuBar = new ArcadeMenuBar();
@@ -48,6 +53,9 @@ public class ArcadeApp extends Application {
 		Button tetrisGameButton = new Button("Tetris Game");
 		Region arcadeGameButtonContainerLeftPadding = new Region();
 		Region arcadeGameButtonContainerRightPadding = new Region();
+		Region highScoreTableButtonContainerPadding = new Region();
+		Button highScoreTableButton = new Button("High Score Table");
+		Text paddingText = new Text("\n\n\n\n\n\n\n\n\n");
 		
 		// Items customizations
 		arcadeWelcomeText.setFont(Font.font("Verdana", 24));
@@ -65,6 +73,7 @@ public class ArcadeApp extends Application {
 		HBox.setHgrow(arcadeChooseGameTextRightPadding, Priority.ALWAYS);
 		HBox.setHgrow(arcadeGameButtonContainerLeftPadding, Priority.ALWAYS);
 		HBox.setHgrow(arcadeGameButtonContainerRightPadding, Priority.ALWAYS);
+		HBox.setHgrow(highScoreTableButtonContainerPadding, Priority.ALWAYS);
 		
 		
 		// Layer items assignments
@@ -73,9 +82,10 @@ public class ArcadeApp extends Application {
 		arcadeChooseGameTextLayer.getChildren().addAll(arcadeChooseGameTextLeftPadding, arcadeChooseGameText, arcadeChooseGameTextRightPadding);
 		arcadeGameButtonLayer.getChildren().addAll(arcadeGameButtonContainerLeftPadding, arcadeGameButtonContainer, arcadeGameButtonContainerRightPadding);
 		arcadeGameButtonContainer.getChildren().addAll(numGameButton, tetrisGameButton);
+		arcadeGameHighScoreButtonLayer.getChildren().addAll(highScoreTableButtonContainerPadding, highScoreTableButton);
 		
 		// Setting the items placements
-		vbox.getChildren().addAll(arcadeWelcomeTextLayer, arcadeChooseGameTextLayer, arcadeGameButtonLayer);
+		vbox.getChildren().addAll(arcadeWelcomeTextLayer, arcadeChooseGameTextLayer, arcadeGameButtonLayer, paddingText, arcadeGameHighScoreButtonLayer);
 		
 		// Setting numGameButton function
 		numGameButton.setOnAction(e -> {
@@ -85,6 +95,10 @@ public class ArcadeApp extends Application {
 		// Setting tetrisGameButton function
 		tetrisGameButton.setOnAction(e -> {
 			new TetrisLauncher();
+		});
+		
+		highScoreTableButton.setOnAction(e -> {
+			
 		});
 
 		// Initialize and setting the scene
