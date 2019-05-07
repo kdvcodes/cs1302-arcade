@@ -34,14 +34,16 @@ public class NumberGame extends ArcadeGame{
 	 * This is the number game constructor
 	 */
 	public NumberGame() {
-		scoreFile = new File(getClass().getResource("/2048/highScores.txt").getPath().replaceAll("%20", " "));
+		scoreFile = new File(getClass().getResource("/2048/highScores.txt")
+				.getPath().replaceAll("%20", " "));
 		board = new NumberGameBoard(gameSize, gameSize, this);
 		background = new Image("/2048/background.png");
 		scoreText = new Text(370, 110, String.format("%05d", score));
 		scoreText.setFill(Color.WHITE);
 		scoreText.setFont(Font.font(32));
 		highScores = generateScores(scoreFile);
-		highScoreText = new Text(480, 110, String.format("%05d", highScores[0].getScore()));
+		highScoreText = new Text(480, 110, String.format("%05d", highScores[0]
+				.getScore()));
 		highScoreText.setFill(Color.WHITE);
 		highScoreText.setFont(Font.font(32));
 		start(new ArcadeToolBar(this), board, scoreText, highScoreText);
@@ -91,8 +93,10 @@ public class NumberGame extends ArcadeGame{
 			t.setFitHeight(0);
 			t.setFitWidth(0);
 			expand.getKeyFrames().removeAll();
-			expand.getKeyFrames().add(new KeyFrame(Duration.millis(200), new KeyValue(t.fitHeightProperty(), t.size)));
-			expand.getKeyFrames().add(new KeyFrame(Duration.millis(200), new KeyValue(t.fitWidthProperty(), t.size)));
+			expand.getKeyFrames().add(new KeyFrame(Duration.millis(200),
+					new KeyValue(t.fitHeightProperty(), t.size)));
+			expand.getKeyFrames().add(new KeyFrame(Duration.millis(200), 
+					new KeyValue(t.fitWidthProperty(), t.size)));
 			expand.play();
 		} catch (StackOverflowError e) {
 			if (((NumberGameBoard) board).isFull()) {

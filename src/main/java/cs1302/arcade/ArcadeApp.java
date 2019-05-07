@@ -20,8 +20,28 @@ import javafx.stage.Stage;
  */
 public class ArcadeApp extends Application {
 
-	ArcadeToolBar arcadeMenuBar;
 	HBox arcadeMainFrame;
+	HBox arcadeWelcomeTextLayer = new HBox();
+	HBox arcadeChooseGameTextLayer = new HBox();
+	VBox arcadeGameButtonContainer = new VBox(30);
+	HBox arcadeGameButtonLayer = new HBox();
+	HBox arcadeHighScoreButtonLayer = new HBox(10);
+	Region arcadeWelcomeTextLeftPadding = new Region();
+	Text arcadeWelcomeText = new Text(
+			"\n\nWelcome to Banana Stand's Arcade");
+	Region arcadeWelcomeTextRightPadding = new Region();
+	Region arcadeChooseGameTextLeftPadding = new Region();
+	Text arcadeChooseGameText = new Text(
+			"\n\nPlease choose one of the game below. Enjoy!!!\n\n\n\n\n\n\n\n\n\n");
+	Region arcadeChooseGameTextRightPadding = new Region();
+	Button numGameButton = new Button("2048 Game");
+	Button tetrisGameButton = new Button("Tetris Game");
+	Region arcadeGameButtonContainerLeftPadding = new Region();
+	Region arcadeGameButtonContainerRightPadding = new Region();
+	Region highScoreTableButtonContainerPadding = new Region();
+	Button highScore2048TableButton = new Button("2048 High Score");
+	Button highScoreTetrisTableButton = new Button("Tetris High Score");
+	Text paddingText = new Text("\n\n\n\n\n\n\n\n\n");
 
 	/**
 	 * This is the start method
@@ -35,29 +55,8 @@ public class ArcadeApp extends Application {
 		arcadeMainFrame = new HBox(vbox);
 
 		// Layers and containers initializations
-		HBox arcadeWelcomeTextLayer = new HBox();
-		HBox arcadeChooseGameTextLayer = new HBox();
-		VBox arcadeGameButtonContainer = new VBox(30);
-		HBox arcadeGameButtonLayer = new HBox();
-		HBox arcadeHighScoreButtonLayer = new HBox(10);
 
 		// Scene items initializations
-		Region arcadeWelcomeTextLeftPadding = new Region();
-		Text arcadeWelcomeText = new Text(
-				"\n\nWelcome to Banana Stand's Arcade");
-		Region arcadeWelcomeTextRightPadding = new Region();
-		Region arcadeChooseGameTextLeftPadding = new Region();
-		Text arcadeChooseGameText = new Text(
-				"\n\nPlease choose one of the game below. Enjoy!!!\n\n\n\n\n\n\n\n\n\n");
-		Region arcadeChooseGameTextRightPadding = new Region();
-		Button numGameButton = new Button("2048 Game");
-		Button tetrisGameButton = new Button("Tetris Game");
-		Region arcadeGameButtonContainerLeftPadding = new Region();
-		Region arcadeGameButtonContainerRightPadding = new Region();
-		Region highScoreTableButtonContainerPadding = new Region();
-		Button highScore2048TableButton = new Button("2048 High Score");
-		Button highScoreTetrisTableButton = new Button("Tetris High Score");
-		Text paddingText = new Text("\n\n\n\n\n\n\n\n\n");
 
 		// Items customizations
 		arcadeWelcomeText.setFont(Font.font("Verdana", 24));
@@ -75,6 +74,12 @@ public class ArcadeApp extends Application {
 		HBox.setHgrow(arcadeGameButtonContainerLeftPadding, Priority.ALWAYS);
 		HBox.setHgrow(arcadeGameButtonContainerRightPadding, Priority.ALWAYS);
 		HBox.setHgrow(highScoreTableButtonContainerPadding, Priority.ALWAYS);
+		
+		start2(stage, vbox);
+
+	} // start method
+	
+	private void start2(Stage stage, VBox vbox) {
 
 		// Layer items assignments
 		arcadeWelcomeTextLayer.getChildren().addAll(
@@ -96,6 +101,10 @@ public class ArcadeApp extends Application {
 		vbox.getChildren().addAll(arcadeWelcomeTextLayer,
 				arcadeChooseGameTextLayer, arcadeGameButtonLayer, paddingText,
 				arcadeHighScoreButtonLayer);
+		start3(stage);
+	}
+	
+	private void start3(Stage stage) {
 
 		// Setting numGameButton function
 		numGameButton.setOnAction(e -> {
@@ -123,7 +132,6 @@ public class ArcadeApp extends Application {
 		stage.setHeight(600);
 		stage.setWidth(600);
 		stage.show();
-
-	} // start method
+	}
 
 } // ArcadeApp class
