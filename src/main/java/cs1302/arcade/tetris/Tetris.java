@@ -79,12 +79,12 @@ public class Tetris extends ArcadeGame {
 	private final int columns = 10;
 	private int linesCleared;
 	private int[] clearedRows;
-	private MediaPlayer music = new MediaPlayer(new Media(getClass().getResource("/tetris/Music_1.wav").toString()));
-	private AudioClip lock = new AudioClip(getClass().getResource("/tetris/lock.wav").toString());
-	private AudioClip clear = new AudioClip(getClass().getResource("/tetris/clear.wav").toString());
-	private AudioClip tetris = new AudioClip(getClass().getResource("/tetris/tetris.wav").toString());
-	private AudioClip levelUp = new AudioClip(getClass().getResource("/tetris/level.wav").toString());
-	private AudioClip select = new AudioClip(getClass().getResource("/tetris/select.wav").toString());
+	private MediaPlayer music;
+	private AudioClip lock;
+	private AudioClip clear;
+	private AudioClip tetris;
+	private AudioClip levelUp;
+	private AudioClip select;
 	private final Font NES = Font.loadFont(getClass().getResourceAsStream("/tetris/NES.ttf"), 16);
 	private TetrisBoard nextBoard;
 	private boolean paused;
