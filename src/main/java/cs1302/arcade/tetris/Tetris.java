@@ -1,25 +1,18 @@
 package cs1302.arcade.tetris;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import cs1302.arcade.ArcadeGame;
 import cs1302.arcade.ArcadeToolBar;
-import cs1302.arcade.Board;
 import cs1302.arcade.Score;
-import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
@@ -32,7 +25,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -46,53 +38,186 @@ import javafx.util.Duration;
 public class Tetris extends ArcadeGame {
 
 	
-	Tetrimino currentPiece;
-	int level;
-	Timeline dropper;
+	/**
+	 * The current piece being controlled
+	 */
+	private Tetrimino currentPiece;
+	/**
+	 * 
+	 */
+	private int level;
+	/**
+	 * 
+	 */
+	private Timeline dropper;
+	/**
+	 * 
+	 */
 	private Text scoreText;
+	/**
+	 * 
+	 */
 	private Text highScoreText;
+	/**
+	 * 
+	 */
 	private Text levelText;
+	/**
+	 * 
+	 */
 	private Text linesClearedText;
+	/**
+	 * 
+	 */
 	private Tetrimino next;
 	
+	/**
+	 * 
+	 */
 	private int tStat;
+	/**
+	 * 
+	 */
 	private int jStat;
+	/**
+	 * 
+	 */
 	private int zStat;
+	/**
+	 * 
+	 */
 	private int oStat;
+	/**
+	 * 
+	 */
 	private int sStat;
+	/**
+	 * 
+	 */
 	private int lStat;
+	/**
+	 * 
+	 */
 	private int iStat;
 	
+	/**
+	 * 
+	 */
 	private Text tText;
+	/**
+	 * 
+	 */
 	private Text jText;
+	/**
+	 * 
+	 */
 	private Text zText;
+	/**
+	 * 
+	 */
 	private Text oText;
+	/**
+	 * 
+	 */
 	private Text sText;
+	/**
+	 * 
+	 */
 	private Text lText;
+	/**
+	 * 
+	 */
 	private Text iText;
 
+	/**
+	 * 
+	 */
 	private final PixelReader statPic = new Image("/tetris/stats.png").getPixelReader();
+	/**
+	 * 
+	 */
 	private WritableImage stats;
+	/**
+	 * 
+	 */
 	private ImageView statView;
 	
+	/**
+	 * 
+	 */
 	private final int rows = 22;
+	/**
+	 * 
+	 */
 	private final int columns = 10;
+	/**
+	 * 
+	 */
 	private int linesCleared;
+	/**
+	 * 
+	 */
 	private int[] clearedRows;
+	/**
+	 * 
+	 */
 	private MediaPlayer music;
+	/**
+	 * 
+	 */
 	private AudioClip lock;
+	/**
+	 * 
+	 */
 	private AudioClip clear;
+	/**
+	 * 
+	 */
 	private AudioClip tetris;
+	/**
+	 * 
+	 */
 	private AudioClip levelUp;
+	/**
+	 * 
+	 */
 	private AudioClip select;
-	private final Font NES = Font.loadFont(getClass().getResourceAsStream("/tetris/NES.ttf"), 16);
+	/**
+	 * 
+	 */
+	private final Font NES = Font.loadFont(getClass()
+			.getResourceAsStream("/tetris/NES.ttf"), 16);
+	/**
+	 * 
+	 */
 	private TetrisBoard nextBoard;
+	/**
+	 * 
+	 */
 	private boolean paused;
+	/**
+	 * 
+	 */
 	private boolean active;
+	/**
+	 * 
+	 */
 	private boolean showGhost;
+	/**
+	 * 
+	 */
 	private boolean playSound;
+	/**
+	 * 
+	 */
 	private Stage options;
 	
+	/**
+	 * Creates a new Tetris game
+	 * 
+	 * @param level the starting level
+	 * @param highScores the Score array of existing scores
+	 */
 	public Tetris(int level, Score[] highScores) {
 		this.level = level;
 		this.highScores = highScores;
@@ -126,6 +251,9 @@ public class Tetris extends ArcadeGame {
 		}
 	} // Tetris constructor
 
+	/**
+	 * Sets up lots of the text in the scene
+	 */
 	private void textSetup() {
 		scoreText = new Text(385, 110, String.format("Score\n%06d", score));
 		highScoreText = new Text(385, 60, String.format
@@ -155,6 +283,13 @@ public class Tetris extends ArcadeGame {
 				title, next, stats);
 	}
 	
+	/**
+	 * Takes a array of Text and formats it according to the parameters
+	 * 
+	 * @param f the Font to use
+	 * @param c the Color to use
+	 * @param t the Text to format
+	 */
 	public static void formatText(Font f, Color c, Text... t) {
 		for (int i = 0; i < t.length; i++) {
 			t[i].setFont(f);
@@ -162,6 +297,9 @@ public class Tetris extends ArcadeGame {
 		}
 	}
 	
+	/**
+	 * Initialzes the statistic variables
+	 */
 	private void statSetup() {
 		tStat = 0;
 		jStat = 0;
@@ -172,6 +310,9 @@ public class Tetris extends ArcadeGame {
 		iStat = 0;
 	}
 	
+	/**
+	 * Sets up to options panel
+	 */
 	private void optionsSetup() {
 		CheckBox ghost = new CheckBox("Enable ghost blocks");
 		CheckBox sound = new CheckBox("Enable sound");
@@ -191,6 +332,9 @@ public class Tetris extends ArcadeGame {
 		options.sizeToScene();
 	}
 	
+	/**
+	 * Checks if sound is able to be initialzed
+	 */
 	private void soundSetup() {
 		try {
 			music = new MediaPlayer(new Media(getClass().getResource("/tetris/Music_1.wav").toString()));
@@ -204,6 +348,9 @@ public class Tetris extends ArcadeGame {
 		}
 	}
 	
+	/**
+	 * Draws the statistics images according to the current level color
+	 */
 	private void drawStats() {
 		for (int x = 0; x < stats.getWidth(); x++) {
 			for (int y = 0; y < stats.getHeight(); y++) {
@@ -221,6 +368,9 @@ public class Tetris extends ArcadeGame {
 		statView.setImage(stats);
 	}
 	
+	/**
+	 * 
+	 */
 	private void makeNext() {
 		Shape s = randomShape();
 		nextBoard = s.nextBoard(this);
@@ -231,6 +381,9 @@ public class Tetris extends ArcadeGame {
 		next = new Tetrimino(s, nextBoard, 1, 0);
 	}
 
+	/**
+	 * Locks the current piece into place
+	 */
 	private void lock() {
 		dropper.stop();
 		getScene().setOnKeyPressed(null);
@@ -260,8 +413,12 @@ public class Tetris extends ArcadeGame {
 		}
 	}
 	
+	/**
+	 * Creates a new Tetrimino
+	 */
 	public void newPiece() {
 		updateScore(clearedRows.length);
+		//check for level up
 		if (linesCleared >= (level + 1) * 10) {
 			levelUp();
 		}
@@ -276,6 +433,9 @@ public class Tetris extends ArcadeGame {
 		}
 	}
 	
+	/**
+	 * Increments the statistics
+	 */
 	private void increaseStats() {
 		switch (next.getShape()) {
 		case T:
@@ -309,6 +469,9 @@ public class Tetris extends ArcadeGame {
 		}
 	}
 
+	/**
+	 * Increments the current level
+	 */
 	private void levelUp() {
 		level++;
 		if (playSound) {
@@ -321,13 +484,22 @@ public class Tetris extends ArcadeGame {
 				board.getTile(i, j).update();
 			}
 		}
+		//update drop rate based on current level
 		dropper.getKeyFrames().replaceAll((k) -> new KeyFrame(dropRate(), this::drop));
 	}
 	
+	/**
+	 * Returns the current level
+	 * 
+	 * @return level
+	 */
 	public int getLevel() {
 		return level;
 	}
 	
+	/* 
+	 * {@inheritDoc}
+	 */
 	public void updateScore(int i) {
 		switch (i) {
 		case 0:
@@ -348,11 +520,18 @@ public class Tetris extends ArcadeGame {
 		linesCleared += i;
 		scoreText.setText(String.format("Score\n%06d", score));
 		linesClearedText.setText(String.format("Lines-%03d", linesCleared));
+		//check if top score is beaten
 		if (highScores[0].getScore() < score) {
 			highScoreText.setText(String.format("Top\n%06d", score));
 		}
 	}
 	
+	/**
+	 * Drops the current piece and locks it if needed
+	 * 
+	 * @param e
+	 * @return true if the piece locked, false otherise
+	 */
 	private boolean drop(ActionEvent e) {
 		if (!currentPiece.drop()) {
 			lock();
@@ -361,6 +540,9 @@ public class Tetris extends ArcadeGame {
 		return false;
 	}
 	
+	/* 
+	 * {@inheritDoc}
+	 */
 	protected void move(KeyEvent ke) {
 		if (paused && ke.getCode() == KeyCode.ESCAPE) {
 			unpause(null);
@@ -395,6 +577,9 @@ public class Tetris extends ArcadeGame {
 		}
 	}
 	
+	/**
+	 * Pauses the game
+	 */
 	private void pause() {
 		paused = true;
 		if (playSound) {
@@ -404,6 +589,11 @@ public class Tetris extends ArcadeGame {
 		dropper.pause();
 	}
 	
+	/**
+	 * Unpauses the game
+	 * 
+	 * @param w
+	 */
 	private void unpause(WindowEvent w) {
 		paused = false;
 		if (playSound) {
@@ -413,6 +603,11 @@ public class Tetris extends ArcadeGame {
 		dropper.play();
 	}
 	
+	/**
+	 * Returns a random {@code Shape}
+	 * 
+	 * @return a random shape
+	 */
 	private Shape randomShape() {
 		switch (generator.nextInt(7)) {
 		case 0:
@@ -433,6 +628,11 @@ public class Tetris extends ArcadeGame {
 		return null;
 	}
 	
+	/**
+	 * Returns the drop rate for this level
+	 * 
+	 * @return the drop rate for this level
+	 */
 	private Duration dropRate() {
 		switch (level) {
 		case 0:
@@ -459,6 +659,19 @@ public class Tetris extends ArcadeGame {
 		case 11:
 		case 12:
 			return Duration.millis(83);
+		default:
+			return moreDropRates();
+		}
+		
+	}
+	
+	/**
+	 * Table of drop rates for each level.
+	 * 
+	 * @return the drop rate
+	 */
+	private Duration moreDropRates() {
+		switch (level) {
 		case 13:
 		case 14:
 		case 15:
@@ -481,26 +694,37 @@ public class Tetris extends ArcadeGame {
 		default:
 			return Duration.millis(17);
 		}
-		
 	}
-	
+
+	/* 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void newGame(ActionEvent e) {
 		gameOver();
 		submitScore(null);
 	}
 
+	/* 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void options(ActionEvent e) {
 		pause();
 		options.show();
 	}
 
+	/* 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void help(ActionEvent e) {
 		pause();
 	}
 	
+	/*
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void exit(Event e) {
 		gameOver();
@@ -508,6 +732,10 @@ public class Tetris extends ArcadeGame {
 		submitScore(null);
 	}
 	
+	/* 
+	 * {@inheritDoc}
+	 */
+	@Override
 	protected void finished() {
 		if (!finished) {
 			new TetrisLauncher();
@@ -515,10 +743,15 @@ public class Tetris extends ArcadeGame {
 		close();
 	}
 	
+	/**
+	 * Stops various threads from updating the game
+	 */
 	public void gameOver() {
 		active = false;
 		dropper.stop();
-		music.stop();
+		if (playSound) {
+			music.stop();
+		}
 		getScene().setOnKeyPressed(null);
 	}
 

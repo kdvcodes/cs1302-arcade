@@ -17,6 +17,13 @@ public class TetrisBoard extends Board {
 	Timeline curtain;
 	int tileSweep;
 	
+	/**
+	 * Initializes a new TetrisBoard
+	 * 
+	 * @param rows
+	 * @param columns
+	 * @param game
+	 */
 	public TetrisBoard(int rows, int columns, Tetris game) {
 		this.game = game;
 		playField = new TetrisTile[rows][columns];
@@ -37,6 +44,15 @@ public class TetrisBoard extends Board {
 		}
 	}
 	
+	/**
+	 * Initializes a new "next board"
+	 * 
+	 * @param rows
+	 * @param columns
+	 * @param game
+	 * @param xStart
+	 * @param yStart
+	 */
 	public TetrisBoard(int rows, int columns, Tetris game, int xStart, int yStart) {
 		playField = new TetrisTile[rows][columns];
 		this.game = game;
@@ -48,17 +64,31 @@ public class TetrisBoard extends Board {
 		}
 	}
 	
+	/**
+	 * Drops the given Tile down a row, for clearing lines
+	 * 
+	 * @param row
+	 * @param column
+	 */
 	private void dropTile(int row, int column) {
 		getTile(row + 1, column).setPiece(getTile(row, column).getPiece());
 		getTile(row, column).clearPiece();
 	}
 	
+	/**
+	 * Starts the line clear animation
+	 * 
+	 * @param row
+	 */
 	public void clearLine(int row[]) {
 		clearedRows = row;
 		tileSweep = playField[0].length / 2;
 		clearAnim.playFromStart();
 	}
 	
+	/**
+	 * Clears out tiles in order
+	 */
 	private void clear1(ActionEvent e) {
 		for (int j = 0; j < clearedRows.length; j++) {
 			getTile(clearedRows[j], tileSweep).clearPiece();
@@ -69,6 +99,9 @@ public class TetrisBoard extends Board {
 		}
 	}
 	
+	/**
+	 * Drops tiles down and makes a new piece
+	 */
 	private void clear2(ActionEvent e) {
 		for (int i = 0; i < clearedRows.length; i++) {
 			for (int j = 0; j < playField[clearedRows[i]].length; j++) {
@@ -82,12 +115,18 @@ public class TetrisBoard extends Board {
 		((Tetris) game).newPiece();
 	}
 
+	/**
+	 * Plays the curtain animation
+	 */
 	public void gameOver() {
 		((Tetris) game).gameOver();
 		tileSweep = 0;
 		curtain.play();
 	}
 	
+	/**
+	 * Draws a curtain across the screen
+	 */
 	private void drawCurtain(ActionEvent e) {
 		for (int i = 0; i < playField[tileSweep].length; i++) {
 			((TetrisTile) getTile(tileSweep, i)).curtain();

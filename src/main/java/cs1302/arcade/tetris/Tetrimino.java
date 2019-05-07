@@ -22,6 +22,13 @@ public class Tetrimino {
 	private final Image ghostTile = new Image("/tetris/tile0.png");
 	private boolean playSound;
 	
+	/**
+	 * Constructs a new Tetrimino
+	 * 
+	 * @param shape
+	 * @param board
+	 * @param showGhost
+	 */
 	public Tetrimino(Shape shape, Board board, boolean showGhost) {
 		this.board = (TetrisBoard) board;
 		this.shape = shape;
@@ -34,6 +41,14 @@ public class Tetrimino {
 		update(true, initialX, initialY, 2);
 	}
 	
+	/**
+	 * Constructs a new Tetrimino (used for next boards)
+	 * 
+	 * @param shape
+	 * @param board
+	 * @param x
+	 * @param y
+	 */
 	public Tetrimino(Shape shape, Board board, int x, int y) {
 		this.board = (TetrisBoard) board;
 		this.shape = shape;
@@ -42,6 +57,9 @@ public class Tetrimino {
 		update(true, x, y, 2);
 	}
 	
+	/**
+	 * Attempts to initialize sound objects
+	 */
 	private void soundSetup() {
 		try {
 			move = new AudioClip(getClass().getResource("/tetris/move.wav").toString());
@@ -52,6 +70,15 @@ public class Tetrimino {
 		}
 	}
 	
+	/**
+	 * Moves this tetrimino to a new location based on the parameters
+	 * 
+	 * @param newPiece is this Tetrimino a new piece?
+	 * @param x
+	 * @param y
+	 * @param rotation
+	 * @return true if this piece moved, false otherwise
+	 */
 	private boolean update(boolean newPiece, int x, int y, int rotation) {
 		if (canMove(x, y, rotation)) {
 			if (!newPiece) {
@@ -76,6 +103,9 @@ public class Tetrimino {
 		return false;
 	}
 	
+	/**
+	 * draws the ghost Tetrimino
+	 */
 	private void drawGhost() {
 		int i = y;
 		while (canMove(x, i + 1, rotation)) {
@@ -87,6 +117,9 @@ public class Tetrimino {
 		}
 	}
 	
+	/**
+	 * Clears the Tiles at the coordinates of this piece
+	 */
 	private void empty() {
 		for (int i = 0; i < 4; i++) {
 			coordinates[i].clearPiece();
@@ -96,12 +129,23 @@ public class Tetrimino {
 		}
 	}
 	
+	/**
+	 * Fills the coordinates with this piece
+	 */
 	private void fill() {
 		for (int i = 0; i < 4; i++) {
 			coordinates[i].setPiece(this);
 		}
 	}
 	
+	/**
+	 * Checks if this piece can move to the new location
+	 * 
+	 * @param x
+	 * @param y
+	 * @param rotation
+	 * @return true if this piece can move, false otherwise
+	 */
 	private boolean canMove(int x, int y, int rotation) {
 		try {
 			TetrisTile[] c = shape.newCoordinates(x, y, rotation, board);
@@ -117,6 +161,11 @@ public class Tetrimino {
 		}
 	}
 	
+	/**
+	 * Rotates this piece to the new direction
+	 * 
+	 * @param direction
+	 */
 	public void rotate(int direction) {
 		if (shape == Shape.O) {
 			return;
@@ -147,6 +196,11 @@ public class Tetrimino {
 		}
 	}
 		
+	/**
+	 * Drops the current piece
+	 * 
+	 * @return false if this piece couldnt drop, true otherwise
+	 */
 	public boolean drop() {
 		if (!update(false, x, y + 1, rotation)) {
 			return false;
@@ -154,18 +208,29 @@ public class Tetrimino {
 		return true;
 	}
 	
+	/**
+	 * Moves this piece left
+	 */
 	public void left() {
 		if (update(false, x - 1, y, rotation) && playSound) {
 			move.play();
 		}
 	}
 	
+	/**
+	 * Moves this piece right
+	 */
 	public void right() {
 		if (update(false, x + 1, y, rotation) && playSound) {
 			move.play();
 		}
 	}
 	
+	/**
+	 * Returns the current shape
+	 * 
+	 * @return shape
+	 */
 	public Shape getShape() {
 		return shape;
 	}

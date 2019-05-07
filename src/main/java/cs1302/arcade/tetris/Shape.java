@@ -7,6 +7,9 @@ import javafx.scene.image.PixelReader;
 public enum Shape {
 	
 	T {
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public TetrisTile[] newCoordinates(int x, int y, int rotation, TetrisBoard board) {
 			Tile[] c = new TetrisTile[4];
@@ -38,6 +41,9 @@ public enum Shape {
 	},
 	
 	J {
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public TetrisTile[] newCoordinates(int x, int y, int rotation, TetrisBoard board) {
 			Tile[] c = new TetrisTile[4];
@@ -69,6 +75,9 @@ public enum Shape {
 	},
 
 	Z {
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public TetrisTile[] newCoordinates(int x, int y, int rotation, TetrisBoard board) {
 			Tile[] c = new TetrisTile[4];
@@ -90,6 +99,9 @@ public enum Shape {
 	},
 
 	O {
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public TetrisTile[] newCoordinates(int x, int y, int rotation, TetrisBoard board) {
 			Tile[] c = new TetrisTile[4];
@@ -102,6 +114,9 @@ public enum Shape {
 	},
 
 	S {
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public TetrisTile[] newCoordinates(int x, int y, int rotation, TetrisBoard board) {
 			Tile[] c = new TetrisTile[4];
@@ -123,6 +138,9 @@ public enum Shape {
 	},
 
 	L {
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public TetrisTile[] newCoordinates(int x, int y, int rotation, TetrisBoard board) {
 			Tile[] c = new TetrisTile[4];
@@ -154,6 +172,9 @@ public enum Shape {
 	},
 
 	I {
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public TetrisTile[] newCoordinates(int x, int y, int rotation, TetrisBoard board) {
 			Tile[] c = new TetrisTile[4];
@@ -177,8 +198,25 @@ public enum Shape {
 	final static PixelReader tile1 = new Image("/tetris/tile1.png").getPixelReader();
 	final static PixelReader tile2 = new Image("/tetris/tile2.png").getPixelReader();
 	
-	public abstract TetrisTile[] newCoordinates(int x, int y, int rotation, TetrisBoard board);
 	
+	/**
+	 * Returns the coordinates occupied by this shape at the given
+	 * location and rotatino
+	 * 
+	 * @param x
+	 * @param y
+	 * @param rotation
+	 * @param board the board to return Tiles from
+	 * @return an array of Tiles occupied by this shape
+	 */
+	public abstract TetrisTile[] newCoordinates(int x, int y, int rotation,
+			TetrisBoard board);
+	
+	/**
+	 * Returns a certain tile image depending on shape
+	 * 
+	 * @return p
+	 */
 	public PixelReader image() {
 		switch (this) {
 		case T:
@@ -189,6 +227,12 @@ public enum Shape {
 		return tile2;
 	}
 
+	/**
+	 * Returns the color used during a given level
+	 * 
+	 * @param level
+	 * @return the color at this level
+	 */
 	public int getColor(int level) {
 		if (this == Z || this == L) {
 			return getColor2(level);
@@ -196,6 +240,12 @@ public enum Shape {
 		return getColor1(level);
 	}
 	
+	/**
+	 * Returns the first color used for a level
+	 * 
+	 * @param level
+	 * @return
+	 */
 	public static int getColor1(int level) {
 		switch (level % 10) {
 		case 0:
@@ -222,6 +272,12 @@ public enum Shape {
 		return 0;
 	}
 	
+	/**
+	 * Returns the second color used for a level
+	 * 
+	 * @param level
+	 * @return
+	 */
 	public static int getColor2(int level) {
 		switch (level % 10) {
 		case 0:
@@ -248,6 +304,12 @@ public enum Shape {
 		return 0;
 	}
 	
+	/**
+	 * Returns a next board with layout dependent on Shape
+	 * 
+	 * @param t
+	 * @return
+	 */
 	public TetrisBoard nextBoard(Tetris t) {
 		switch (this) {
 		case I:
@@ -262,12 +324,5 @@ public enum Shape {
 			return new TetrisBoard(2, 3, t, 392, 220);
 		}
 		return null;
-	}
-
-	public int getRotation() {
-		switch (this) {
-		case I:
-		}
-		return 2;
 	}
 }
