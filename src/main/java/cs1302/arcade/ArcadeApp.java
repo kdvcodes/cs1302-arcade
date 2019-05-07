@@ -114,7 +114,7 @@ public class ArcadeApp extends Application {
 		VBox arcadeGameButtonContainer = new VBox(30);
 		HBox arcadeGameButtonLayer = new HBox();
 		HBox arcadeHighScoreButtonLayer = new HBox(10);
-		//test
+		//testing
 	}
 
 } // ArcadeApp class
