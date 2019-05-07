@@ -13,11 +13,11 @@ import javafx.scene.control.ToolBar;
  */
 public class ArcadeToolBar extends ToolBar {
 	
+	/**
+	 * This is the constructor for the toolbar
+	 * @param game the game that is using the toolbar
+	 */
 	public ArcadeToolBar(ArcadeGame game) {
-		// super();
-		
-		// MenuBar items initializations
-		// Menu fileMenu = new Menu("File");
 		
 		// MenuItems initializations
 		Button newGame = new Button("New Game");
@@ -29,9 +29,6 @@ public class ArcadeToolBar extends ToolBar {
 		options.setFocusTraversable(false);
 		help.setFocusTraversable(false);
 		exit.setFocusTraversable(false);
-		
-		// Adding items into File menu
-		// fileMenu.getItems().add(exit);
 		
 		// Add Menu items into MenuBar
 		getItems().addAll(newGame, options, help, exit);

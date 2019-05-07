@@ -16,7 +16,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
- * This is the ArcadeApp
+ * This is the ArcadeApp class
  */
 public class ArcadeApp extends Application {
 	
@@ -26,6 +26,7 @@ public class ArcadeApp extends Application {
 	
 	/**
 	 * This is the start method
+	 * @param stage the main stage for the application
 	 */
 	@Override
 	public void start(Stage stage) {
@@ -34,7 +35,6 @@ public class ArcadeApp extends Application {
 		arcadeMainFrame = new HBox(vbox);
 		
 		// Layers and containers initializations
-		HBox arcadeMenuBarLayer = new HBox();
 		HBox arcadeWelcomeTextLayer = new HBox();
 		HBox arcadeChooseGameTextLayer = new HBox();
 		VBox arcadeGameButtonContainer = new VBox(30);
@@ -42,7 +42,6 @@ public class ArcadeApp extends Application {
 		HBox arcadeGameHighScoreButtonLayer = new HBox();
 		
 		// Scene items initializations
-		//arcadeMenuBar = new ArcadeMenuBar();
 		Region arcadeWelcomeTextLeftPadding = new Region();
 		Text arcadeWelcomeText = new Text("\n\nWelcome to Banana Stand's Arcade");
 		Region arcadeWelcomeTextRightPadding = new Region();
@@ -103,8 +102,6 @@ public class ArcadeApp extends Application {
 
 		// Initialize and setting the scene
 		Scene arcadeMainScene = new Scene(arcadeMainFrame);
-//		arcadeMainScene.getStylesheets().add(getClass().getResource("/tetris/tetris.css").toExternalForm());
-//		System.out.println(arcadeMainScene.getStylesheets());
 		
 		// Setting the stage
 		stage.setScene(arcadeMainScene);

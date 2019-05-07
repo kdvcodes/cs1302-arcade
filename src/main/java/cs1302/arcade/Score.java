@@ -16,8 +16,9 @@ public class Score {
 	private String name;
 	
 	/**
-	 * @param name
-	 * @param score
+	 * this is the score method that keeps score for the games
+	 * @param name the name
+	 * @param score the score
 	 */
 	public Score (String name, int score) {
 		this.score = score;
@@ -25,14 +26,16 @@ public class Score {
 	}
 	
 	/**
-	 * @return
+	 * this method will return the score of the game when it gets called
+	 * @return score of the game
 	 */
 	public int getScore() {
 		return score;
 	}
 	
 	/**
-	 * @return
+	 * this method will return the name when it gets called
+	 * @return the name 
 	 */
 	public String getName() {
 		return name;
