@@ -27,9 +27,9 @@ public class Tetrimino {
 	/**
 	 * Constructs a new Tetrimino
 	 * 
-	 * @param shape
-	 * @param board
-	 * @param showGhost
+	 * @param shape shape val
+	 * @param board board val
+	 * @param showGhost either show ghost or not
 	 */
 	public Tetrimino(Shape shape, Board board, boolean showGhost) {
 		this.board = (TetrisBoard) board;
@@ -46,10 +46,10 @@ public class Tetrimino {
 	/**
 	 * Constructs a new Tetrimino (used for next boards)
 	 * 
-	 * @param shape
-	 * @param board
-	 * @param x
-	 * @param y
+	 * @param shape shape val
+	 * @param board board val
+	 * @param x x val
+	 * @param y y val
 	 */
 	public Tetrimino(Shape shape, Board board, int x, int y) {
 		this.board = (TetrisBoard) board;
@@ -76,9 +76,9 @@ public class Tetrimino {
 	 * Moves this tetrimino to a new location based on the parameters
 	 * 
 	 * @param newPiece is this Tetrimino a new piece?
-	 * @param x
-	 * @param y
-	 * @param rotation
+	 * @param x x val
+	 * @param y y val
+	 * @param rotation rotation val
 	 * @return true if this piece moved, false otherwise
 	 */
 	private boolean update(boolean newPiece, int x, int y, int rotation) {

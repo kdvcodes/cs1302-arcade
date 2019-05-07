@@ -89,7 +89,7 @@ public class Tetris extends ArcadeGame {
 	/**
 	 * Creates a new Tetris game
 	 * 
-	 * @param level      the starting level
+	 * @param level the starting level
 	 * @param highScores the Score array of existing scores
 	 */
 	public Tetris(int level, Score[] highScores) {

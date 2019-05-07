@@ -227,9 +227,9 @@ public enum Shape {
 	 * Returns the coordinates occupied by this shape at the given
 	 * location and rotatino
 	 * 
-	 * @param x
-	 * @param y
-	 * @param rotation
+	 * @param x x val
+	 * @param y y val
+	 * @param rotation rotation val
 	 * @param board the board to return Tiles from
 	 * @return an array of Tiles occupied by this shape
 	 */
@@ -239,7 +239,7 @@ public enum Shape {
 	/**
 	 * Returns a certain tile image depending on shape
 	 * 
-	 * @return p
+	 * @return p a pixelreader object
 	 */
 	public PixelReader image() {
 		switch (this) {
@@ -254,7 +254,7 @@ public enum Shape {
 	/**
 	 * Returns the color used during a given level
 	 * 
-	 * @param level
+	 * @param level the level that is needed to be processed
 	 * @return the color at this level
 	 */
 	public int getColor(int level) {
@@ -268,7 +268,7 @@ public enum Shape {
 	 * Returns the first color used for a level
 	 * 
 	 * @param level
-	 * @return
+	 * @return the int representing color
 	 */
 	public static int getColor1(int level) {
 		switch (level % 10) {
@@ -300,7 +300,7 @@ public enum Shape {
 	 * Returns the second color used for a level
 	 * 
 	 * @param level
-	 * @return
+	 * @return the int representing color
 	 */
 	public static int getColor2(int level) {
 		switch (level % 10) {
@@ -331,8 +331,8 @@ public enum Shape {
 	/**
 	 * Returns a next board with layout dependent on Shape
 	 * 
-	 * @param t
-	 * @return
+	 * @param t tetris object
+	 * @return a tetrisboard object
 	 */
 	public TetrisBoard nextBoard(Tetris t) {
 		switch (this) {

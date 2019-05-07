@@ -62,7 +62,7 @@ public class TetrisTile extends Tile<Tetrimino> {
 	}
 	
 	/**
-	 * 
+	 * this method will set the colors of the tiles throughout the game
 	 */
 	public void curtain() {
 		for (int x = 0; x < size; x++) {
