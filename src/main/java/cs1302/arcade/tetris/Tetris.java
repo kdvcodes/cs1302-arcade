@@ -90,14 +90,12 @@ public class Tetris extends ArcadeGame {
 	private boolean showGhost;
 	private boolean playSound;
 	private Stage options;
-	private boolean finished;
 	
 	public Tetris(int level, Score[] highScores) {
 		this.level = level;
 		this.highScores = highScores;
 		linesCleared = 0;
 		active = true;
-		finished = false;
 		paused = false;
 		showGhost = true;
 		playSound = true;

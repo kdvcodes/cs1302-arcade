@@ -32,13 +32,12 @@ public abstract class ArcadeGame extends Stage {
 	protected final Random generator = new Random();
 	protected File scoreFile;
 	protected FileWriter scoreWriter;
-	
+	protected boolean finished;
 	protected Image background;
 	
 	protected void start(ArcadeToolBar menu, Node... n) {
-		//ask dr barnes about this, see old piazza post
-		//board = new TetrisBoard(rows, columns);
 		score = 0;
+		finished = false;
 		game = new Group(new ImageView(background));
 		game.getChildren().addAll(n);
 		VBox vbox = new VBox(menu, game);

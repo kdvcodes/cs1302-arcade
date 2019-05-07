@@ -35,6 +35,7 @@ public class NumberGame extends ArcadeGame{
 	NumberGameInfoBar numberGameInfoBar;
 	NumberGameMainContent numberGameMainContent; */
 	final Timeline expand = new Timeline(new KeyFrame(Duration.millis(1000/60)));
+	private boolean finished;
 	
 	/**
 	 * This is the number game constructor
@@ -52,7 +53,8 @@ public class NumberGame extends ArcadeGame{
 		highScoreText.setFont(Font.font(32));
 		start(new ArcadeToolBar(this), board, scoreText, highScoreText);
 		expand.setCycleCount(1);
-		newGame(null);
+		newPiece();
+		newPiece();
 	}
 
 	/**
@@ -62,20 +64,24 @@ public class NumberGame extends ArcadeGame{
 	protected void move(KeyEvent ke) {
 		switch(ke.getCode()) {
 		case UP:
-			((NumberGameBoard) board).up();
-			newPiece();
+			if (((NumberGameBoard) board).up()) {
+				newPiece();
+			}
 			break;
 		case DOWN:
-			((NumberGameBoard) board).down();
-			newPiece();
+			if (((NumberGameBoard) board).down()) {
+				newPiece();
+			}
 			break;
 		case LEFT:
-			((NumberGameBoard) board).left();
-			newPiece();
+			if (((NumberGameBoard) board).left()) {
+				newPiece();
+			}
 			break;
 		case RIGHT:
-			((NumberGameBoard) board).right();
-			newPiece();
+			if (((NumberGameBoard) board).right()) {
+				newPiece();
+			}
 			break;
 		}
 		
@@ -85,14 +91,20 @@ public class NumberGame extends ArcadeGame{
 	 * This is the newPiece method that sets properties for a new piece being added throughout the game
 	 */
 	private void newPiece() {
-		NumberGameTile t = randomTile();
-		t.setPiece(randomNumGenerator());
-		t.setFitHeight(0);
-		t.setFitWidth(0);
-		expand.getKeyFrames().removeAll();
-		expand.getKeyFrames().add(new KeyFrame(Duration.millis(200), new KeyValue(t.fitHeightProperty(), t.size)));
-		expand.getKeyFrames().add(new KeyFrame(Duration.millis(200), new KeyValue(t.fitWidthProperty(), t.size)));
-		expand.play();
+		try {
+			NumberGameTile t = randomTile();
+			t.setPiece(randomNumGenerator());
+			t.setFitHeight(0);
+			t.setFitWidth(0);
+			expand.getKeyFrames().removeAll();
+			expand.getKeyFrames().add(new KeyFrame(Duration.millis(200), new KeyValue(t.fitHeightProperty(), t.size)));
+			expand.getKeyFrames().add(new KeyFrame(Duration.millis(200), new KeyValue(t.fitWidthProperty(), t.size)));
+			expand.play();
+		} catch (StackOverflowError e) {
+			if (((NumberGameBoard) board).isFull()) {
+				newGame(null);
+			}
+		}
 	}
 	
 	/**
@@ -123,9 +135,7 @@ public class NumberGame extends ArcadeGame{
 
 	@Override
 	public void newGame(ActionEvent e) {
-		((NumberGameBoard) board).clear();
-		newPiece();
-		newPiece();
+		submitScore(null);
 	}
 
 	@Override
@@ -144,54 +154,15 @@ public class NumberGame extends ArcadeGame{
 
 	@Override
 	public void exit(ActionEvent e) {
-		this.close();
+		finished = true;
+		submitScore(null);
 	}
 
 	@Override
 	protected void finished() {
-		
+		if (!finished) {
+			new NumberGame();
+		}
+		close();
 	}
-	
-	/*
-	public NumberGame() {
-		// Main frame items initializations
-		VBox vbox = new VBox();
-		HBox numberGameMainFrame = new HBox(vbox);
-		
-		// Layers and containers initializations
-		HBox numberGameMenuBarLayer = new HBox();
-		HBox numberGameInfoLayer = new HBox();
-		HBox numberGameMainContentLayer = new HBox();
-		
-		// Scene items initializations
-		numberGameMenuBar = new NumberGameMenuBar(this);
-		numberGameInfoBar = new NumberGameInfoBar(this);
-		numberGameMainContent = new NumberGameMainContent(this, 400, 400);
-		
-		// Items customizations
-		
-		// Setting items sizing and spacing
-		HBox.setHgrow(vbox, Priority.ALWAYS);
-		HBox.setHgrow(numberGameMenuBar, Priority.ALWAYS);
-		
-		// Layer items assignments
-		numberGameMenuBarLayer.getChildren().addAll(numberGameMenuBar);
-		numberGameInfoLayer.getChildren().addAll(numberGameInfoBar);
-		numberGameMainContentLayer.getChildren().addAll(numberGameMainContent);
-		
-		// Set actions
-		numberGameMainContentLayer.setOnKeyPressed(numberGameMainContent.createKeyHandler());
-		
-		// Setting the items placements
-		vbox.getChildren().addAll(numberGameMenuBarLayer, numberGameInfoLayer, numberGameMainContentLayer);
-		
-		Scene testScene = new Scene(numberGameMainFrame);
-		this.setScene(testScene);
-		this.setMaxHeight(600);
-		this.setMaxWidth(600);
-		this.show();
-		
-		numberGameMainContentLayer.requestFocus();
-	}
-	*/
 }
