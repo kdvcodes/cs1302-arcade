@@ -1,11 +1,15 @@
 package cs1302.arcade;
 
+import java.io.File;
+
 import cs1302.arcade.numberGame.*;
 import cs1302.arcade.tetris.*;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -52,7 +56,6 @@ public class ArcadeApp extends Application {
 	public void start(Stage stage) {
 		// Main frame items initializations
 		VBox vbox = new VBox();
-		arcadeMainFrame = new HBox(vbox);
 
 		// Layers and containers initializations
 
@@ -101,6 +104,7 @@ public class ArcadeApp extends Application {
 		vbox.getChildren().addAll(arcadeWelcomeTextLayer,
 				arcadeChooseGameTextLayer, arcadeGameButtonLayer, paddingText,
 				arcadeHighScoreButtonLayer);
+		arcadeMainFrame = new HBox(vbox);
 		start3(stage);
 	}
 	
@@ -117,11 +121,13 @@ public class ArcadeApp extends Application {
 		});
 
 		highScore2048TableButton.setOnAction(e -> {
-
+			highScoreTable(new File(getClass().getResource("/2048/highScores.txt")
+				.getPath().replaceAll("%20", " "))).show();
 		});
 
 		highScoreTetrisTableButton.setOnAction(e -> {
-
+			highScoreTable(new File(getClass().getResource("/tetris/highScores.txt")
+					.getPath().replaceAll("%20", " "))).show();
 		});
 
 		// Initialize and setting the scene
@@ -129,9 +135,22 @@ public class ArcadeApp extends Application {
 
 		// Setting the stage
 		stage.setScene(arcadeMainScene);
-		stage.setHeight(600);
+		stage.setHeight(700);
 		stage.setWidth(600);
 		stage.show();
+	}
+	
+	private Stage highScoreTable(File scoreFile) {
+		Score[] scores = ArcadeGame.generateScores(scoreFile);
+		String[] s = new String[scores.length];
+		for (int i = 0; i < s.length; i++) {
+			s[i] = (i + 1) + ". " + scores[i].getScore() + " by " +
+					scores[i].getName();
+		}
+		Stage stage = new Stage();
+		stage.setScene(new Scene(new VBox(new ListView(FXCollections.observableArrayList(s)))));
+		stage.sizeToScene();
+		return stage;
 	}
 
 } // ArcadeApp class
