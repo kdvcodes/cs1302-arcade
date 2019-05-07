@@ -1,18 +1,20 @@
-/**
- * 
- */
 package cs1302.arcade.numberGame;
 
 import cs1302.arcade.Board;
 
 /**
- * @author haile999
- *
+ * This is the number game board class that holds most logics for the 2048 game
  */
 public class NumberGameBoard extends Board {
 	
 	private boolean moveMade;
 	
+	/**
+	 * This is the NumberGameBoard constructor that sets up the logic when the game starts
+	 * @param rows sets up the dimension of the game
+	 * @param columns used to set up the dimension of the game
+	 * @param game specifies the current game
+	 */
 	public NumberGameBoard(int rows, int columns, NumberGame game) {
 		playField = new NumberGameTile[rows][columns];
 		this.game = game;
@@ -25,6 +27,10 @@ public class NumberGameBoard extends Board {
 		}
 	}
 	
+	/**
+	 * This is the method for the move up
+	 * @return true if a move has been made, false otherwise
+	 */
 	public boolean up() {
 		moveMade = false;
 		for (int row = 1; row < playField.length; row++) {
@@ -44,6 +50,10 @@ public class NumberGameBoard extends Board {
 		return moveMade;
 	}
 	
+	/**
+	 * This is the method for the move down
+	 * @return true if a move has been made, false otherwise
+	 */
 	public boolean down() {
 		moveMade = false;
 		for (int row = playField.length - 2; row >= 0; row--) {
@@ -63,6 +73,10 @@ public class NumberGameBoard extends Board {
 		return moveMade;
 	} // down
 	
+	/**
+	 * This is the method for the move left
+	 * @return true if a move has been made, false otherwise
+	 */
 	public boolean left() {
 		moveMade = false;
 		for (int col = 1; col < playField.length; col++) {
@@ -82,6 +96,10 @@ public class NumberGameBoard extends Board {
 		return moveMade;
 	} // left
 	
+	/**
+	 * This is the method for the move right
+	 * @return true if a move has been made, false otherwise
+	 */
 	public boolean right() {
 		moveMade = false;
 		for (int col = playField.length - 2; col >= 0; col--) {
@@ -101,6 +119,12 @@ public class NumberGameBoard extends Board {
 		return moveMade;
 	} // right
 	
+	/**
+	 * This method will define movements of the game 2048
+	 * @param newTile the new tile that is made if there is a move
+	 * @param oldTile the old tile that will be cleared
+	 * @return true if a move is made, false otherwise
+	 */
 	private boolean move(NumberGameTile newTile, NumberGameTile oldTile) {
 		if(!(newTile.isOccupied(null))) {
 			newTile.setPiece(oldTile.getPiece());
@@ -120,6 +144,9 @@ public class NumberGameBoard extends Board {
 		return false;
 	}
 	
+	/**
+	 * this method will clear the piece that calls it
+	 */
 	public void clear() {
 		for (int i = 0; i < playField.length; i++) {
 			for (int j = 0; j < playField.length; j++) {
@@ -128,6 +155,9 @@ public class NumberGameBoard extends Board {
 		}
 	}
 	
+	/**
+	 * This method will clear the combination property of each tiles
+	 */
 	private void clearCombo() {
 		for (int i = 0; i < playField.length; i++) {
 			for (int j = 0; j < playField.length; j++) {
@@ -136,6 +166,10 @@ public class NumberGameBoard extends Board {
 		}
 	}
 	
+	/**
+	 * this method will check if the grid is full
+	 * @return true if grid if full, false otherwise
+	 */
 	public boolean isFull() {
 		for (int y = 0; y < playField.length; y++) {
 			for (int x = 1; x < playField.length; x++) {

@@ -1,7 +1,6 @@
 package cs1302.arcade.numberGame;
 
 import java.io.File;
-
 import cs1302.arcade.ArcadeGame;
 import cs1302.arcade.ArcadeToolBar;
 import cs1302.arcade.Tile;
@@ -14,12 +13,8 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.paint.Color;
 
@@ -32,9 +27,6 @@ public class NumberGame extends ArcadeGame{
 	final int gameSize = 4;
 	private Text scoreText;
 	private Text highScoreText;
-	/* NumberGameMenuBar numberGameMenuBar;
-	NumberGameInfoBar numberGameInfoBar;
-	NumberGameMainContent numberGameMainContent; */
 	final Timeline expand = new Timeline(new KeyFrame(Duration.millis(1000/60)));
 	private boolean finished;
 	
@@ -123,10 +115,17 @@ public class NumberGame extends ArcadeGame{
 		return (NumberGameTile) t;
 	}
 	
+	/**
+	 * This method will generate a random number to be used later
+	 * @return an integer between 2 and 4
+	 */
 	private Integer randomNumGenerator() {
 		return generator.nextDouble() < 0.9 ? 2 : 4;
 	}
 	
+	/**
+	 * this methid will update the score of the game
+	 */
 	public void updateScore(int i) {
 		score += i;
 		scoreText.setText(String.format("%05d", score));
@@ -135,11 +134,17 @@ public class NumberGame extends ArcadeGame{
 		}
 	} // updatScore
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void newGame(ActionEvent e) {
 		submitScore(null);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void options(ActionEvent e) {
 		Alert optionAlert = new Alert(AlertType.INFORMATION);
@@ -147,6 +152,9 @@ public class NumberGame extends ArcadeGame{
 		optionAlert.show();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void help(ActionEvent e) {
 		Alert helpAlert = new Alert(AlertType.INFORMATION);
@@ -154,12 +162,18 @@ public class NumberGame extends ArcadeGame{
 		helpAlert.show();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void exit(Event e) {
 		finished = true;
 		submitScore(null);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void finished() {
 		if (!finished) {

@@ -64,7 +64,6 @@ public class ArcadeApp extends Application {
 
 		// Setting item sizing and spacing
 		HBox.setHgrow(vbox, Priority.ALWAYS);
-		//HBox.setHgrow(arcadeMenuBar, Priority.ALWAYS);
 		HBox.setHgrow(arcadeWelcomeText, Priority.ALWAYS );
 		HBox.setHgrow(arcadeWelcomeTextLeftPadding, Priority.ALWAYS);
 		HBox.setHgrow(arcadeWelcomeTextRightPadding, Priority.ALWAYS);
@@ -76,7 +75,6 @@ public class ArcadeApp extends Application {
 		
 		
 		// Layer items assignments
-		//arcadeMenuBarLayer.getChildren().add(arcadeMenuBar);
 		arcadeWelcomeTextLayer.getChildren().addAll(arcadeWelcomeTextLeftPadding, arcadeWelcomeText, arcadeWelcomeTextRightPadding);
 		arcadeChooseGameTextLayer.getChildren().addAll(arcadeChooseGameTextLeftPadding, arcadeChooseGameText, arcadeChooseGameTextRightPadding);
 		arcadeGameButtonLayer.getChildren().addAll(arcadeGameButtonContainerLeftPadding, arcadeGameButtonContainer, arcadeGameButtonContainerRightPadding);
