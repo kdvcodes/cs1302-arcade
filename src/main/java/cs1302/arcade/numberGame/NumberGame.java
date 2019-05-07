@@ -13,6 +13,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -52,6 +53,7 @@ public class NumberGame extends ArcadeGame{
 		highScoreText.setFill(Color.WHITE);
 		highScoreText.setFont(Font.font(32));
 		start(new ArcadeToolBar(this), board, scoreText, highScoreText);
+		setTitle("2048");
 		expand.setCycleCount(1);
 		newPiece();
 		newPiece();
@@ -153,7 +155,7 @@ public class NumberGame extends ArcadeGame{
 	}
 
 	@Override
-	public void exit(ActionEvent e) {
+	public void exit(Event e) {
 		finished = true;
 		submitScore(null);
 	}

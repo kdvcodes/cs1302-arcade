@@ -4,6 +4,7 @@ import cs1302.arcade.Board;
 import cs1302.arcade.Tile;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaException;
 
 public class Tetrimino {
 	
@@ -16,16 +17,16 @@ public class Tetrimino {
 	private int y;
 	private final int initialX = 5;
 	private final int initialY = 2;
-	private final AudioClip move = new AudioClip(getClass()
-			.getResource("/tetris/move.wav").toString());
-	private final AudioClip rotate = new AudioClip(getClass()
-			.getResource("/tetris/rotate.wav").toString());
+	private AudioClip move;
+	private AudioClip rotate;
 	private final Image ghostTile = new Image("/tetris/tile0.png");
+	private boolean playSound;
 	
 	public Tetrimino(Shape shape, Board board, boolean showGhost) {
 		this.board = (TetrisBoard) board;
 		this.shape = shape;
 		coordinates = new TetrisTile[4];
+		soundSetup();
 		if (showGhost) {
 			ghost = new TetrisTile[4];
 		}
@@ -39,6 +40,16 @@ public class Tetrimino {
 		coordinates = new TetrisTile[4];
 		rotation = 2;
 		update(true, x, y, 2);
+	}
+	
+	private void soundSetup() {
+		try {
+			move = new AudioClip(getClass().getResource("/tetris/move.wav").toString());
+			rotate = new AudioClip(getClass().getResource("/tetris/rotate.wav").toString());
+			playSound = true;
+		} catch (MediaException e) {
+			playSound = false;
+		}
 	}
 	
 	private boolean update(boolean newPiece, int x, int y, int rotation) {
@@ -131,7 +142,7 @@ public class Tetrimino {
 			}
 			break;
 		}
-		if (update(false, x, y, rotation)) {
+		if (update(false, x, y, rotation) && playSound) {
 			rotate.play();
 		}
 	}
@@ -144,13 +155,13 @@ public class Tetrimino {
 	}
 	
 	public void left() {
-		if (update(false, x - 1, y, rotation)) {
+		if (update(false, x - 1, y, rotation) && playSound) {
 			move.play();
 		}
 	}
 	
 	public void right() {
-		if (update(false, x + 1, y, rotation)) {
+		if (update(false, x + 1, y, rotation) && playSound) {
 			move.play();
 		}
 	}

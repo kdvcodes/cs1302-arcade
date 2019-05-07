@@ -13,6 +13,7 @@ import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -28,6 +29,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -77,12 +79,12 @@ public class Tetris extends ArcadeGame {
 	private final int columns = 10;
 	private int linesCleared;
 	private int[] clearedRows;
-	private final MediaPlayer music = new MediaPlayer(new Media(getClass().getResource("/tetris/Music_1.wav").toString()));
-	private final AudioClip lock = new AudioClip(getClass().getResource("/tetris/lock.wav").toString());
-	private final AudioClip clear = new AudioClip(getClass().getResource("/tetris/clear.wav").toString());
-	private final AudioClip tetris = new AudioClip(getClass().getResource("/tetris/tetris.wav").toString());
-	private final AudioClip levelUp = new AudioClip(getClass().getResource("/tetris/level.wav").toString());
-	private final AudioClip select = new AudioClip(getClass().getResource("/tetris/select.wav").toString());
+	private MediaPlayer music = new MediaPlayer(new Media(getClass().getResource("/tetris/Music_1.wav").toString()));
+	private AudioClip lock = new AudioClip(getClass().getResource("/tetris/lock.wav").toString());
+	private AudioClip clear = new AudioClip(getClass().getResource("/tetris/clear.wav").toString());
+	private AudioClip tetris = new AudioClip(getClass().getResource("/tetris/tetris.wav").toString());
+	private AudioClip levelUp = new AudioClip(getClass().getResource("/tetris/level.wav").toString());
+	private AudioClip select = new AudioClip(getClass().getResource("/tetris/select.wav").toString());
 	private final Font NES = Font.loadFont(getClass().getResourceAsStream("/tetris/NES.ttf"), 16);
 	private TetrisBoard nextBoard;
 	private boolean paused;
@@ -112,13 +114,16 @@ public class Tetris extends ArcadeGame {
 		drawStats();
 		start(new ArcadeToolBar(this), board, nextBoard, statView);
 		textSetup();
+		soundSetup();
 		optionsSetup();
 		setTitle("Tetris");
 		currentPiece = new Tetrimino(randomShape(), board, showGhost);
 		dropper = new Timeline(new KeyFrame(dropRate(), this::drop));
 		dropper.setCycleCount(Timeline.INDEFINITE);
 		dropper.play();
-		music.play();
+		if (playSound) {
+			music.play();
+		}
 	} // Tetris constructor
 
 	private void textSetup() {
@@ -171,7 +176,7 @@ public class Tetris extends ArcadeGame {
 		CheckBox ghost = new CheckBox("Enable ghost blocks");
 		CheckBox sound = new CheckBox("Enable sound");
 		ghost.setSelected(true);
-		sound.setSelected(true);
+		sound.setSelected(playSound);
 		ghost.setOnAction((i) -> {if (ghost.isSelected()) showGhost = true;
 			else showGhost = false;});
 		sound.setOnAction((i) -> {if (sound.isSelected()) playSound = true;
@@ -184,6 +189,19 @@ public class Tetris extends ArcadeGame {
 		options.setOnCloseRequest(this::unpause);
 		options.setScene(new Scene(v));
 		options.sizeToScene();
+	}
+	
+	private void soundSetup() {
+		try {
+			music = new MediaPlayer(new Media(getClass().getResource("/tetris/Music_1.wav").toString()));
+			lock = new AudioClip(getClass().getResource("/tetris/lock.wav").toString());
+			clear = new AudioClip(getClass().getResource("/tetris/clear.wav").toString());
+			tetris = new AudioClip(getClass().getResource("/tetris/tetris.wav").toString());
+			levelUp = new AudioClip(getClass().getResource("/tetris/level.wav").toString());
+			select = new AudioClip(getClass().getResource("/tetris/select.wav").toString());
+		} catch (MediaException e) {
+			playSound = false;
+		}
 	}
 	
 	private void drawStats() {
@@ -224,16 +242,20 @@ public class Tetris extends ArcadeGame {
 			}
 		}
 		if (clearedRows.length != 0) {
-			if (clearedRows.length == 4) {
-				tetris.play();
-			}
-			else {
-				clear.play();
+			if (playSound) {
+				if (clearedRows.length == 4) {
+					tetris.play();
+				}
+				else {
+					clear.play();
+				}
 			}
 			((TetrisBoard) board).clearLine(clearedRows);
 		}
 		else {
-			lock.play();
+			if (playSound) {
+				lock.play();
+			}
 			newPiece();
 		}
 	}
@@ -289,7 +311,9 @@ public class Tetris extends ArcadeGame {
 
 	private void levelUp() {
 		level++;
-		levelUp.play();
+		if (playSound) {
+			levelUp.play();
+		}
 		levelText.setText(String.format("Level\n  %02d", level));
 		drawStats();
 		for (int i = 0; i < rows; i++) {
@@ -373,15 +397,19 @@ public class Tetris extends ArcadeGame {
 	
 	private void pause() {
 		paused = true;
-		select.play();
-		music.pause();
+		if (playSound) {
+			select.play();
+			music.pause();
+		}
 		dropper.pause();
 	}
 	
 	private void unpause(WindowEvent w) {
 		paused = false;
-		select.play();
-		music.play();
+		if (playSound) {
+			select.play();
+			music.play();
+		}
 		dropper.play();
 	}
 	
@@ -474,7 +502,7 @@ public class Tetris extends ArcadeGame {
 	}
 	
 	@Override
-	public void exit(ActionEvent e) {
+	public void exit(Event e) {
 		gameOver();
 		finished = true;
 		submitScore(null);

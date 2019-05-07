@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import cs1302.arcade.tetris.TetrisLauncher;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -43,10 +44,10 @@ public abstract class ArcadeGame extends Stage {
 		VBox vbox = new VBox(menu, game);
 		Scene scene = new Scene(vbox);
 		scene.setOnKeyPressed(this::move);
-		//scene.getStylesheets().add(getClass().getResource("/tetris/tetris.css").toExternalForm());
-		this.setScene(scene);
-		this.sizeToScene();
-		this.show();
+		setOnCloseRequest(this::exit);
+		setScene(scene);
+		sizeToScene();
+		show();
 	} // Tetris constructor
 	
 	public static Score[] generateScores(File scoreFile) {
@@ -94,7 +95,7 @@ public abstract class ArcadeGame extends Stage {
 	
 	public abstract void help(ActionEvent e);
 	
-	public abstract void exit(ActionEvent e);
+	public abstract void exit(Event e);
 	
 	protected abstract void finished();
 	
