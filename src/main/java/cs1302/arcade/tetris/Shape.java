@@ -4,8 +4,14 @@ import cs1302.arcade.Tile;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 
+/**
+ * This is the enum class for the different shapes of tetris
+ */
 public enum Shape {
 	
+	/**
+	 * This is the T shape
+	 */
 	T {
 		/**
 		 * {@inheritDoc}
@@ -40,6 +46,9 @@ public enum Shape {
 		}
 	},
 	
+	/**
+	 * This is the J shape
+	 */
 	J {
 		/**
 		 * {@inheritDoc}
@@ -74,6 +83,9 @@ public enum Shape {
 		}
 	},
 
+	/**
+	 * This is the Z shape
+	 */
 	Z {
 		/**
 		 * {@inheritDoc}
@@ -98,6 +110,9 @@ public enum Shape {
 		}
 	},
 
+	/**
+	 * This is the O shape
+	 */
 	O {
 		/**
 		 * {@inheritDoc}
@@ -113,6 +128,9 @@ public enum Shape {
 		}
 	},
 
+	/**
+	 * This is the S shape
+	 */
 	S {
 		/**
 		 * {@inheritDoc}
@@ -137,6 +155,9 @@ public enum Shape {
 		}
 	},
 
+	/**
+	 * This is the L shape
+	 */
 	L {
 		/**
 		 * {@inheritDoc}
@@ -171,6 +192,9 @@ public enum Shape {
 		}
 	},
 
+	/**
+	 * This is the I shape
+	 */
 	I {
 		/**
 		 * {@inheritDoc}

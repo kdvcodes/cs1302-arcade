@@ -1,11 +1,13 @@
 package cs1302.arcade.tetris;
 
 import cs1302.arcade.Board;
-import cs1302.arcade.Tile;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.MediaException;
 
+/**
+ * This is the tetrimino class
+ */
 public class Tetrimino {
 	
 	private Shape shape;

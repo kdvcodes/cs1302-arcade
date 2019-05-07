@@ -1,15 +1,15 @@
 package cs1302.arcade.tetris;
 
 
-import java.util.Random;
-
 import cs1302.arcade.Board;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.scene.Group;
 import javafx.util.Duration;
 
+/**
+ * This is the tetris board class that holds most of the logics for the tetris game
+ */
 public class TetrisBoard extends Board {
 	
 	int[] clearedRows;

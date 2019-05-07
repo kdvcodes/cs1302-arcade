@@ -18,25 +18,34 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * This is the tetris launcher class
+ */
 public class TetrisLauncher extends Stage {
-	
+
 	private Group g;
 	private LauncherBoard board;
 	private int selectedX;
 	private int selectedY;
 	private Score[] highScores;
-	private final File scoreFile = new File(getClass().getResource("/tetris/highScores.txt").getPath().replaceAll("%20", " "));
+	private final File scoreFile = new File(
+			getClass().getResource("/tetris/highScores.txt").getPath()
+					.replaceAll("%20", " "));
 	private Text names;
 	private Text scores;
 	private Text levels;
-	
+
 	private final int rows = 2;
 	private final int columns = 5;
-	
-	private final Font NES = Font.loadFont(getClass().getResourceAsStream("/tetris/NES.ttf"), 16);
-	
+
+	private final Font NES = Font
+			.loadFont(getClass().getResourceAsStream("/tetris/NES.ttf"), 16);
+
 	private final Image background = new Image("/tetris/levelSelect.png");
-	
+
+	/**
+	 * This is the constructor for the tetris launcher
+	 */
 	public TetrisLauncher() {
 		selectedX = 0;
 		selectedY = 0;
@@ -51,7 +60,10 @@ public class TetrisLauncher extends Stage {
 		sizeToScene();
 		show();
 	}
-	
+
+	/**
+	 * This method sets up the text in the launcher
+	 */
 	private void textSetup() {
 		Text title = new Text(207, 47, "Tetris");
 		title.setFont(NES);
@@ -69,22 +81,37 @@ public class TetrisLauncher extends Stage {
 		drawScores();
 		g.getChildren().addAll(title, level, info, rank, names, scores);
 	}
-	
+
+	/**
+	 * this method will draw out the scores
+	 */
 	public void drawScores() {
-		names = new Text(150, 320, highScores[0].getName() + "\n" + highScores[1].getName() + "\n" + highScores[2].getName());
+		names = new Text(150, 320, highScores[0].getName() + "\n"
+				+ highScores[1].getName() + "\n" + highScores[2].getName());
 		names.setLineSpacing(15);
 		names.setFont(NES);
 		names.setFill(Color.WHITE);
-		scores = new Text(255, 320, String.format("%06d\n%06d\n%06d", highScores[0].getScore(), highScores[1].getScore(), highScores[2].getScore()));
+		scores = new Text(255, 320,
+				String.format("%06d\n%06d\n%06d", highScores[0].getScore(),
+						highScores[1].getScore(), highScores[2].getScore()));
 		scores.setLineSpacing(15);
 		scores.setFont(NES);
 		scores.setFill(Color.WHITE);
 	}
 
+	/**
+	 * this method will let the users move the selector around to choose the
+	 * level of the game
+	 * 
+	 * @param ke the specified keyevent
+	 */
 	private void move(KeyEvent ke) {
 		switch (ke.getCode()) {
 		case ENTER:
-			new Tetris(Integer.valueOf(((Text) board.getSelected().getPiece()).getText()), highScores);
+			new Tetris(
+					Integer.valueOf(
+							((Text) board.getSelected().getPiece()).getText()),
+					highScores);
 			close();
 			break;
 		case RIGHT:
@@ -109,11 +136,17 @@ public class TetrisLauncher extends Stage {
 			break;
 		}
 	}
-	
+
+	/**
+	 * This is the launcherboard class
+	 */
 	class LauncherBoard extends Board {
-		
+
 		private LauncherTile selected;
 
+		/**
+		 * This is the constructor for the launcherboard
+		 */
 		public LauncherBoard() {
 			playField = new LauncherTile[rows][columns];
 			for (int i = 0; i < playField.length; i++) {
@@ -126,11 +159,23 @@ public class TetrisLauncher extends Stage {
 			selected = (LauncherTile) playField[0][0];
 			selected.select(true);
 		}
-		
+
+		/**
+		 * This method will return a tile that is selected
+		 * 
+		 * @return a tile
+		 */
 		public Tile getSelected() {
 			return selected;
 		}
 
+		/**
+		 * This method will set the selected tile
+		 * 
+		 * @param x x val
+		 * @param y y val
+		 * @return true if successfully select a tile
+		 */
 		public boolean setSelected(int x, int y) {
 			try {
 				((LauncherTile) getTile(x, y)).select(true);
@@ -141,9 +186,12 @@ public class TetrisLauncher extends Stage {
 			}
 			return true;
 		}
-		
+
 	}
-	
+
+	/**
+	 * This is the launchertile class
+	 */
 	class LauncherTile extends Tile<Text> {
 
 		private static final int xStart = 107;
@@ -153,30 +201,45 @@ public class TetrisLauncher extends Stage {
 		private boolean isSelected;
 		private final Image selector = new Image("/tetris/selector.png");
 
+		/**
+		 * this is the constructor for the launchertile class
+		 * 
+		 * @param row    row val
+		 * @param column col val
+		 */
 		public LauncherTile(int row, int column) {
 			super(row, column, xStart, yStart, size, offset, null);
 			isSelected = false;
-			Text t = new Text(getX() + 5, getY() + 22, String.valueOf(row * 5 + column));
+			Text t = new Text(getX() + 5, getY() + 22,
+					String.valueOf(row * 5 + column));
 			t.setFont(NES);
 			t.setFill(Color.rgb(0xf8, 0x38, 0x00));
 			setPiece(t);
 		}
-		
+
+		/**
+		 * This method will set the select property
+		 * 
+		 * @param select the boolean property
+		 */
 		public void select(boolean select) {
 			isSelected = select;
 			update();
 		}
-		
+
+		/**
+		 * This is the update method that will update the images of the tiles in
+		 * the launcher
+		 */
 		@Override
 		public void update() {
 			if (isSelected) {
 				setImage(selector);
-			}
-			else {
+			} else {
 				setImage(null);
 			}
 		}
-		
+
 	}
 
 }

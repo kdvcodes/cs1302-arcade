@@ -11,8 +11,10 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
@@ -33,189 +35,61 @@ import javafx.util.Duration;
 
 /**
  * This is the Tetris game class
- *
  */
 public class Tetris extends ArcadeGame {
 
-	
 	/**
 	 * The current piece being controlled
 	 */
 	private Tetrimino currentPiece;
-	/**
-	 * 
-	 */
 	private int level;
-	/**
-	 * 
-	 */
 	private Timeline dropper;
-	/**
-	 * 
-	 */
 	private Text scoreText;
-	/**
-	 * 
-	 */
 	private Text highScoreText;
-	/**
-	 * 
-	 */
 	private Text levelText;
-	/**
-	 * 
-	 */
 	private Text linesClearedText;
-	/**
-	 * 
-	 */
 	private Tetrimino next;
-	
-	/**
-	 * 
-	 */
 	private int tStat;
-	/**
-	 * 
-	 */
 	private int jStat;
-	/**
-	 * 
-	 */
 	private int zStat;
-	/**
-	 * 
-	 */
 	private int oStat;
-	/**
-	 * 
-	 */
 	private int sStat;
-	/**
-	 * 
-	 */
 	private int lStat;
-	/**
-	 * 
-	 */
 	private int iStat;
-	
-	/**
-	 * 
-	 */
 	private Text tText;
-	/**
-	 * 
-	 */
 	private Text jText;
-	/**
-	 * 
-	 */
 	private Text zText;
-	/**
-	 * 
-	 */
 	private Text oText;
-	/**
-	 * 
-	 */
 	private Text sText;
-	/**
-	 * 
-	 */
 	private Text lText;
-	/**
-	 * 
-	 */
 	private Text iText;
-
-	/**
-	 * 
-	 */
-	private final PixelReader statPic = new Image("/tetris/stats.png").getPixelReader();
-	/**
-	 * 
-	 */
+	private final PixelReader statPic = new Image("/tetris/stats.png")
+			.getPixelReader();
 	private WritableImage stats;
-	/**
-	 * 
-	 */
 	private ImageView statView;
-	
-	/**
-	 * 
-	 */
 	private final int rows = 22;
-	/**
-	 * 
-	 */
 	private final int columns = 10;
-	/**
-	 * 
-	 */
 	private int linesCleared;
-	/**
-	 * 
-	 */
 	private int[] clearedRows;
-	/**
-	 * 
-	 */
 	private MediaPlayer music;
-	/**
-	 * 
-	 */
 	private AudioClip lock;
-	/**
-	 * 
-	 */
 	private AudioClip clear;
-	/**
-	 * 
-	 */
 	private AudioClip tetris;
-	/**
-	 * 
-	 */
 	private AudioClip levelUp;
-	/**
-	 * 
-	 */
 	private AudioClip select;
-	/**
-	 * 
-	 */
-	private final Font NES = Font.loadFont(getClass()
-			.getResourceAsStream("/tetris/NES.ttf"), 16);
-	/**
-	 * 
-	 */
+	private final Font NES = Font
+			.loadFont(getClass().getResourceAsStream("/tetris/NES.ttf"), 16);
 	private TetrisBoard nextBoard;
-	/**
-	 * 
-	 */
 	private boolean paused;
-	/**
-	 * 
-	 */
 	private boolean active;
-	/**
-	 * 
-	 */
 	private boolean showGhost;
-	/**
-	 * 
-	 */
 	private boolean playSound;
-	/**
-	 * 
-	 */
 	private Stage options;
-	
+
 	/**
 	 * Creates a new Tetris game
 	 * 
-	 * @param level the starting level
+	 * @param level      the starting level
 	 * @param highScores the Score array of existing scores
 	 */
 	public Tetris(int level, Score[] highScores) {
@@ -256,11 +130,11 @@ public class Tetris extends ArcadeGame {
 	 */
 	private void textSetup() {
 		scoreText = new Text(385, 110, String.format("Score\n%06d", score));
-		highScoreText = new Text(385, 60, String.format
-				("Top\n%06d", highScores[0].getScore()));
+		highScoreText = new Text(385, 60,
+				String.format("Top\n%06d", highScores[0].getScore()));
 		levelText = new Text(385, 318, String.format("Level\n  %02d", level));
-		linesClearedText = new Text(208, 46, String.format
-				("Lines-%03d", linesCleared));
+		linesClearedText = new Text(208, 46,
+				String.format("Lines-%03d", linesCleared));
 		Text title = new Text(47, 62, "Tetris");
 		Text next = new Text(384, 207, "Next");
 		Text stats = new Text(47, 140, "Stats");
@@ -268,21 +142,27 @@ public class Tetris extends ArcadeGame {
 		int yStart = 189;
 		int space = 32;
 		tText = new Text(xStart, yStart, String.format("%03d", tStat));
-		jText = new Text(xStart, yStart + (space * 1), String.format("%03d", jStat));
-		zText = new Text(xStart, yStart + (space * 2), String.format("%03d", zStat));
-		oText = new Text(xStart, yStart + (space * 3), String.format("%03d", oStat));
-		sText = new Text(xStart, yStart + (space * 4), String.format("%03d", sStat));
-		lText = new Text(xStart, yStart + (space * 5), String.format("%03d", lStat));
-		iText = new Text(xStart, yStart + (space * 6), String.format("%03d", iStat));
+		jText = new Text(xStart, yStart + (space * 1),
+				String.format("%03d", jStat));
+		zText = new Text(xStart, yStart + (space * 2),
+				String.format("%03d", zStat));
+		oText = new Text(xStart, yStart + (space * 3),
+				String.format("%03d", oStat));
+		sText = new Text(xStart, yStart + (space * 4),
+				String.format("%03d", sStat));
+		lText = new Text(xStart, yStart + (space * 5),
+				String.format("%03d", lStat));
+		iText = new Text(xStart, yStart + (space * 6),
+				String.format("%03d", iStat));
 		formatText(NES, Color.WHITE, scoreText, highScoreText, levelText,
 				linesClearedText, title, next, stats);
 		formatText(NES, Color.rgb(0xd8, 0x28, 0x00), tText, jText, zText, oText,
 				sText, lText, iText);
 		game.getChildren().addAll(scoreText, highScoreText, levelText,
-				linesClearedText, tText, jText, zText, oText, sText, lText, iText,
-				title, next, stats);
+				linesClearedText, tText, jText, zText, oText, sText, lText,
+				iText, title, next, stats);
 	}
-	
+
 	/**
 	 * Takes a array of Text and formats it according to the parameters
 	 * 
@@ -296,7 +176,7 @@ public class Tetris extends ArcadeGame {
 			t[i].setFill(c);
 		}
 	}
-	
+
 	/**
 	 * Initialzes the statistic variables
 	 */
@@ -309,7 +189,7 @@ public class Tetris extends ArcadeGame {
 		lStat = 0;
 		iStat = 0;
 	}
-	
+
 	/**
 	 * Sets up to options panel
 	 */
@@ -318,10 +198,18 @@ public class Tetris extends ArcadeGame {
 		CheckBox sound = new CheckBox("Enable sound");
 		ghost.setSelected(true);
 		sound.setSelected(playSound);
-		ghost.setOnAction((i) -> {if (ghost.isSelected()) showGhost = true;
-			else showGhost = false;});
-		sound.setOnAction((i) -> {if (sound.isSelected()) playSound = true;
-			else playSound = false;});
+		ghost.setOnAction((i) -> {
+			if (ghost.isSelected())
+				showGhost = true;
+			else
+				showGhost = false;
+		});
+		sound.setOnAction((i) -> {
+			if (sound.isSelected())
+				playSound = true;
+			else
+				playSound = false;
+		});
 		ListView lv = new ListView();
 		lv.getItems().addAll(ghost, sound);
 		lv.setPrefHeight(58);
@@ -331,23 +219,29 @@ public class Tetris extends ArcadeGame {
 		options.setScene(new Scene(v));
 		options.sizeToScene();
 	}
-	
+
 	/**
 	 * Checks if sound is able to be initialzed
 	 */
 	private void soundSetup() {
 		try {
-			music = new MediaPlayer(new Media(getClass().getResource("/tetris/Music_1.wav").toString()));
-			lock = new AudioClip(getClass().getResource("/tetris/lock.wav").toString());
-			clear = new AudioClip(getClass().getResource("/tetris/clear.wav").toString());
-			tetris = new AudioClip(getClass().getResource("/tetris/tetris.wav").toString());
-			levelUp = new AudioClip(getClass().getResource("/tetris/level.wav").toString());
-			select = new AudioClip(getClass().getResource("/tetris/select.wav").toString());
+			music = new MediaPlayer(new Media(
+					getClass().getResource("/tetris/Music_1.wav").toString()));
+			lock = new AudioClip(
+					getClass().getResource("/tetris/lock.wav").toString());
+			clear = new AudioClip(
+					getClass().getResource("/tetris/clear.wav").toString());
+			tetris = new AudioClip(
+					getClass().getResource("/tetris/tetris.wav").toString());
+			levelUp = new AudioClip(
+					getClass().getResource("/tetris/level.wav").toString());
+			select = new AudioClip(
+					getClass().getResource("/tetris/select.wav").toString());
 		} catch (MediaException e) {
 			playSound = false;
 		}
 	}
-	
+
 	/**
 	 * Draws the statistics images according to the current level color
 	 */
@@ -355,21 +249,21 @@ public class Tetris extends ArcadeGame {
 		for (int x = 0; x < stats.getWidth(); x++) {
 			for (int y = 0; y < stats.getHeight(); y++) {
 				if (statPic.getArgb(x, y) == 0xFF2038ec) {
-					stats.getPixelWriter().setArgb(x, y, Shape.getColor1(level));
-				}
-				else if (statPic.getArgb(x, y) == 0xFF3cbcfc) {
-					stats.getPixelWriter().setArgb(x, y, Shape.getColor2(level));
-				}
-				else {
+					stats.getPixelWriter().setArgb(x, y,
+							Shape.getColor1(level));
+				} else if (statPic.getArgb(x, y) == 0xFF3cbcfc) {
+					stats.getPixelWriter().setArgb(x, y,
+							Shape.getColor2(level));
+				} else {
 					stats.getPixelWriter().setArgb(x, y, statPic.getArgb(x, y));
 				}
 			}
 		}
 		statView.setImage(stats);
 	}
-	
+
 	/**
-	 * 
+	 * This method makes the next tetrimino
 	 */
 	private void makeNext() {
 		Shape s = randomShape();
@@ -390,7 +284,8 @@ public class Tetris extends ArcadeGame {
 		clearedRows = new int[0];
 		for (int i = 0; i < rows; i++) {
 			if (board.lineFull(i)) {
-				clearedRows = Arrays.copyOf(clearedRows, clearedRows.length + 1);
+				clearedRows = Arrays.copyOf(clearedRows,
+						clearedRows.length + 1);
 				clearedRows[clearedRows.length - 1] = i;
 			}
 		}
@@ -398,27 +293,25 @@ public class Tetris extends ArcadeGame {
 			if (playSound) {
 				if (clearedRows.length == 4) {
 					tetris.play();
-				}
-				else {
+				} else {
 					clear.play();
 				}
 			}
 			((TetrisBoard) board).clearLine(clearedRows);
-		}
-		else {
+		} else {
 			if (playSound) {
 				lock.play();
 			}
 			newPiece();
 		}
 	}
-	
+
 	/**
 	 * Creates a new Tetrimino
 	 */
 	public void newPiece() {
 		updateScore(clearedRows.length);
-		//check for level up
+		// check for level up
 		if (linesCleared >= (level + 1) * 10) {
 			levelUp();
 		}
@@ -432,7 +325,7 @@ public class Tetris extends ArcadeGame {
 			dropper.play();
 		}
 	}
-	
+
 	/**
 	 * Increments the statistics
 	 */
@@ -484,10 +377,11 @@ public class Tetris extends ArcadeGame {
 				board.getTile(i, j).update();
 			}
 		}
-		//update drop rate based on current level
-		dropper.getKeyFrames().replaceAll((k) -> new KeyFrame(dropRate(), this::drop));
+		// update drop rate based on current level
+		dropper.getKeyFrames()
+				.replaceAll((k) -> new KeyFrame(dropRate(), this::drop));
 	}
-	
+
 	/**
 	 * Returns the current level
 	 * 
@@ -496,8 +390,8 @@ public class Tetris extends ArcadeGame {
 	public int getLevel() {
 		return level;
 	}
-	
-	/* 
+
+	/*
 	 * {@inheritDoc}
 	 */
 	public void updateScore(int i) {
@@ -520,12 +414,12 @@ public class Tetris extends ArcadeGame {
 		linesCleared += i;
 		scoreText.setText(String.format("Score\n%06d", score));
 		linesClearedText.setText(String.format("Lines-%03d", linesCleared));
-		//check if top score is beaten
+		// check if top score is beaten
 		if (highScores[0].getScore() < score) {
 			highScoreText.setText(String.format("Top\n%06d", score));
 		}
 	}
-	
+
 	/**
 	 * Drops the current piece and locks it if needed
 	 * 
@@ -539,15 +433,14 @@ public class Tetris extends ArcadeGame {
 		}
 		return false;
 	}
-	
-	/* 
+
+	/*
 	 * {@inheritDoc}
 	 */
 	protected void move(KeyEvent ke) {
 		if (paused && ke.getCode() == KeyCode.ESCAPE) {
 			unpause(null);
-		}
-		else if (!paused && active) {
+		} else if (!paused && active) {
 			switch (ke.getCode()) {
 			case RIGHT:
 				currentPiece.right();
@@ -562,7 +455,8 @@ public class Tetris extends ArcadeGame {
 			case SPACE:
 				while (!drop(null)) {
 					score++;
-				};
+				}
+				;
 				break;
 			case Z:
 				currentPiece.rotate(1);
@@ -576,7 +470,7 @@ public class Tetris extends ArcadeGame {
 			}
 		}
 	}
-	
+
 	/**
 	 * Pauses the game
 	 */
@@ -588,7 +482,7 @@ public class Tetris extends ArcadeGame {
 		}
 		dropper.pause();
 	}
-	
+
 	/**
 	 * Unpauses the game
 	 * 
@@ -602,7 +496,7 @@ public class Tetris extends ArcadeGame {
 		}
 		dropper.play();
 	}
-	
+
 	/**
 	 * Returns a random {@code Shape}
 	 * 
@@ -627,7 +521,7 @@ public class Tetris extends ArcadeGame {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Returns the drop rate for this level
 	 * 
@@ -662,9 +556,9 @@ public class Tetris extends ArcadeGame {
 		default:
 			return moreDropRates();
 		}
-		
+
 	}
-	
+
 	/**
 	 * Table of drop rates for each level.
 	 * 
@@ -696,7 +590,7 @@ public class Tetris extends ArcadeGame {
 		}
 	}
 
-	/* 
+	/*
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -705,7 +599,7 @@ public class Tetris extends ArcadeGame {
 		submitScore(null);
 	}
 
-	/* 
+	/*
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -714,14 +608,19 @@ public class Tetris extends ArcadeGame {
 		options.show();
 	}
 
-	/* 
+	/*
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void help(ActionEvent e) {
 		pause();
+		Alert helpAlert = new Alert(AlertType.INFORMATION);
+		helpAlert.setContentText(
+				"Use arrow keys to move pieces around. z and x for rotating the pieces. "
+						+ "Space for hard drop. Esc to pause the game. Enjoy the game!");
+		helpAlert.show();
 	}
-	
+
 	/*
 	 * {@inheritDoc}
 	 */
@@ -731,8 +630,8 @@ public class Tetris extends ArcadeGame {
 		finished = true;
 		submitScore(null);
 	}
-	
-	/* 
+
+	/*
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -742,7 +641,7 @@ public class Tetris extends ArcadeGame {
 		}
 		close();
 	}
-	
+
 	/**
 	 * Stops various threads from updating the game
 	 */

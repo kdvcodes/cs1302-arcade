@@ -6,6 +6,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.paint.Color;
 
+/**
+ * This is the tetristile class
+ */
 public class TetrisTile extends Tile<Tetrimino> {
 	
 	static final int xStart = 192;
@@ -14,14 +17,31 @@ public class TetrisTile extends Tile<Tetrimino> {
 	static final int offset = 0;
 	final PixelReader curtain = new Image("/tetris/curtain.png").getPixelReader();
 	
+	/**
+	 * This is the default constructor for the tetristile class
+	 * @param row row val
+	 * @param column col val
+	 * @param game the current game
+	 */
 	public TetrisTile(int row, int column, Tetris game) {
 		super(row, column, xStart, yStart, size, offset, game);
 	}
 
+	/**
+	 * This is the constructor with x and y start
+	 * @param row row val
+	 * @param column col val
+	 * @param xStart xStart val
+	 * @param yStart yStart val
+	 * @param game current game
+	 */
 	public TetrisTile(int row, int column, int xStart, int yStart, Tetris game) {
 		super(row, column, xStart, yStart, size, offset, game);
 	}
 	
+	/**
+	 * This method will update the tetris tile
+	 */
 	public void update() {
 		if (currentPiece == null) {
 			setImage(null);
@@ -41,6 +61,9 @@ public class TetrisTile extends Tile<Tetrimino> {
 		setImage(img);
 	}
 	
+	/**
+	 * 
+	 */
 	public void curtain() {
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {

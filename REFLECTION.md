@@ -45,3 +45,5 @@ combine certain tiles. Also implementing animations was very time-consuming.
 
 3. **PROB:** Lots of difficulty trying to get all the details of each game perfect, 
 but that's been nearly perfectly done. 
+
+4. **EXTRA CREDIT:** We have extra credit number 2. each game has its own high score kepper. Please check.
