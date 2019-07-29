@@ -3,6 +3,7 @@ package cs1302.arcade;
 import java.io.File;
 
 import cs1302.arcade.numberGame.*;
+import cs1302.arcade.pacMan.PacMan;
 import cs1302.arcade.tetris.*;
 
 import javafx.application.Application;
@@ -39,6 +40,7 @@ public class ArcadeApp extends Application {
 	Region arcadeChooseGameTextRightPadding = new Region();
 	Button numGameButton = new Button("2048 Game");
 	Button tetrisGameButton = new Button("Tetris Game");
+	Button pacManButton = new Button("Pac Man");
 	Region arcadeGameButtonContainerLeftPadding = new Region();
 	Region arcadeGameButtonContainerRightPadding = new Region();
 	Region highScoreTableButtonContainerPadding = new Region();
@@ -99,7 +101,7 @@ public class ArcadeApp extends Application {
 				arcadeGameButtonContainerLeftPadding, arcadeGameButtonContainer,
 				arcadeGameButtonContainerRightPadding);
 		arcadeGameButtonContainer.getChildren().addAll(numGameButton,
-				tetrisGameButton);
+				tetrisGameButton, pacManButton);
 		arcadeHighScoreButtonLayer.getChildren().addAll(
 				highScoreTableButtonContainerPadding, highScore2048TableButton,
 				highScoreTetrisTableButton);
@@ -126,6 +128,10 @@ public class ArcadeApp extends Application {
 		// Setting tetrisGameButton function
 		tetrisGameButton.setOnAction(e -> {
 			new TetrisLauncher();
+		});
+		
+		pacManButton.setOnAction(e -> {
+			new PacMan();
 		});
 
 		highScore2048TableButton.setOnAction(e -> {
