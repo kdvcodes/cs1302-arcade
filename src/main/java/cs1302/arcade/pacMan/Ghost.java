@@ -7,9 +7,13 @@ public class Ghost extends Actor {
 	
 	private int targetX;
 	private int targetY;
+	private final int scatterX;
+	private final int scatterY;
 	
 	public Ghost(PacBoard board, Image sprite) {
 		this.sprite = sprite;
+		scatterX = 0;
+		scatterY = 0;
 		setX(109);
 		setY(109);
 		direction = Direction.LEFT;
@@ -23,7 +27,6 @@ public class Ghost extends Actor {
 			if (getX() != getXTile() * 8 - 3 || override) {
 				setX(getX() - 1);
 			}
-			//move to center of tile
 			else {
 				turn();
 			}
@@ -32,7 +35,6 @@ public class Ghost extends Actor {
 			if (getX() != getXTile() * 8 - 3 || override) {
 				setX(getX() + 1);
 			}
-			//move to center of tile
 			else {
 				turn();
 			}
@@ -41,7 +43,6 @@ public class Ghost extends Actor {
 			if (getY() != getYTile() * 8 - 3 || override) {
 				setY(getY() - 1);
 			}
-			//move to center of tile
 			else {
 				turn();
 			}
@@ -50,7 +51,6 @@ public class Ghost extends Actor {
 			if (getY() != getYTile() * 8 - 3 || override) {
 				setY(getY() + 1);
 			}
-			//move to center of tile
 			else {
 				turn();
 			}
@@ -103,6 +103,23 @@ public class Ghost extends Actor {
 	public void setTarget(int x, int y) {
 		targetX = x;
 		targetY = y;
+	}
+
+	public void reverse() {
+		switch (direction) {
+		case UP:
+			direction = Direction.DOWN;
+			break;
+		case DOWN:
+			direction = Direction.UP;
+			break;
+		case LEFT:
+			direction = Direction.RIGHT;
+			break;
+		case RIGHT:
+			direction = Direction.LEFT;
+			break;
+		}
 	}
 	
 

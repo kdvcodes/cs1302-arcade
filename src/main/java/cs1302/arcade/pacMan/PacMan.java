@@ -13,9 +13,12 @@ import javafx.event.Event;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
+
+enum Mode {CHASE, SCATTER, FRIGHTENED}
 
 public class PacMan extends ArcadeGame {
 	
@@ -24,6 +27,22 @@ public class PacMan extends ArcadeGame {
 	private Player pacMan;
 	private Ghost blinky;
 	private Ghost pinky;
+	private Ghost inky;
+	private Ghost clyde;
+	
+	private Mode mode;
+	private int modeTimer;
+	
+	private KeyCode newDirection;
+	
+	private final int blinkyScatterX = 25;
+	private final int blinkyScatterY = 0;
+	private final int pinkyScatterX = 2;
+	private final int pinkyScatterY = 0;
+	private final int inkyScatterX = 27;
+	private final int inkyScatterY = 35;
+	private final int clydeScatterX = 0;
+	private final int clydeScatterY = 35;
 	
 	private final Timeline gameLoop = 
 			new Timeline(new KeyFrame(Duration.millis(1000 / framerate), this::play));
@@ -31,10 +50,18 @@ public class PacMan extends ArcadeGame {
 	public PacMan() {
 		board = new PacBoard(this);
 		background = new Image("/pacMan/background.png");
+		mode = Mode.SCATTER;
+		modeTimer = 0;
 		blinky = new Ghost((PacBoard) board, new Image("/pacMan/blinky.png"));
 		pinky = new Ghost((PacBoard) board, new Image("/pacMan/pinky.png"));
+		inky = new Ghost((PacBoard) board, new Image("/pacMan/inky.png"));
+		clyde = new Ghost((PacBoard) board, new Image("/pacMan/clyde.png"));
 		pacMan = new Player((PacBoard) board);
-		start(new ArcadeToolBar(this), board, blinky, pinky, pacMan);
+		setScatterTargets();
+		start(new ArcadeToolBar(this), board, blinky, pinky, inky, clyde, pacMan);
+		getScene().setOnKeyReleased(ke -> {if (ke.getCode() == newDirection)
+			newDirection = null;
+		});
 		Scale scale = new Scale(2, 2);
 		scale.setPivotX(0);
 		scale.setPivotY(0);
@@ -47,28 +74,72 @@ public class PacMan extends ArcadeGame {
 	}
 	
 	private void play(ActionEvent e) {
-		setTargets(pacMan.getXTile(), pacMan.getYTile());
+		updateMode();
+		if (mode == Mode.CHASE) {
+			setChaseTargets(pacMan.getXTile(), pacMan.getYTile());
+		}
 		blinky.move(false);
 		pinky.move(false);
+		inky.move(false);
+		clyde.move(false);
+		move();
 		pacMan.move(false);
+		modeTimer++;
 	}
 	
-	private void setTargets(int x, int y) {
+	private void updateMode() {
+		if (modeTimer == 420 && mode == Mode.SCATTER) {
+			mode = mode.CHASE;
+			blinky.reverse();
+			pinky.reverse();
+			inky.reverse();
+			clyde.reverse();
+			modeTimer = 0;
+		}
+		if (modeTimer == 1200) {
+			mode = mode.SCATTER;
+			blinky.reverse();
+			pinky.reverse();
+			inky.reverse();
+			clyde.reverse();
+			setScatterTargets();
+			modeTimer = 0;
+		}
+	}
+
+	private void setChaseTargets(int x, int y) {
 		blinky.setTarget(x, y);
 		switch (pacMan.getDirection()) {
 		case UP:
 			pinky.setTarget(x - 4, y - 4);
+			inky.setTarget(2 * (x - 4) - blinky.getXTile(), 2 * (y - 4) - blinky.getYTile());
 			break;
 		case DOWN:
 			pinky.setTarget(x, y + 4);
+			inky.setTarget(2 * (x) - blinky.getXTile(), 2 * (y + 4) - blinky.getYTile());
 			break;
 		case LEFT:
 			pinky.setTarget(x - 4, y);
+			inky.setTarget(2 * (x - 4) - blinky.getXTile(), 2 * (y) - blinky.getYTile());
 			break;
 		case RIGHT:
 			pinky.setTarget(x + 4, y);
+			inky.setTarget(2 * (x + 4) - blinky.getXTile(), 2 * (y) - blinky.getYTile());
 			break;
 		}
+		if (Math.pow(clyde.getXTile() - x, 2) + Math.pow(clyde.getYTile() - y, 2) > 64) {
+			clyde.setTarget(x, y);
+		}
+		else {
+			clyde.setTarget(clydeScatterX, clydeScatterY);
+		}
+	}
+	
+	private void setScatterTargets() {
+		blinky.setTarget(blinkyScatterX, blinkyScatterY);
+		pinky.setTarget(pinkyScatterX, pinkyScatterY);
+		inky.setTarget(inkyScatterX, inkyScatterY);
+		clyde.setTarget(clydeScatterX, clydeScatterY);
 	}
 
 	@Override
@@ -104,6 +175,26 @@ public class PacMan extends ArcadeGame {
 	@Override
 	protected void move(KeyEvent ke) {
 		switch (ke.getCode()) {
+		case UP:
+			newDirection = KeyCode.UP;
+			break;
+		case DOWN:
+			newDirection = KeyCode.DOWN;
+			break;
+		case LEFT:
+			newDirection = KeyCode.LEFT;
+			break;
+		case RIGHT:
+			newDirection = KeyCode.RIGHT;
+			break;
+		}
+	}
+	
+	private void move() {
+		if (newDirection == null) {
+			return;
+		}
+		switch (newDirection) {
 		case UP:
 			pacMan.setDirection(Direction.UP);
 			break;
