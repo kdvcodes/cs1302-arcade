@@ -35,6 +35,8 @@ public class PacMan extends ArcadeGame {
 	
 	private KeyCode newDirection;
 	
+	private boolean eaten;
+	
 	private final int blinkyScatterX = 25;
 	private final int blinkyScatterY = 0;
 	private final int pinkyScatterX = 2;
@@ -52,11 +54,12 @@ public class PacMan extends ArcadeGame {
 		background = new Image("/pacMan/background.png");
 		mode = Mode.SCATTER;
 		modeTimer = 0;
+		eaten = false;
 		blinky = new Ghost((PacBoard) board, new Image("/pacMan/blinky.png"));
 		pinky = new Ghost((PacBoard) board, new Image("/pacMan/pinky.png"));
 		inky = new Ghost((PacBoard) board, new Image("/pacMan/inky.png"));
 		clyde = new Ghost((PacBoard) board, new Image("/pacMan/clyde.png"));
-		pacMan = new Player((PacBoard) board);
+		pacMan = new Player((PacBoard) board, this);
 		setScatterTargets();
 		start(new ArcadeToolBar(this), board, blinky, pinky, inky, clyde, pacMan);
 		getScene().setOnKeyReleased(ke -> {if (ke.getCode() == newDirection)
@@ -83,13 +86,22 @@ public class PacMan extends ArcadeGame {
 		inky.move(false);
 		clyde.move(false);
 		move();
-		pacMan.move(false);
+		if (!eaten) {
+			pacMan.move(false);
+		}
+		else {
+			eaten = false;
+		}
 		modeTimer++;
+	}
+	
+	public void justEaten() {
+		eaten = true;
 	}
 	
 	private void updateMode() {
 		if (modeTimer == 420 && mode == Mode.SCATTER) {
-			mode = mode.CHASE;
+			mode = Mode.CHASE;
 			blinky.reverse();
 			pinky.reverse();
 			inky.reverse();
@@ -97,7 +109,7 @@ public class PacMan extends ArcadeGame {
 			modeTimer = 0;
 		}
 		if (modeTimer == 1200) {
-			mode = mode.SCATTER;
+			mode = Mode.SCATTER;
 			blinky.reverse();
 			pinky.reverse();
 			inky.reverse();

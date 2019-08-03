@@ -1,5 +1,7 @@
 package cs1302.arcade.pacMan;
 
+import java.util.ArrayList;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -11,7 +13,7 @@ public class Ghost extends Actor {
 	private final int scatterY;
 	
 	public Ghost(PacBoard board, Image sprite) {
-		this.sprite = sprite;
+		sprites = new Image[]{sprite};
 		scatterX = 0;
 		scatterY = 0;
 		setX(109);
@@ -22,6 +24,7 @@ public class Ghost extends Actor {
 	}
 	
 	public void move(boolean override) {
+		PacTile currentTile = getCurrentTile();
 		switch (direction) {
 		case LEFT:
 			if (getX() != getXTile() * 8 - 3 || override) {
@@ -56,13 +59,12 @@ public class Ghost extends Actor {
 			}
 			break;
 		}
-		board.getTile(getYTile(), getXTile()).setPiece(Piece.GHOST);
 	}
 	
 	private void turn() {
 		Direction turn = direction;
 		int distance = 10000000;
-		if (board.getTile(getYTile() - 1, getXTile()).getPiece() != Piece.MAZE &&
+		if (!((PacTile) board.getTile(getYTile() - 1, getXTile())).isMaze() &&
 				getYTile() != 14 &&
 				!(getYTile() == 26 && (getXTile() == 12 || getXTile() == 15)) &&
 				direction != Direction.DOWN) {
@@ -72,7 +74,7 @@ public class Ghost extends Actor {
 				distance = upDistance;
 			}
 		}
-		if (board.getTile(getYTile(), getXTile() - 1).getPiece() != Piece.MAZE &&
+		if (!((PacTile) board.getTile(getYTile(), getXTile() - 1)).isMaze() &&
 				direction != Direction.RIGHT) {
 			int leftDistance = (int) (Math.pow(getXTile() - 1 - targetX, 2) + Math.pow(getYTile() - targetY, 2));
 			if (leftDistance < distance) {
@@ -80,7 +82,7 @@ public class Ghost extends Actor {
 				distance = leftDistance;
 			}
 		}
-		if (board.getTile(getYTile() + 1, getXTile()).getPiece() != Piece.MAZE &&
+		if (!((PacTile) board.getTile(getYTile() + 1, getXTile())).isMaze() &&
 				direction != Direction.UP) {
 			int downDistance = (int) (Math.pow(getXTile() - targetX, 2) + Math.pow(getYTile() + 1 - targetY, 2));
 			if (downDistance < distance) {
@@ -88,7 +90,7 @@ public class Ghost extends Actor {
 				distance = downDistance;
 			}
 		}
-		if (board.getTile(getYTile(), getXTile() + 1).getPiece() != Piece.MAZE &&
+		if (!((PacTile) board.getTile(getYTile(), getXTile() + 1)).isMaze() &&
 				direction != Direction.LEFT) {
 			int rightDistance = (int) (Math.pow(getXTile() + 1 - targetX, 2) + Math.pow(getYTile() - targetY, 2));
 			if (rightDistance < distance) {
@@ -98,6 +100,14 @@ public class Ghost extends Actor {
 		}
 		direction = turn;
 		move(true);
+	}
+
+	
+	protected void checkNewTile(PacTile t) {
+		if (t != getCurrentTile()) {
+			t.getPiece().remove(Piece.GHOST);
+			getCurrentTile().getPiece().add(Piece.GHOST);
+		}
 	}
 	
 	public void setTarget(int x, int y) {
